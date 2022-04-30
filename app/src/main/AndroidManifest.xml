@@ -12,9 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Movie"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".ui.main.detailed.detailed_activity"
-            android:exported="false" />
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">

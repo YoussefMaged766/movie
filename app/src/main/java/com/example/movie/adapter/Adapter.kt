@@ -1,17 +1,20 @@
 package com.example.movie.adapter
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
 import com.example.movie.util.constants
 import com.example.movie.models.movie
-import com.example.movie.ui.main.detailed.detailed_activity
+
 
 class adapter( var list: List<movie>?) : RecyclerView.Adapter<adapter.viewholder>() {
 
@@ -37,10 +40,10 @@ class adapter( var list: List<movie>?) : RecyclerView.Adapter<adapter.viewholder
         holder.img.clipToOutline = true
         Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
         holder.itemView.setOnClickListener {
-            var i = Intent(it.context , detailed_activity::class.java)
-            i.putExtra("movie" , item)
+            var bundle = Bundle()
+            bundle.putSerializable("movie_details",item)
+            it.findNavController().navigate(R.id.action_homeFragment_to_detailedFragment,bundle)
 
-            it.context.startActivity(i)
         }
 
     }
