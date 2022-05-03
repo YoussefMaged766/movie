@@ -69,18 +69,16 @@
 
                     <SearchView
                         android:id="@+id/search"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/txtwatch"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txtwatch"
+                        android:searchIcon="@drawable/ic_search"
+                        android:background="@drawable/search_style"
+                        android:layout_margin="10dp"
+                        android:queryHint="Search Movies"
                         />
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/search"
-                        android:textColor="@color/white"
-                        android:id="@+id/txt_search"/>
-
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler"
@@ -91,9 +89,9 @@
                         app:layout_constraintTop_toBottomOf="@id/search"
                         app:spanCount="6"
                         tools:listitem="@layout/movieitem"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginTop="10dp"/>
 
-                    </androidx.recyclerview.widget.RecyclerView>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -136,11 +134,6 @@
                         android:text="GO"
                         app:layout_constraintTop_toBottomOf="@id/l1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
 
             </LinearLayout>
 
