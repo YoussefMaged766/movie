@@ -10,11 +10,14 @@ import com.example.movie.models.movie
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.ArrayList
 
 class homefragment_viewmodel : ViewModel() {
 
 
     var response1: MutableLiveData<List<movie?>> = MutableLiveData()
+
+
     var errormassage :MutableLiveData<String> = MutableLiveData()
 
 
@@ -29,7 +32,9 @@ class homefragment_viewmodel : ViewModel() {
                     response: Response<TopRatedResponse>
                 ) {
                     if (response.isSuccessful) {
-                        response1.value = response.body()?.results as List<movie>
+                        response1.value = response.body()?.results
+
+
 
                     } else {
                         errormassage.value= response.message()
@@ -41,4 +46,5 @@ class homefragment_viewmodel : ViewModel() {
                 }
             })
     }
+
 }
