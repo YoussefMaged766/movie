@@ -95,12 +95,5 @@ class adapter( var list: ArrayList<movie>?) : RecyclerView.Adapter<adapter.viewh
 
         }
     }
-    fun filterList(filteredNames: ArrayList <movie> ) {
-        Log.e("list", filteredNames.toString())
-        Log.e("list", filteredNames.size.toString())
-         this.list?.clear()
-        this.list = filteredNames
 
-        notifyDataSetChanged()
-    }
 }
