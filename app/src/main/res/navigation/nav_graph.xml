@@ -11,7 +11,7 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_detailedFragment"
+            android:id="@+id/action_top_ratedFragment_to_nav_detailed"
             app:destination="@id/nav_detailed" />
         <argument
             android:name="movie_details"
@@ -19,6 +19,10 @@
         <action
             android:id="@+id/action_nav_home_to_nav_tv"
             app:destination="@id/nav_tv" />
+        <argument
+            android:name="movie_type"
+            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/nav_detailed"
@@ -27,8 +31,20 @@
         tools:layout="@layout/fragment_detailed" />
     <fragment
         android:id="@+id/nav_tv"
-        android:name="com.example.movie.TV_Fragment"
+        android:name="com.example.movie.ui.main.TV.TV_Fragment"
         android:label="fragment_t_v_"
         tools:layout="@layout/fragment_t_v_" />
+    <fragment
+        android:id="@+id/top_ratedFragment"
+        android:name="com.example.movie.ui.main.toprated.top_ratedFragment"
+        android:label="top_ratedFragment" >
+
+        <action
+            android:id="@+id/action_top_ratedFragment_to_nav_detailed"
+            app:destination="@id/nav_detailed" />
+        <argument
+            android:name="movie_details"
+            app:argType="com.example.movie.models.movie" />
+    </fragment>
 
 </navigation>

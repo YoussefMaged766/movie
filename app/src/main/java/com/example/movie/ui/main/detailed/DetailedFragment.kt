@@ -9,10 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.movie.R
+import com.example.movie.adapter.adapter_page
 
 import com.example.movie.databinding.FragmentDetailedBinding
 import com.example.movie.models.movie
 import com.example.movie.util.constants
+import java.util.ArrayList
 
 
 class detailedFragment : Fragment() {
@@ -20,6 +22,8 @@ class detailedFragment : Fragment() {
 lateinit var binding: FragmentDetailedBinding
 lateinit var viewModel:movedetaild_viewmodel
 lateinit var data:movie
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,8 +43,11 @@ lateinit var data:movie
 
         Glide.with(this).load(constants.img_link +data.backdropPath).into(binding.imgDetailed)
         binding.txtTitleDetailed.text = data.title
+
+
         return binding.root
     }
+
 
 
 }

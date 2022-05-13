@@ -7,9 +7,20 @@ import retrofit2.http.Query
 
 interface webservices {
 
-    @GET("movie/popular?")
+    @GET("movie/top_rated?")
     fun getTopRatedmovies(@Query("api_key") key:String ,
                           @Query("language") language:String,
                           @Query("page") page:Int=1
                             ):Call<TopRatedResponse>
+
+    @GET("movie/upcoming?")
+    fun getupcomingmovies(@Query("api_key") key:String ,
+                          @Query("language") language:String,
+                          @Query("page") page:Int=1
+    ):Call<TopRatedResponse>
+    @GET("movie/popular?")
+    fun getpopularmovies(@Query("api_key") key:String ,
+                          @Query("language") language:String,
+                          @Query("page") page:Int=1
+    ):Call<TopRatedResponse>
 }

@@ -1,17 +1,11 @@
 package com.example.movie.adapter
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
@@ -49,9 +43,12 @@ class adapter( var list: ArrayList<movie>?) : RecyclerView.Adapter<adapter.viewh
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
             bundle.putSerializable("movie_details", item)
-            it.findNavController().navigate(R.id.action_homeFragment_to_detailedFragment, bundle)
+            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
+//            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
+
 
         }
+
 
     }
 
@@ -78,6 +75,7 @@ class adapter( var list: ArrayList<movie>?) : RecyclerView.Adapter<adapter.viewh
                     searchList.forEach {
                         if ( it.title?.lowercase(Locale.getDefault())?.contains(constraint.toString().lowercase(Locale.getDefault())) == true) {
                             filteredList.add(it)
+
 
                         }
                     }
