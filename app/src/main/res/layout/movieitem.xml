@@ -55,7 +55,6 @@
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/movieImg"
                 app:layout_constraintStart_toStartOf="parent"
-
                 tools:text="hello" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

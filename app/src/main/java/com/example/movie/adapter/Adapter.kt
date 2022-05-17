@@ -1,6 +1,7 @@
 package com.example.movie.adapter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,9 @@ class adapter( var list: ArrayList<movie>?) : RecyclerView.Adapter<adapter.viewh
         holder.txtdate.setText(item?.releaseDate)
         holder.setIsRecyclable(false)
         holder.img.clipToOutline = true
+
         Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
+
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
             bundle.putSerializable("movie_details", item)
@@ -51,6 +54,7 @@ class adapter( var list: ArrayList<movie>?) : RecyclerView.Adapter<adapter.viewh
 
 
     }
+
 
     override fun getItemCount(): Int {
         return list?.size ?: 0
@@ -93,5 +97,6 @@ class adapter( var list: ArrayList<movie>?) : RecyclerView.Adapter<adapter.viewh
 
         }
     }
+
 
 }

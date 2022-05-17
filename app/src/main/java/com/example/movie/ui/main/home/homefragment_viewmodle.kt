@@ -25,6 +25,7 @@ class homefragment_viewmodel : ViewModel() {
 
 
 
+
     fun getdatafromapi_toprated( page: Int) {
 
         apimanager.getwebbservices()
@@ -37,6 +38,7 @@ class homefragment_viewmodel : ViewModel() {
                     if (response.isSuccessful) {
                         response_toprated.value = response.body()?.results
                         pages_toprated.value = response.body()?.totalPages
+
 
                     } else {
                         errormassage.value= response.message()

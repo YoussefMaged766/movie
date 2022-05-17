@@ -87,6 +87,7 @@ class HomeFragment : Fragment() {
 
 
 
+
         viewModel.errormassage.observe(requireActivity(), Observer {
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         })
@@ -168,6 +169,7 @@ class HomeFragment : Fragment() {
         })
 
     }
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.movie.models
 
 import com.example.movie.models.movie
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class TopRatedResponse(
@@ -15,5 +16,11 @@ data class TopRatedResponse(
 	val results: List<movie?>? = null,
 
     @field:SerializedName("total_results")
-	val totalResults: Int? = null
-)
+	val totalResults: Int? = null,
+
+
+
+    )
+
+
+
