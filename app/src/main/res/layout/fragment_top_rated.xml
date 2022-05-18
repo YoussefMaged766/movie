@@ -14,6 +14,35 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_recycler_seeall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible">
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:rowCount="2"
+                    android:columnCount="2"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+                    <include layout="@layout/movieitem_shimmer_layout"/>
+
+                </GridLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_seeall"
@@ -24,6 +53,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="10dp"
             app:layout_constraintBottom_toTopOf="@id/recycler_pages"
+            android:visibility="invisible"
 
             />
 
@@ -34,10 +64,10 @@
             android:layout_margin="10dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
             app:layout_constraintTop_toBottomOf="@id/recycler_seeall"
             tools:layout_editor_absoluteX="10dp"
-            tools:listitem="@layout/page_item" />
+            tools:listitem="@layout/page_item"
+            android:visibility="invisible"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

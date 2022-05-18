@@ -1,5 +1,9 @@
 package com.example.movie.ui.main.toprated
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -30,6 +34,7 @@ class top_ratedFragment : Fragment() {
     lateinit var data: String
     var move_list = ArrayList<movie>()
     lateinit var layoutManager: LinearLayoutManager
+
      var last_page_toprated:Int = 1
     var last_page_upcoming=1
     var last_page_popular=1
@@ -51,6 +56,8 @@ class top_ratedFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_top_rated, container, false)
         viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
         layoutManager = GridLayoutManager(requireContext(), 2)
+
+
         adater_moviie = adapter(move_list)
         if (data == "Top Rated Movies") {
             viewModel.response_toprated.observe(requireActivity(), Observer {
@@ -58,6 +65,8 @@ class top_ratedFragment : Fragment() {
 
             })
          init_recycler()
+
+
 
 
 
@@ -127,6 +136,7 @@ class top_ratedFragment : Fragment() {
 
 
 
+
         return binding.root
     }
 
@@ -148,10 +158,59 @@ class top_ratedFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.getdatafromapi_toprated(last_page_toprated)
-        viewModel.getdatafromapi_upcoming(last_page_upcoming)
-        viewModel.getdatafromapi_poppular(last_page_popular)
+        if(checkForInternet(requireContext())){
+            viewModel.getdatafromapi_toprated(last_page_toprated)
+            viewModel.getdatafromapi_upcoming(last_page_upcoming)
+            viewModel.getdatafromapi_poppular(last_page_popular)
+            binding.shimmerRecyclerSeeall.stopShimmerAnimation()
+            binding.shimmerRecyclerSeeall.visibility =View.INVISIBLE
+            binding.recyclerSeeall.visibility = View.VISIBLE
+            binding.recyclerPages.visibility =View.VISIBLE
+        }
+        else{
+            binding.shimmerRecyclerSeeall.startShimmerAnimation()
+            binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
+        }
+
         Log.e( "onStart: ", last_page_upcoming.toString())
+    }
+    private fun checkForInternet(context: Context): Boolean {
+
+        // register activity with the connectivity manager service
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        // if the android version is equal to M
+        // or greater we need to use the
+        // NetworkCapabilities to check what type of
+        // network has the internet connection
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // Returns a Network object corresponding to
+            // the currently active default data network.
+            val network = connectivityManager.activeNetwork ?: return false
+
+            // Representation of the capabilities of an active network.
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+            return when {
+                // Indicates this network uses a Wi-Fi transport,
+                // or WiFi has network connectivity
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+
+                // Indicates this network uses a Cellular transport. or
+                // Cellular has network connectivity
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+
+                // else return false
+                else -> false
+            }
+        } else {
+            // if the android version is below M
+            @Suppress("DEPRECATION") val networkInfo =
+                connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION")
+            return networkInfo.isConnected
+        }
     }
 
 
