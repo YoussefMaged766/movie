@@ -1,6 +1,10 @@
 package com.example.movie.ui.main.home
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -58,17 +62,38 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
 
         recycler()
-        viewModel.getdatafromapi_toprated(1)
-        viewModel.getdatafromapi_upcoming(1)
-        viewModel.getdatafromapi_poppular(1)
+
 
         performSearch()
+        if(checkForInternet(requireContext())){
+            viewModel.getdatafromapi_toprated(1)
+            viewModel.getdatafromapi_upcoming(1)
+            viewModel.getdatafromapi_poppular(1)
+            binding.shimmerRecycler.stopShimmerAnimation()
+            binding.shimmerRecycler2.stopShimmerAnimation()
+            binding.shimmerRecycler3.stopShimmerAnimation()
+            binding.shimmerRecycler.visibility = View.INVISIBLE
+            binding.shimmerRecycler2.visibility = View.INVISIBLE
+            binding.shimmerRecycler3.visibility = View.INVISIBLE
+            binding.recyclerToprated.visibility = View.VISIBLE
+            binding.recyclerPopular.visibility = View.VISIBLE
+            binding.recyclerUpcoming.visibility = View.VISIBLE
+        }
+        else{
+            binding.shimmerRecycler.startShimmerAnimation()
+            binding.shimmerRecycler.visibility = View.VISIBLE
+            binding.shimmerRecycler2.startShimmerAnimation()
+            binding.shimmerRecycler2.visibility = View.VISIBLE
+            binding.shimmerRecycler3.startShimmerAnimation()
+            binding.shimmerRecycler3.visibility = View.VISIBLE
+        }
 
         viewModel.response_toprated.observe(requireActivity(), Observer {
 
             adapter_toprated.getdata(it as ArrayList<movie>)
             movie_toprated.clear()
             movie_toprated.addAll(it)
+
 
 
         })
@@ -90,14 +115,11 @@ class HomeFragment : Fragment() {
 
         viewModel.errormassage.observe(requireActivity(), Observer {
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            binding.shimmerRecycler.stopShimmerAnimation()
+            binding.shimmerRecycler.visibility = View.GONE
         })
 
-        binding.btngo.setOnClickListener {
 
-            var x = Integer.parseInt(binding.editpage.text.toString())
-            viewModel.getdatafromapi_toprated(x)
-
-        }
         var bundle= Bundle()
         binding.txtAllToprated.setOnClickListener {
 
@@ -168,6 +190,53 @@ class HomeFragment : Fragment() {
             }
         })
 
+    }
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerRecycler.startShimmerAnimation()
+    }
+
+    override fun onPause() {
+        binding.shimmerRecycler.stopShimmerAnimation()
+        super.onPause()
+    }
+    private fun checkForInternet(context: Context): Boolean {
+
+        // register activity with the connectivity manager service
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        // if the android version is equal to M
+        // or greater we need to use the
+        // NetworkCapabilities to check what type of
+        // network has the internet connection
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // Returns a Network object corresponding to
+            // the currently active default data network.
+            val network = connectivityManager.activeNetwork ?: return false
+
+            // Representation of the capabilities of an active network.
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+            return when {
+                // Indicates this network uses a Wi-Fi transport,
+                // or WiFi has network connectivity
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+
+                // Indicates this network uses a Cellular transport. or
+                // Cellular has network connectivity
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+
+                // else return false
+                else -> false
+            }
+        } else {
+            // if the android version is below M
+            @Suppress("DEPRECATION") val networkInfo =
+                connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION")
+            return networkInfo.isConnected
+        }
     }
 
 
