@@ -29,6 +29,7 @@
         app:itemTextColor="@color/white"
         android:background="@color/backgroud"
         app:layout_constraintTop_toBottomOf="@id/fragmentContainerView"
+
         />
 
 

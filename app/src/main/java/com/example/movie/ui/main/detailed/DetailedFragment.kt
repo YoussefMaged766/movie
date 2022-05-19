@@ -1,6 +1,7 @@
 package com.example.movie.ui.main.detailed
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -20,13 +21,13 @@ import com.example.movie.ui.main.home.homefragment_viewmodel
 import com.example.movie.util.constants
 
 
-
 class detailedFragment : Fragment() {
 
     lateinit var binding: FragmentDetailedBinding
     lateinit var viewModel: movedetaild_viewmodel
     lateinit var viewmodel2: homefragment_viewmodel
     lateinit var data: movie
+
 
     var hashMap: HashMap<Int, String> = HashMap()
 
@@ -50,13 +51,14 @@ class detailedFragment : Fragment() {
         viewmodel2 = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
 
         Glide.with(this).load(constants.img_link + data.backdropPath).into(binding.imgDetailed)
+        Glide.with(this).load(constants.img_link + data.posterPath).into(binding.imgDetailedPoster)
         binding.txtTitleDetailed.text = data.title
         append_genre()
+        image_heart_select()
 
 
-
-        binding.imgDetailed.setOnClickListener {
-
+        binding.btnPlay.setOnClickListener {
+            //data.id = movie id
             viewModel.gettrsiler_movie(data.id)
         }
         viewModel.response_toprated.observe(requireActivity(), Observer {
@@ -100,5 +102,15 @@ class detailedFragment : Fragment() {
         }
     }
 
+    fun image_heart_select() {
+        binding.imageViewHeart.setOnClickListener {
+            if (binding.imageViewAnimation.isSelected) {
+                binding.imageViewAnimation.isSelected = false
+            } else {
+                binding.imageViewAnimation.setSelected(true)
+                binding.imageViewAnimation.likeAnimation()
+            }
+        }
+    }
 
 }

@@ -58,10 +58,16 @@ dependencies {
     def lifecycle_version = "2.4.0"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
 
 
     implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
 
     implementation "com.facebook.shimmer:shimmer:0.1.0@aar"
+
+
+      //hreat buttom
+    implementation 'pub.hanks:smallbang:1.2.2'
 }

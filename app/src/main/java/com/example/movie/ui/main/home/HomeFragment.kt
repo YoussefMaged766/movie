@@ -88,6 +88,7 @@ class HomeFragment : Fragment() {
             binding.shimmerRecycler3.visibility = View.VISIBLE
         }
 
+
         viewModel.response_toprated.observe(requireActivity(), Observer {
 
             adapter_toprated.getdata(it as ArrayList<movie>)
