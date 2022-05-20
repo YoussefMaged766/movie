@@ -53,6 +53,14 @@ class detailedFragment : Fragment() {
         Glide.with(this).load(constants.img_link + data.backdropPath).into(binding.imgDetailed)
         Glide.with(this).load(constants.img_link + data.posterPath).into(binding.imgDetailedPoster)
         binding.txtTitleDetailed.text = data.title
+        binding.txtRating.text = data.voteAverage.toString()
+        binding.txtOverview.text = data.overview
+        if (data.adult == true){
+            binding.imgAdult.setImageResource(R.drawable.ic_baseline_true_24)
+        }
+        else{
+            binding.imgAdult.setImageResource(R.drawable.ic_baseline_false_24)
+        }
         append_genre()
         image_heart_select()
 

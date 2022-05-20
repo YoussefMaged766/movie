@@ -2,4 +2,12 @@
     <string name="app_name">movie</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <array name="autosize_text_sizes">
+        <item>10sp</item>
+        <item>12sp</item>
+        <item>15sp</item>
+        <item>20sp</item>
+        <item>30sp</item>
+    </array>
 </resources>
