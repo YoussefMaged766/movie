@@ -3,7 +3,22 @@ package com.example.movie.models
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class movie(
+data class RecommendedResponse(
+
+	@field:SerializedName("page")
+	val page: Int? = null,
+
+	@field:SerializedName("total_pages")
+	val totalPages: Int? = null,
+
+	@field:SerializedName("results")
+	val results: List<ResultsItem1?>? = null,
+
+	@field:SerializedName("total_results")
+	val totalResults: Int? = null
+)
+
+data class ResultsItem1(
 
 	@field:SerializedName("overview")
 	val overview: String? = null,
@@ -29,6 +44,9 @@ data class movie(
 	@field:SerializedName("backdrop_path")
 	val backdropPath: String? = null,
 
+	@field:SerializedName("media_type")
+	val mediaType: String? = null,
+
 	@field:SerializedName("release_date")
 	val releaseDate: String? = null,
 
@@ -46,7 +64,4 @@ data class movie(
 
 	@field:SerializedName("vote_count")
 	val voteCount: Int? = null
-
 ):Serializable
-
-

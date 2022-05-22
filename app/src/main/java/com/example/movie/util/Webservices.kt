@@ -1,5 +1,6 @@
 package com.example.movie.util
 
+import com.example.movie.models.RecommendedResponse
 import com.example.movie.models.TopRatedResponse
 import com.example.movie.models.TrailerResponse
 import retrofit2.Call
@@ -30,4 +31,9 @@ interface webservices {
     fun get_trailer(@Path("movie_id") id: Int?, @Query("api_key") key:String,
                     @Query("language") language:String
     ):Call<TrailerResponse>
+
+    @GET("movie/{movie_id}/recommendations?")
+    fun get_recommended(@Path("movie_id") id: Int?, @Query("api_key") key:String,
+                    @Query("language") language:String
+    ):Call<RecommendedResponse>
 }

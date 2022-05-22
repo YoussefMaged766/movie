@@ -11,16 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.main.detailed.detailedFragment">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <ImageView
                         android:id="@+id/frame"
                         android:layout_width="match_parent"
@@ -132,19 +136,18 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_baseline_star_24"
                         app:layout_constraintStart_toStartOf="@id/card_img_poster"
-                        app:layout_constraintTop_toBottomOf="@id/txt_genre_detailed"
-                        />
+                        app:layout_constraintTop_toBottomOf="@id/txt_genre_detailed" />
 
                     <TextView
                         android:id="@+id/txt_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo"
+                        android:text="13254"
+                        android:textColor="#34353f"
                         app:layout_constraintBottom_toBottomOf="@+id/img_star"
                         app:layout_constraintStart_toEndOf="@id/img_star"
-                        app:layout_constraintTop_toTopOf="@id/img_star"
-                        android:text="13254"
-                        android:fontFamily="@font/cairo"
-                        android:textColor="#34353f"/>
+                        app:layout_constraintTop_toTopOf="@id/img_star" />
 
 
                     <TextView
@@ -164,38 +167,61 @@
                         android:id="@+id/img_adult"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_adult"
                         app:layout_constraintEnd_toEndOf="@+id/txt_genre_detailed"
-                        app:layout_constraintTop_toTopOf="@id/txt_adult"
-                        app:layout_constraintBottom_toBottomOf="@id/txt_adult"/>
+                        app:layout_constraintTop_toTopOf="@id/txt_adult" />
+
                     <TextView
                         android:id="@+id/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/img_star"
-                        app:layout_constraintStart_toStartOf="@id/card_img_poster"
-                        android:text="Overview"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/cairo"
-                        android:textSize="20sp"
+                        android:text="Overview"
                         android:textColor="@color/white"
-                        android:layout_marginTop="10dp"/>
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@id/card_img_poster"
+                        app:layout_constraintTop_toBottomOf="@id/img_star" />
 
                     <TextView
                         android:id="@+id/txt_overview"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        app:layout_constraintStart_toStartOf="@+id/card_img_poster"
-                        app:layout_constraintTop_toBottomOf="@id/text"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:textColor="#34353f"
+                        android:layout_marginEnd="10dp"
                         android:justificationMode="inter_word"
-                        android:layout_marginEnd="10dp"/>
+                        android:textColor="#34353f"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/card_img_poster"
+                        app:layout_constraintTop_toBottomOf="@id/text" />
+
+                    <TextView
+                        android:id="@+id/txt_recommended"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/txt_overview"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_margin="10dp"
+                        android:text="Recommended"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/cairo"
+                        android:textStyle="bold"
+                        android:textSize="25sp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_recommendation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/txt_recommended"
+                        android:layout_margin="10dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
         </ScrollView>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

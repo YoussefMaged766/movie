@@ -10,14 +10,15 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
+import com.example.movie.models.ResultsItem1
 import com.example.movie.util.constants
 import com.example.movie.models.movie
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class adapter(var list: ArrayList<movie>?=null) : RecyclerView.Adapter<adapter.viewholder>(), Filterable {
-    private val searchList = ArrayList<movie>(list)
+class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Adapter<adapter_recommended.viewholder>(), Filterable {
+    private val searchList = ArrayList<ResultsItem1>(list)
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -34,26 +35,23 @@ class adapter(var list: ArrayList<movie>?=null) : RecyclerView.Adapter<adapter.v
     }
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
-if (list!=null){
-    var item = list?.get(position)
-    holder.txtTitle.setText(item?.title)
-    holder.txtdate.setText(item?.releaseDate)
-    holder.setIsRecyclable(false)
-    holder.img.clipToOutline = true
 
-    Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
+        var item = list?.get(position)
+        holder.txtTitle.setText(item?.title)
+        holder.txtdate.setText(item?.releaseDate)
+        holder.setIsRecyclable(false)
+        holder.img.clipToOutline = true
 
-    holder.itemView.setOnClickListener {
-        var bundle = Bundle()
-        bundle.putSerializable("movie_details", item)
-        it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
+        Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
+
+        holder.itemView.setOnClickListener {
+            var bundle = Bundle()
+            bundle.putSerializable("movie_details_reccommended", item)
+            it.findNavController().navigate(R.id.action_nav_detailed_self, bundle)
 //            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
 
 
-    }
-}
-
-
+        }
 
 
     }
@@ -63,7 +61,7 @@ if (list!=null){
         return list?.size ?: 0
     }
 
-    fun getdata(data1: ArrayList<movie>) {
+    fun getdata(data1: ArrayList<ResultsItem1>) {
         list = data1
         notifyDataSetChanged()
 
@@ -72,7 +70,7 @@ if (list!=null){
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence): FilterResults {
-                val filteredList = ArrayList<movie>()
+                val filteredList = ArrayList<ResultsItem1>()
 
                 if (constraint.isBlank() or constraint.isEmpty()) {
                     filteredList.addAll(searchList)
@@ -94,7 +92,7 @@ if (list!=null){
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 list?.clear()
-                list?.addAll(results!!.values as List<movie>)
+                list?.addAll(results!!.values as List<ResultsItem1>)
                 notifyDataSetChanged()
             }
 

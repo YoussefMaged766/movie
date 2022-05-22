@@ -148,9 +148,11 @@ class HomeFragment : Fragment() {
         adapter_coming = adapter(movie_coming)
         adapter_popular = adapter(movie_popular)
         val snapHelper = LinearSnapHelper()
+        val snapHelper2 = LinearSnapHelper()
+        val snapHelper3= LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.recyclerToprated)
-        snapHelper.attachToRecyclerView(binding.recyclerUpcoming)
-        snapHelper.attachToRecyclerView(binding.recyclerPopular)
+        snapHelper2.attachToRecyclerView(binding.recyclerUpcoming)
+        snapHelper3.attachToRecyclerView(binding.recyclerPopular)
         binding.recyclerToprated.isNestedScrollingEnabled = false
         binding.recyclerUpcoming.isNestedScrollingEnabled = false
         binding.recyclerPopular.isNestedScrollingEnabled = false

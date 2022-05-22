@@ -28,12 +28,29 @@
         android:id="@+id/nav_detailed"
         android:name="com.example.movie.ui.main.detailed.detailedFragment"
         android:label="fragment_detailed"
-        tools:layout="@layout/fragment_detailed" />
+        tools:layout="@layout/fragment_detailed" >
+        <action
+            android:id="@+id/action_nav_detailed_self"
+            app:destination="@id/nav_detailed" />
+        <argument
+            android:name="movie_details"
+            app:argType="com.example.movie.models.ResultsItem1" />
+        <action
+            android:id="@+id/action_nav_detailed_to_nav_tv"
+            app:destination="@id/nav_tv" />
+    </fragment>
     <fragment
         android:id="@+id/nav_tv"
         android:name="com.example.movie.ui.main.TV.TV_Fragment"
         android:label="fragment_t_v_"
-        tools:layout="@layout/fragment_t_v_" />
+        tools:layout="@layout/fragment_t_v_" >
+        <action
+            android:id="@+id/action_top_ratedFragment_to_nav_detailed"
+            app:destination="@id/nav_detailed" />
+        <argument
+            android:name="movie_details"
+            app:argType="com.example.movie.models.movie" />
+    </fragment>
     <fragment
         android:id="@+id/top_ratedFragment"
         android:name="com.example.movie.ui.main.toprated.top_ratedFragment"
