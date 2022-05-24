@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
@@ -46,8 +48,14 @@ class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Ad
 
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
-            bundle.putSerializable("movie_details_reccommended", item)
-            it.findNavController().navigate(R.id.action_nav_detailed_self, bundle)
+            bundle.putSerializable("movie_details1", item)
+            if (NavigationUI.equals(R.id.nav_detailed)){
+                it.findNavController().navigate(R.id.recommendationFragment, bundle)
+            }else{
+                it.findNavController().navigate(R.id.recommendationFragment, bundle)
+            }
+
+
 //            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
 
 

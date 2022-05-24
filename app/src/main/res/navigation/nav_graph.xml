@@ -29,15 +29,14 @@
         android:name="com.example.movie.ui.main.detailed.detailedFragment"
         android:label="fragment_detailed"
         tools:layout="@layout/fragment_detailed" >
-        <action
-            android:id="@+id/action_nav_detailed_self"
-            app:destination="@id/nav_detailed" />
+
         <argument
-            android:name="movie_details"
+            android:name="movie_details1"
             app:argType="com.example.movie.models.ResultsItem1" />
+
         <action
-            android:id="@+id/action_nav_detailed_to_nav_tv"
-            app:destination="@id/nav_tv" />
+            android:id="@+id/action_nav_detailed_to_recommendationFragment"
+            app:destination="@id/recommendationFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_tv"
@@ -62,6 +61,19 @@
         <argument
             android:name="movie_details"
             app:argType="com.example.movie.models.movie" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendationFragment"
+        android:name="com.example.movie.RecommendationFragment"
+        android:label="fragment_recommendation"
+        tools:layout="@layout/fragment_recommendation" >
+        <argument
+            android:name="movie_details1"
+            app:argType="com.example.movie.models.ResultsItem1" />
+
+        <action
+            android:id="@+id/action_recommendationFragment_self"
+            app:destination="@id/recommendationFragment" />
     </fragment>
 
 </navigation>
