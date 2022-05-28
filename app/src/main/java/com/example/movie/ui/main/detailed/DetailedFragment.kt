@@ -5,8 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.service.autofill.Validators.and
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,13 +17,13 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
 import com.example.movie.R
 import com.example.movie.adapter.adapter_recommended
+import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentDetailedBinding
 import com.example.movie.models.ResultsItem1
 import com.example.movie.models.movie
 import com.example.movie.ui.main.home.homefragment_viewmodel
 import com.example.movie.util.CenterZoomLayoutManager
 import com.example.movie.util.constants
-import com.google.gson.Gson
 
 
 class detailedFragment : Fragment() {
@@ -33,13 +31,14 @@ class detailedFragment : Fragment() {
     lateinit var binding: FragmentDetailedBinding
     lateinit var viewModel: movedetaild_viewmodel
     lateinit var viewmodel2: homefragment_viewmodel
+    lateinit var databaseViewmodel: Database_viewmodel
     var data: movie? = null
     lateinit var adapter: adapter_recommended
     lateinit var array: ArrayList<ResultsItem1>
     var hashMap: HashMap<Int, String> = HashMap()
     lateinit var mPrefs: SharedPreferences
     var favourite_movie: ArrayList<movie> = ArrayList()
-    var like = true
+     var like:Int?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +61,7 @@ class detailedFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(movedetaild_viewmodel::class.java)
         viewmodel2 = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
+        databaseViewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
         mPrefs = activity?.getPreferences(MODE_PRIVATE)!!
         var id_select = mPrefs.getString("id", "")
         var img_select = mPrefs.getBoolean("favourite",false)
@@ -134,56 +134,78 @@ class detailedFragment : Fragment() {
         hashMap.put(53, "Thriller")
         hashMap.put(10752, "War")
         hashMap.put(37, "Western")
-        for (id in data?.genreIds!!) {
-            for (key in hashMap.keys) {
-                if (key == id) {
-                    binding.txtGenreDetailed.append(hashMap[key] + "  ")
+        if (data?.genreIds!=null) {
+            for (id in data?.genreIds!!) {
+                for (key in hashMap.keys) {
+                    if (key == id) {
+                        binding.txtGenreDetailed.append(hashMap[key] + "  ")
+                    }
                 }
-            }
 
+            }
         }
     }
 
     fun image_heart_select() {
         binding.imageViewHeart.setOnClickListener {
             if (binding.imageViewAnimation.isSelected) {
-                binding.imageViewAnimation.isSelected = false
-                like = false
-                mPrefs.edit().putBoolean("favourite", like).apply()
-                mPrefs.edit().putString("id", data?.id.toString()).apply()
-                if (favourite_movie.isNotEmpty()) {
-                    favourite_movie.remove(data)
+                if (like==1){
+                    binding.imageViewAnimation.isSelected = false
+                    databaseViewmodel.UnFavoriteMovie(data?.id)
+                    databaseViewmodel.deleteMovie(data)
+                    like=0
+
                 }
-                var prefsEditor: SharedPreferences.Editor = mPrefs.edit()
-                var gson: Gson = Gson()
-                var json: String = gson.toJson(favourite_movie)
-                prefsEditor.putString("MyObject", json)
-                prefsEditor.apply()
+
+//                mPrefs.edit().putBoolean("favourite", like).apply()
+//                mPrefs.edit().putString("id", data?.id.toString()).apply()
+//                if (favourite_movie.isNotEmpty()) {
+//                    favourite_movie.remove(data)
+//                }
+//                var prefsEditor: SharedPreferences.Editor = mPrefs.edit()
+//                var gson: Gson = Gson()
+//                var json: String = gson.toJson(favourite_movie)
+//                prefsEditor.putString("MyObject", json)
+//                prefsEditor.apply()
 //                Log.e("image_heart_select: ", favourite_movie.toString())
 
             } else {
                 binding.imageViewAnimation.isSelected = true
                 binding.imageViewAnimation.likeAnimation()
-                like = true
-                mPrefs.edit().putBoolean("favourite", like).apply()
-                mPrefs.edit().putString("id", data?.id.toString()).apply()
+                databaseViewmodel.insertMovie(data)
+                databaseViewmodel.setFavoriteMovie(data?.id)
+                like=1
 
-
-                //data = movie details
-                var myObject = (data)
-                if (myObject != null) {
-                    favourite_movie.add((myObject))
-                }
-                var prefsEditor: SharedPreferences.Editor = mPrefs.edit()
-                var gson: Gson = Gson()
-                var json: String = gson.toJson(favourite_movie)
-                prefsEditor.putString("MyObject", json)
-                prefsEditor.apply()
-
-                Log.e("image_heart_select: ", favourite_movie.toString())
+//                mPrefs.edit().putBoolean("favourite", like).apply()
+//                mPrefs.edit().putString("id", data?.id.toString()).apply()
+//
+//
+//                //data = movie details
+//                var myObject = (data)
+//                if (myObject != null) {
+//                    favourite_movie.add((myObject))
+//                }
+//                var prefsEditor: SharedPreferences.Editor = mPrefs.edit()
+//                var gson: Gson = Gson()
+//                var json: String = gson.toJson(favourite_movie)
+//                prefsEditor.putString("MyObject", json)
+//                prefsEditor.apply()
+//
+//                Log.e("image_heart_select: ", favourite_movie.toString())
 
             }
         }
+
+        data?.id?.let { databaseViewmodel.IsFavorite(it) }?.observe(requireActivity(), Observer {
+            if (it!=null){
+                like=it
+                if (it==1){
+                    binding.imageViewAnimation.isSelected = true
+                }else{
+                    binding.imageViewAnimation.isSelected = false
+                }
+            }
+        })
     }
 
 
