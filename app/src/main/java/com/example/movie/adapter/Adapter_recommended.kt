@@ -56,7 +56,7 @@ class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Ad
             }
 
 
-//            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
+
 
 
         }

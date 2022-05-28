@@ -42,18 +42,20 @@ lateinit var adapter: adapter
         val json: String? = mPrefs?.getString("MyObject", null)
         val type: Type = object : TypeToken<ArrayList<movie?>?>() {}.type
          movielist = gson.fromJson(json, type)
-        adapter=adapter((movielist))
-        binding.recyclerFavourite.adapter=adapter
-        try {
-            if (movielist==null){
+
+
+            if (movielist.isEmpty()){
 
                 movielist=ArrayList()
                 binding.txtNodata.visibility =View.VISIBLE
 
+            }else{
+                binding.txtNodata.visibility =View.GONE
+                adapter=adapter((movielist))
+                binding.recyclerFavourite.adapter=adapter
             }
-        }catch (e:Exception){
-            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
-        }
+        //check is movie
+
 
 
 

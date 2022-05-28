@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.service.autofill.Validators.and
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -32,28 +33,20 @@ class detailedFragment : Fragment() {
     lateinit var binding: FragmentDetailedBinding
     lateinit var viewModel: movedetaild_viewmodel
     lateinit var viewmodel2: homefragment_viewmodel
-     var data: movie?=null
-     var data_recommended: ResultsItem1?=null
+    var data: movie? = null
     lateinit var adapter: adapter_recommended
     lateinit var array: ArrayList<ResultsItem1>
     var hashMap: HashMap<Int, String> = HashMap()
-    lateinit var mPrefs:SharedPreferences
-    lateinit var favourite_movie:ArrayList<Any>
-     var like = true
+    lateinit var mPrefs: SharedPreferences
+    var favourite_movie: ArrayList<movie> = ArrayList()
+    var like = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            if (data_recommended==null){
 
-                data = it.getSerializable("movie_details") as movie
-
-            }else {
-
-                data_recommended = it.getSerializable("movie_details") as ResultsItem1
-            }
-
+            data = it.getSerializable("movie_details") as movie
 
 
         }
@@ -69,19 +62,21 @@ class detailedFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(movedetaild_viewmodel::class.java)
         viewmodel2 = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
-         mPrefs = activity?.getPreferences(MODE_PRIVATE)!!
-//        if (like){
-//            binding.imageViewAnimation.isSelected=true
-//
-//        }else{
-//            binding.imageViewAnimation.isSelected = false
-//        }
-        if (data_recommended!=null){
-            display_movie_detailes_recommended()
-
-        }else{
-            display_movie_detailes()
+        mPrefs = activity?.getPreferences(MODE_PRIVATE)!!
+        var id_select = mPrefs.getString("id", "")
+        var img_select = mPrefs.getBoolean("favourite",false)
+        if (id_select == data?.id.toString() && (img_select==true) ){
+            binding.imageViewAnimation.isSelected = true
+        } else {
+            binding.imageViewAnimation.isSelected = false
         }
+
+
+//and in if
+
+
+        display_movie_detailes()
+
 
 
 
@@ -94,7 +89,7 @@ class detailedFragment : Fragment() {
         binding.btnPlay.setOnClickListener {
             //data.id = movie id
             viewModel.gettrsiler_movie(data?.id)
-            viewModel.getrecommended_movie(data_recommended?.id)
+
         }
         viewModel.response_toprated.observe(requireActivity(), Observer {
 
@@ -153,26 +148,39 @@ class detailedFragment : Fragment() {
         binding.imageViewHeart.setOnClickListener {
             if (binding.imageViewAnimation.isSelected) {
                 binding.imageViewAnimation.isSelected = false
-                like=false
+                like = false
+                mPrefs.edit().putBoolean("favourite", like).apply()
+                mPrefs.edit().putString("id", data?.id.toString()).apply()
+                if (favourite_movie.isNotEmpty()) {
+                    favourite_movie.remove(data)
+                }
+                var prefsEditor: SharedPreferences.Editor = mPrefs.edit()
+                var gson: Gson = Gson()
+                var json: String = gson.toJson(favourite_movie)
+                prefsEditor.putString("MyObject", json)
+                prefsEditor.apply()
+//                Log.e("image_heart_select: ", favourite_movie.toString())
+
             } else {
                 binding.imageViewAnimation.isSelected = true
                 binding.imageViewAnimation.likeAnimation()
-                like=true
+                like = true
+                mPrefs.edit().putBoolean("favourite", like).apply()
+                mPrefs.edit().putString("id", data?.id.toString()).apply()
 
 
-                favourite_movie=ArrayList()
                 //data = movie details
-               var   myObject   =  (data)
+                var myObject = (data)
                 if (myObject != null) {
                     favourite_movie.add((myObject))
                 }
-               var  prefsEditor : SharedPreferences.Editor = mPrefs.edit()
-               var  gson : Gson =  Gson()
-               var json :String  = gson.toJson(favourite_movie)
+                var prefsEditor: SharedPreferences.Editor = mPrefs.edit()
+                var gson: Gson = Gson()
+                var json: String = gson.toJson(favourite_movie)
                 prefsEditor.putString("MyObject", json)
                 prefsEditor.apply()
 
-                Log.e( "image_heart_select: ",favourite_movie.size.toString() )
+                Log.e("image_heart_select: ", favourite_movie.toString())
 
             }
         }
@@ -192,18 +200,5 @@ class detailedFragment : Fragment() {
         }
     }
 
-    fun display_movie_detailes_recommended() {
-
-        Glide.with(this).load(constants.img_link + data_recommended?.backdropPath).into(binding.imgDetailed)
-        Glide.with(this).load(constants.img_link + data_recommended?.posterPath).into(binding.imgDetailedPoster)
-        binding.txtTitleDetailed.text = data_recommended?.title
-        binding.txtRating.text = data_recommended?.voteAverage.toString()
-        binding.txtOverview.text = data_recommended?.overview
-        if (data_recommended?.adult == true) {
-            binding.imgAdult.setImageResource(R.drawable.ic_baseline_true_24)
-        } else {
-            binding.imgAdult.setImageResource(R.drawable.ic_baseline_false_24)
-        }
-    }
 
 }
