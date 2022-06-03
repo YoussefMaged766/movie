@@ -12,6 +12,7 @@
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/icon_play_style.xml" value="0.136" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/img_style.xml" value="0.136" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/search_style.xml" value="0.136" />
+        <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/trend_icon_style.xml" value="0.12" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/font/archivo_black.xml" value="0.2518518518518518" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/font/cairo.xml" value="0.2518518518518518" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/layout/activity_detailed.xml" value="0.2608695652173913" />
@@ -22,6 +23,7 @@
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/layout/fragment_recommendation.xml" value="0.2608695652173913" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/layout/fragment_t_v_.xml" value="0.23229166666666667" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/layout/fragment_top_rated.xml" value="0.18489583333333334" />
+        <entry key="..\:/AndroidProjects/movie/app/src/main/res/layout/fragment_trend_.xml" value="0.2608695652173913" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/layout/movieitem.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/layout/movieitem_shimmer_layout.xml" value="0.2608695652173913" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/layout/movieitem_shimmer_layout.xmlmovieitem.xml" value="0.2608695652173913" />

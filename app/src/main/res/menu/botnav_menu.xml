@@ -9,6 +9,10 @@
         android:id="@+id/nav_tv"
         android:title="Favorite"
         android:icon="@drawable/heart_seslctor"/>
+    <item
+        android:id="@+id/nav_trend"
+        android:title="Trend"
+        android:icon="@drawable/trend_icon_style"/>
 
 
 </menu>
