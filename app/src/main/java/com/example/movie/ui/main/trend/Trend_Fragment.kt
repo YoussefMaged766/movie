@@ -16,8 +16,10 @@ import androidx.lifecycle.get
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movie.R
 import com.example.movie.adapter.adapter_trend
+import com.example.movie.adapter.adapter_trend_tv
 import com.example.movie.databinding.FragmentTrendBinding
 import com.example.movie.models.ResultsItem_trend
+import com.example.movie.models.ResultsItem_trendTV
 
 
 class trend_Fragment : Fragment() {
@@ -25,8 +27,11 @@ class trend_Fragment : Fragment() {
     lateinit var binding: FragmentTrendBinding
     lateinit var viewModel: trend_viewmodel
     lateinit var adapter_trend1: adapter_trend
+    lateinit var adpter_trend_tv1 : adapter_trend_tv
     lateinit var layoutManager: GridLayoutManager
+    lateinit var layoutManager2: GridLayoutManager
     var array: ArrayList<ResultsItem_trend> = ArrayList()
+    var array2 : ArrayList<ResultsItem_trendTV> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -49,6 +54,8 @@ class trend_Fragment : Fragment() {
         )
         binding.spinnerMediaType.adapter = adapter
 
+        adapter_trend1 = adapter_trend(array)
+        adpter_trend_tv1 = adapter_trend_tv(array2)
         binding.spinnerMediaType.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -59,14 +66,27 @@ class trend_Fragment : Fragment() {
                 ) {
                     when (position) {
                         0 -> {
-                            viewModel.gettrend("all")
+                            viewModel.gettrend_movie()
+                            layoutManager = GridLayoutManager(requireContext(), 2)
+                            binding.recyclerTrend.layoutManager = layoutManager
+                            binding.recyclerTrend.adapter = adapter_trend1
+                            viewModel.response_trend.observe(requireActivity(), Observer {
+                                adapter_trend1.getdata(it as ArrayList<ResultsItem_trend>)
+                                Log.e( "trend ", it.toString())
+                            })
+
                         }
                         1 -> {
-                            viewModel.gettrend("movie")
+                            viewModel.gettrend_tv()
+                            layoutManager2 = GridLayoutManager(requireContext(), 2)
+                            binding.recyclerTrend.layoutManager = layoutManager
+                            binding.recyclerTrend.adapter = adpter_trend_tv1
+                            viewModel.response_trend_tv.observe(requireActivity(), Observer {
+                                adpter_trend_tv1.getdata(it as ArrayList<ResultsItem_trendTV>)
+                                Log.e( "trend ", it.toString())
+                            })
                         }
-                        2 -> {
-                            viewModel.gettrend("tv")
-                        }
+
                     }
                 }
 
@@ -75,15 +95,14 @@ class trend_Fragment : Fragment() {
                 }
 
             }
-        adapter_trend1 = adapter_trend(array)
-        layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.recyclerTrend.layoutManager = layoutManager
+
+
+
+
+
         binding.recyclerTrend.adapter = adapter_trend1
 
-        viewModel.response_trend.observe(requireActivity(), Observer {
-            adapter_trend1.getdata(it as ArrayList<ResultsItem_trend>)
-            Log.e( "trend ", it.toString())
-        })
+
 
 
         return binding.root

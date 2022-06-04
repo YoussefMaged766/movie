@@ -1,9 +1,6 @@
 package com.example.movie.util
 
-import com.example.movie.models.RecommendedResponse
-import com.example.movie.models.TopRatedResponse
-import com.example.movie.models.TrailerResponse
-import com.example.movie.models.TrendResponse
+import com.example.movie.models.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -38,8 +35,13 @@ interface webservices {
                     @Query("language") language:String
     ):Call<RecommendedResponse>
 
-    @GET("trending/{media_type}/day?")
-    fun get_trend(@Path("media_type") type: String?, @Query("api_key") key:String,
+    @GET("trending/movie/day?")
+    fun get_trend_movie( @Query("api_key") key:String,
                         @Query("language") language:String
     ):Call<TrendResponse>
+
+    @GET("trending/tv/day?")
+    fun get_trend_tv( @Query("api_key") key:String,
+                         @Query("language") language:String
+    ):Call<TrendtvResponse>
 }
