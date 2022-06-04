@@ -82,6 +82,19 @@
         android:id="@+id/nav_trend"
         android:name="com.example.movie.ui.main.trend.trend_Fragment"
         android:label="fragment_trend_"
-        tools:layout="@layout/fragment_trend_" />
+        tools:layout="@layout/fragment_trend_" >
+        <action
+            android:id="@+id/action_nav_trend_to_trend_tvFragment"
+            app:destination="@id/trend_tvFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trend_tvFragment"
+        android:name="com.example.movie.trend_tvFragment"
+        android:label="fragment_trend_tv"
+        tools:layout="@layout/fragment_trend_tv" >
+        <argument
+            android:name="tv_details"
+            app:argType="com.example.movie.models.ResultsItem_trendTV" />
+    </fragment>
 
 </navigation>

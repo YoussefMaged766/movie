@@ -21,7 +21,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class adapter_trend_tv(var list: ArrayList<ResultsItem_trendTV>?) : RecyclerView.Adapter<adapter_trend_tv.viewholder>(), Filterable {
+class adapter_trend_tv(var list: ArrayList<ResultsItem_trendTV>?) :
+    RecyclerView.Adapter<adapter_trend_tv.viewholder>(), Filterable {
     private val searchList = ArrayList<ResultsItem_trendTV>(list)
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -48,15 +49,12 @@ class adapter_trend_tv(var list: ArrayList<ResultsItem_trendTV>?) : RecyclerView
 
         Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
 
-//        holder.itemView.setOnClickListener {
-//            var bundle = Bundle()
-//            bundle.putSerializable("movie_details1", item)
-//            if (NavigationUI.equals(R.id.nav_detailed)){
-//                it.findNavController().navigate(R.id.recommendationFragment, bundle)
-//            }else{
-//                it.findNavController().navigate(R.id.recommendationFragment, bundle)
-//            }
-//        }
+        holder.itemView.setOnClickListener {
+            var bundle = Bundle()
+            bundle.putSerializable("tv_details", item)
+            it.findNavController().navigate(R.id.trend_tvFragment, bundle)
+
+        }
 
 
     }
@@ -83,7 +81,10 @@ class adapter_trend_tv(var list: ArrayList<ResultsItem_trendTV>?) : RecyclerView
 //                    val filterPattern = constraint.toString().lowercase(Locale.ROOT)
 
                     searchList.forEach {
-                        if ( it.name?.lowercase(Locale.getDefault())?.contains(constraint.toString().lowercase(Locale.getDefault())) == true) {
+                        if (it.name?.lowercase(Locale.getDefault())?.contains(
+                                constraint.toString().lowercase(Locale.getDefault())
+                            ) == true
+                        ) {
                             filteredList.add(it)
 
 

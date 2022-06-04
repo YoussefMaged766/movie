@@ -51,9 +51,9 @@ class adapter_trend( var list: ArrayList<ResultsItem_trend>?) : RecyclerView.Ada
 //            var bundle = Bundle()
 //            bundle.putSerializable("movie_details1", item)
 //            if (NavigationUI.equals(R.id.nav_detailed)){
-//                it.findNavController().navigate(R.id.recommendationFragment, bundle)
+//                it.findNavController().navigate(R.id.nav_detailed, bundle)
 //            }else{
-//                it.findNavController().navigate(R.id.recommendationFragment, bundle)
+//                it.findNavController().navigate(R.id.nav_detailed, bundle)
 //            }
 //        }
 

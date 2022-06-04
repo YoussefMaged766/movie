@@ -30,6 +30,11 @@ interface webservices {
                     @Query("language") language:String
     ):Call<TrailerResponse>
 
+    @GET("tv/{tv_id}/videos?")
+    fun get_trailer_tv(@Path("tv_id") id: Int?, @Query("api_key") key:String,
+                    @Query("language") language:String
+    ):Call<TrailerResponse>
+
     @GET("movie/{movie_id}/recommendations?")
     fun get_recommended(@Path("movie_id") id: Int?, @Query("api_key") key:String,
                     @Query("language") language:String

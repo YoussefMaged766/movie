@@ -56,6 +56,8 @@ class trend_Fragment : Fragment() {
 
         adapter_trend1 = adapter_trend(array)
         adpter_trend_tv1 = adapter_trend_tv(array2)
+        layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerTrend.layoutManager = layoutManager
         binding.spinnerMediaType.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -67,8 +69,6 @@ class trend_Fragment : Fragment() {
                     when (position) {
                         0 -> {
                             viewModel.gettrend_movie()
-                            layoutManager = GridLayoutManager(requireContext(), 2)
-                            binding.recyclerTrend.layoutManager = layoutManager
                             binding.recyclerTrend.adapter = adapter_trend1
                             viewModel.response_trend.observe(requireActivity(), Observer {
                                 adapter_trend1.getdata(it as ArrayList<ResultsItem_trend>)
@@ -78,8 +78,6 @@ class trend_Fragment : Fragment() {
                         }
                         1 -> {
                             viewModel.gettrend_tv()
-                            layoutManager2 = GridLayoutManager(requireContext(), 2)
-                            binding.recyclerTrend.layoutManager = layoutManager
                             binding.recyclerTrend.adapter = adpter_trend_tv1
                             viewModel.response_trend_tv.observe(requireActivity(), Observer {
                                 adpter_trend_tv1.getdata(it as ArrayList<ResultsItem_trendTV>)

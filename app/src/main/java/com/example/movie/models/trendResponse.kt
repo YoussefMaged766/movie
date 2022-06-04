@@ -1,6 +1,7 @@
 package com.example.movie.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class TrendResponse(
 
@@ -63,4 +64,4 @@ data class ResultsItem_trend(
 
 	@field:SerializedName("vote_count")
 	val voteCount: Int? = null
-)
+):Serializable
