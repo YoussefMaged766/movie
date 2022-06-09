@@ -96,5 +96,14 @@
             android:name="tv_details"
             app:argType="com.example.movie.models.ResultsItem_trendTV" />
     </fragment>
+    <fragment
+        android:id="@+id/movie_trendFragment"
+        android:name="com.example.movie.movie_trendFragment"
+        android:label="fragment_movie_trend"
+        tools:layout="@layout/fragment_movie_trend" >
+        <argument
+            android:name="movie_trend"
+            app:argType="com.example.movie.models.ResultsItem_trend" />
+    </fragment>
 
 </navigation>
