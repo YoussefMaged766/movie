@@ -24,8 +24,10 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.R
 import com.example.movie.adapter.adapter
+import com.example.movie.adapter.category_adapter
 
 import com.example.movie.databinding.FragmentHomeBinding
+import com.example.movie.models.category_model
 import com.example.movie.models.movie
 import com.example.movie.ui.main.movieviewmodle
 import com.example.movie.util.CenterZoomLayoutManager
@@ -40,6 +42,8 @@ class HomeFragment : Fragment() {
     var movie_toprated = ArrayList<movie>()
     var movie_coming = ArrayList<movie>()
     var movie_popular = ArrayList<movie>()
+    var category_list = ArrayList<category_model>()
+    lateinit var adapter_category: category_adapter
     lateinit var adapter_toprated: adapter
     lateinit var adapter_coming: adapter
     lateinit var adapter_popular: adapter
@@ -62,10 +66,16 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
 
         recycler()
-
+        category_list = arrayListOf(
+            category_model("Action", R.drawable.fight_gaming_icon),
+            category_model("Action", R.drawable.fight_gaming_icon),
+            category_model("Action", R.drawable.fight_gaming_icon),
+            category_model("Action", R.drawable.fight_gaming_icon)
+        )
+        binding.recyclerCategory.adapter = adapter_category
 
         performSearch()
-        if(checkForInternet(requireContext())){
+        if (checkForInternet(requireContext())) {
             viewModel.getdatafromapi_toprated(1)
             viewModel.getdatafromapi_upcoming(1)
             viewModel.getdatafromapi_poppular(1)
@@ -78,8 +88,7 @@ class HomeFragment : Fragment() {
             binding.recyclerToprated.visibility = View.VISIBLE
             binding.recyclerPopular.visibility = View.VISIBLE
             binding.recyclerUpcoming.visibility = View.VISIBLE
-        }
-        else{
+        } else {
             binding.shimmerRecycler.startShimmerAnimation()
             binding.shimmerRecycler.visibility = View.VISIBLE
             binding.shimmerRecycler2.startShimmerAnimation()
@@ -94,7 +103,6 @@ class HomeFragment : Fragment() {
             adapter_toprated.getdata(it as ArrayList<movie>)
             movie_toprated.clear()
             movie_toprated.addAll(it)
-
 
 
         })
@@ -121,21 +129,21 @@ class HomeFragment : Fragment() {
         })
 
 
-        var bundle= Bundle()
+        var bundle = Bundle()
         binding.txtAllToprated.setOnClickListener {
 
-        bundle.putString("movie_type" , binding.txtToprated.text.toString())
-            it.findNavController().navigate(R.id.top_ratedFragment,bundle)
+            bundle.putString("movie_type", binding.txtToprated.text.toString())
+            it.findNavController().navigate(R.id.top_ratedFragment, bundle)
         }
         binding.txtAllUpcoming.setOnClickListener {
 
-            bundle.putString("movie_type" , binding.txtUpcoming.text.toString())
-            it.findNavController().navigate(R.id.top_ratedFragment,bundle)
+            bundle.putString("movie_type", binding.txtUpcoming.text.toString())
+            it.findNavController().navigate(R.id.top_ratedFragment, bundle)
         }
         binding.txtAllPopular.setOnClickListener {
 
-            bundle.putString("movie_type" , binding.txtPopular.text.toString())
-            it.findNavController().navigate(R.id.top_ratedFragment,bundle)
+            bundle.putString("movie_type", binding.txtPopular.text.toString())
+            it.findNavController().navigate(R.id.top_ratedFragment, bundle)
         }
 
 
@@ -147,9 +155,10 @@ class HomeFragment : Fragment() {
         adapter_toprated = adapter(movie_toprated)
         adapter_coming = adapter(movie_coming)
         adapter_popular = adapter(movie_popular)
+        adapter_category = category_adapter(category_list)
         val snapHelper = LinearSnapHelper()
         val snapHelper2 = LinearSnapHelper()
-        val snapHelper3= LinearSnapHelper()
+        val snapHelper3 = LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.recyclerToprated)
         snapHelper2.attachToRecyclerView(binding.recyclerUpcoming)
         snapHelper3.attachToRecyclerView(binding.recyclerPopular)
@@ -195,6 +204,7 @@ class HomeFragment : Fragment() {
         })
 
     }
+
     override fun onResume() {
         super.onResume()
         binding.shimmerRecycler.startShimmerAnimation()
@@ -204,10 +214,12 @@ class HomeFragment : Fragment() {
         binding.shimmerRecycler.stopShimmerAnimation()
         super.onPause()
     }
+
     private fun checkForInternet(context: Context): Boolean {
 
         // register activity with the connectivity manager service
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         // if the android version is equal to M
         // or greater we need to use the
@@ -242,7 +254,6 @@ class HomeFragment : Fragment() {
             return networkInfo.isConnected
         }
     }
-
 
 
 }
