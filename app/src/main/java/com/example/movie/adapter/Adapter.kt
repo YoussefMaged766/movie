@@ -35,7 +35,7 @@ class adapter(var list: ArrayList<movie>?=null) : RecyclerView.Adapter<adapter.v
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
 if (list!=null){
-    var item = list?.get(position)
+    val item = list?.get(position)
     holder.txtTitle.setText(item?.title)
     holder.txtdate.setText(item?.releaseDate)
     holder.setIsRecyclable(false)

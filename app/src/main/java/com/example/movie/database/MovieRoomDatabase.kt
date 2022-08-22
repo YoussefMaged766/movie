@@ -9,17 +9,16 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-@Database(entities = arrayOf(movie::class) ,version = 1,exportSchema = false)
-abstract class  MovieRoomDatabase: RoomDatabase() {
+@Database(entities = arrayOf(movie::class), version = 1, exportSchema = false)
+abstract class MovieRoomDatabase : RoomDatabase() {
 
 
     abstract fun movieDAO(): moviedao?
 
 
-
-
-    companion object{
+    companion object {
         private val NAME_DB = "Movie_Database"
+
         @Volatile
         var INSTANCE1: MovieRoomDatabase? = null
         private val NUMBER_THREADS = 4

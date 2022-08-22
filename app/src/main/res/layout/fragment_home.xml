@@ -84,11 +84,35 @@
                         android:layout_margin="10dp"
                         android:queryHint="Search Movies"
                         />
+
+                    <TextView
+                        android:id="@+id/txt_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/search"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="Categories"
+                        android:textColor="@color/white"
+                        android:layout_margin="10dp"
+                        android:textSize="25sp"
+                        android:fontFamily="@font/cairo_black"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/txt_category"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/movie_category_item"/>
+
                     <TextView
                         android:id="@+id/txt_toprated"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/search"
+                        app:layout_constraintTop_toBottomOf="@id/recycler_category"
                         app:layout_constraintStart_toStartOf="parent"
                         android:text="Top Rated Movies"
                         android:textColor="@color/white"
