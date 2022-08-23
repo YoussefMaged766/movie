@@ -15,5 +15,25 @@
         <!-- Customize your theme here. -->
         <item name="android:windowFullscreen">true</item>
 
+
+
     </style>
+    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="Theme.Movie.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Movie.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Customize color of navigation drawer icon and back arrow -->
+    <item name="colorControlNormal">@color/backgroud</item>
+    <item name="layout_scrollFlags">exitUntilCollapsed</item>
+    </style>
+
 </resources>

@@ -4,8 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity"
-    android:background="@color/backgroud">
+    android:background="@color/backgroud"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.main.MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroud"
+        android:theme="@style/ToolbarTheme"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:scrollbarSize="0dp"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_scrollFlags="noScroll"
+            app:popupTheme="@style/Theme.Movie.PopupOverlay"
+            app:titleTextColor="@color/white"
+
+            />
+    </com.google.android.material.appbar.AppBarLayout>
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -14,21 +38,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/nav_graph"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"/>
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintTop_toBottomOf="@id/Appbar"
+        app:navGraph="@navigation/nav_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/botnav_menu"
+        android:background="@color/backgroud"
         android:elevation="4dp"
         app:itemIconTint="@color/red"
         app:itemTextColor="@color/white"
-        android:background="@color/backgroud"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragmentContainerView"
+        app:menu="@menu/botnav_menu"
 
         />
 
