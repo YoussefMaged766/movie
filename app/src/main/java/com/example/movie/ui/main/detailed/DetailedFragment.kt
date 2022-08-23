@@ -24,6 +24,7 @@ import com.example.movie.models.movie
 import com.example.movie.ui.main.home.homefragment_viewmodel
 import com.example.movie.util.CenterZoomLayoutManager
 import com.example.movie.util.constants
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class detailedFragment : Fragment() {
@@ -58,7 +59,8 @@ class detailedFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailed, container, false)
 
-
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.GONE
         viewModel = ViewModelProvider(this).get(movedetaild_viewmodel::class.java)
         viewmodel2 = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
         databaseViewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
@@ -70,6 +72,7 @@ class detailedFragment : Fragment() {
         } else {
             binding.imageViewAnimation.isSelected = false
         }
+
 
 
 //and in if

@@ -15,6 +15,7 @@ import com.example.movie.databinding.FragmentTrendTvBinding
 import com.example.movie.models.ResultsItem_trendTV
 import com.example.movie.ui.main.trend.trend_viewmodel
 import com.example.movie.util.constants
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class trend_tvFragment : Fragment() {
@@ -37,6 +38,8 @@ class trend_tvFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trend_tv, container, false)
         viewmodel = ViewModelProvider(this).get(trend_viewmodel::class.java)
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.GONE
         append_genre()
         display_tv_detailes()
 

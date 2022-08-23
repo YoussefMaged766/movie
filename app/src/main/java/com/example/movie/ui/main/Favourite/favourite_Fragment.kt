@@ -1,4 +1,4 @@
-package com.example.movie.ui.main.TV
+package com.example.movie.ui.main.Favourite
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -15,9 +15,10 @@ import com.example.movie.adapter.favourite_adapter
 import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentTVBinding
 import com.example.movie.models.movie
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class TV_Fragment : Fragment() {
+class favourite_Fragment : Fragment() {
 
 lateinit var binding:FragmentTVBinding
  lateinit var adapter: favourite_adapter
@@ -38,6 +39,8 @@ lateinit var binding:FragmentTVBinding
 
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_t_v_, container, false)
         viewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.VISIBLE
 //        mPrefs = activity?.getPreferences(Context.MODE_PRIVATE)!!
 //        val gson = Gson()
 //        val json: String? = mPrefs?.getString("MyObject", null)

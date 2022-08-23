@@ -22,6 +22,7 @@ import com.example.movie.adapter.adapter_page
 import com.example.movie.databinding.FragmentTopRatedBinding
 import com.example.movie.models.movie
 import com.example.movie.ui.main.home.homefragment_viewmodel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class top_ratedFragment : Fragment() {
@@ -56,7 +57,8 @@ class top_ratedFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_top_rated, container, false)
         viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
         layoutManager = GridLayoutManager(requireContext(), 2)
-
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.GONE
 
         adater_moviie = adapter(move_list)
         if (data == "Top Rated Movies") {

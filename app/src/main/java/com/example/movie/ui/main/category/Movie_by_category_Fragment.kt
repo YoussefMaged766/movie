@@ -15,6 +15,7 @@ import com.example.movie.R
 import com.example.movie.adapter.movie_by_category_adapter
 import com.example.movie.databinding.FragmentMovieByCategoryBinding
 import com.example.movie.models.movie
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class movie_by_category_Fragment : Fragment() {
@@ -44,6 +45,9 @@ class movie_by_category_Fragment : Fragment() {
             container,
             false
         )
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.GONE
+
         viewmodel1=ViewModelProvider(this).get(viewmodel::class.java)
         viewmodel1.getmovies_by_category(data)
         adapter=movie_by_category_adapter(moive_list)

@@ -17,6 +17,7 @@ import com.example.movie.models.ResultsItem_trend
 import com.example.movie.ui.main.detailed.movedetaild_viewmodel
 import com.example.movie.ui.main.trend.trend_viewmodel
 import com.example.movie.util.constants
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class movie_trendFragment : Fragment() {
@@ -42,6 +43,8 @@ lateinit var  binding:FragmentMovieTrendBinding
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_movie_trend, container, false)
         viewmodel =   ViewModelProvider(this).get(trend_viewmodel::class.java)
         viewModel = ViewModelProvider(this).get(movedetaild_viewmodel::class.java)
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.GONE
 
         append_genre()
         display_movie_detailes()

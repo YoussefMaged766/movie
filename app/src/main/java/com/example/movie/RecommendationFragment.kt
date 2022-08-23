@@ -24,6 +24,7 @@ import com.example.movie.ui.main.detailed.movedetaild_viewmodel
 import com.example.movie.ui.main.home.homefragment_viewmodel
 import com.example.movie.util.CenterZoomLayoutManager
 import com.example.movie.util.constants
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 
 
@@ -55,6 +56,9 @@ lateinit var binding:FragmentRecommendationBinding
         viewModel = ViewModelProvider(this).get(movedetaild_viewmodel::class.java)
         viewmodel2 = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
         mPrefs = activity?.getPreferences(Context.MODE_PRIVATE)!!
+
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.GONE
 
         append_genre()
         image_heart_select()

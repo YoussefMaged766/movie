@@ -31,6 +31,7 @@ import com.example.movie.models.category_model
 import com.example.movie.models.movie
 import com.example.movie.ui.main.movieviewmodle
 import com.example.movie.util.CenterZoomLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 import java.util.Locale.filter
 import kotlin.collections.ArrayList
@@ -64,7 +65,8 @@ class HomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
-
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.VISIBLE
         recycler()
 
         category_list = arrayListOf(

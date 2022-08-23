@@ -20,6 +20,7 @@ import com.example.movie.adapter.adapter_trend_tv
 import com.example.movie.databinding.FragmentTrendBinding
 import com.example.movie.models.ResultsItem_trend
 import com.example.movie.models.ResultsItem_trendTV
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class trend_Fragment : Fragment() {
@@ -46,6 +47,8 @@ class trend_Fragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trend_, container, false)
         viewModel = ViewModelProvider(this).get(trend_viewmodel::class.java)
+        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        view.visibility=View.VISIBLE
         val media_type = resources.getStringArray(R.array.media_type)
 
         val adapter = ArrayAdapter(

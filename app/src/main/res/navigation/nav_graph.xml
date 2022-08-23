@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_tv"
-        android:name="com.example.movie.ui.main.TV.TV_Fragment"
+        android:name="com.example.movie.ui.main.Favourite.favourite_Fragment"
         android:label="fragment_t_v_"
         tools:layout="@layout/fragment_t_v_" >
         <action
