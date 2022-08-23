@@ -33,8 +33,6 @@ data class movie(
     val title: String? = null,
 
 
-
-
     @ColumnInfo(name = "poster_path")
     @field:SerializedName("poster_path")
     @Expose
@@ -79,7 +77,7 @@ data class movie(
 ) : Serializable {
     @Ignore
     @field:SerializedName("genre_ids")
-    val genreIds: List<Int?>?=null
+    val genreIds: List<Int?>? = null
 
 //    constructor() : this(
 //        "",

@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_nav_home_to_trend_Fragment"
             app:destination="@id/nav_trend" />
+        <action
+            android:id="@+id/action_nav_home_to_movie_by_category_Fragment"
+            app:destination="@id/movie_by_category_Fragment" />
 
     </fragment>
     <fragment
@@ -104,6 +107,15 @@
         <argument
             android:name="movie_trend"
             app:argType="com.example.movie.models.ResultsItem_trend" />
+    </fragment>
+    <fragment
+        android:id="@+id/movie_by_category_Fragment"
+        android:name="com.example.movie.ui.main.category.movie_by_category_Fragment"
+        android:label="fragment_movie_by_category_"
+        tools:layout="@layout/fragment_movie_by_category_" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 
 </navigation>
