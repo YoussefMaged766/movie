@@ -83,6 +83,8 @@
                         android:background="@drawable/search_style"
                         android:layout_margin="10dp"
                         android:queryHint="Search Movies"
+                        android:layoutMode="opticalBounds"
+                        android:layoutDirection="rtl"
                         />
 
                     <TextView

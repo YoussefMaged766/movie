@@ -13,7 +13,7 @@ data class TopRatedResponse(
 	val totalPages: Int? = null,
 
     @field:SerializedName("results")
-	val results: List<movie?>? = null,
+	val results: List<movie>,
 
     @field:SerializedName("total_results")
 	val totalResults: Int? = null,
@@ -21,6 +21,10 @@ data class TopRatedResponse(
 
 
     )
+
+
+
+
 
 
 

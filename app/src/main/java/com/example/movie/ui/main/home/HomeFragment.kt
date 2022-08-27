@@ -6,35 +6,27 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
-import android.widget.Button
-import android.widget.EditText
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.R
 import com.example.movie.adapter.adapter
 import com.example.movie.adapter.category_adapter
-
 import com.example.movie.databinding.FragmentHomeBinding
 import com.example.movie.models.category_model
 import com.example.movie.models.movie
-import com.example.movie.ui.main.movieviewmodle
+import com.example.movie.ui.main.MainActivity
 import com.example.movie.util.CenterZoomLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.*
-import java.util.Locale.filter
-import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment() {
@@ -66,27 +58,28 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        view.visibility=View.VISIBLE
+        view.visibility = View.VISIBLE
         recycler()
+        setHasOptionsMenu(true)
 
         category_list = arrayListOf(
             category_model("Action", R.drawable.fight_gaming_icon),
             category_model("Adventure", R.drawable.icons_adventure),
-            category_model("Comedy",R.drawable.icons_comedy),
+            category_model("Comedy", R.drawable.icons_comedy),
             category_model("Crime", R.drawable.icons_crime),
-            category_model("Documentary",R.drawable.icons_documentary),
-            category_model("Drama",R.drawable.icons_drama),
-            category_model("Family",R.drawable.icons_family),
-            category_model("Fantasy",R.drawable.icons_fantasy),
-            category_model("History",R.drawable.icon_history),
+            category_model("Documentary", R.drawable.icons_documentary),
+            category_model("Drama", R.drawable.icons_drama),
+            category_model("Family", R.drawable.icons_family),
+            category_model("Fantasy", R.drawable.icons_fantasy),
+            category_model("History", R.drawable.icon_history),
             category_model("Horror", R.drawable.icons_horror),
-            category_model("Music",R.drawable.icon_music),
-            category_model("Mystery",R.drawable.icon_mystery),
-            category_model("Romance",R.drawable.icons_romance),
-            category_model("Science Fiction",R.drawable.icon_science_fiction_),
-            category_model("Thriller",R.drawable.icons_thriller),
-            category_model("War",R.drawable.icons_war),
-            category_model("Western",R.drawable.icons_western)
+            category_model("Music", R.drawable.icon_music),
+            category_model("Mystery", R.drawable.icon_mystery),
+            category_model("Romance", R.drawable.icons_romance),
+            category_model("Science Fiction", R.drawable.icon_science_fiction_),
+            category_model("Thriller", R.drawable.icons_thriller),
+            category_model("War", R.drawable.icons_war),
+            category_model("Western", R.drawable.icons_western)
 
         )
         adapter_category = category_adapter(category_list)
@@ -115,9 +108,11 @@ class HomeFragment : Fragment() {
             binding.shimmerRecycler3.visibility = View.VISIBLE
         }
 
+        show_shimmer()
 
-        viewModel.response_toprated.observe(requireActivity(), Observer {
-
+        viewModel.get_data().observe(requireActivity(), Observer {
+            binding.shimmerRecycler.stopShimmerAnimation()
+            binding.shimmerRecycler.visibility = View.INVISIBLE
             adapter_toprated.getdata(it as ArrayList<movie>)
             movie_toprated.clear()
             movie_toprated.addAll(it)
@@ -125,12 +120,16 @@ class HomeFragment : Fragment() {
 
         })
         viewModel.response_upcoming.observe(requireActivity(), Observer {
+            binding.shimmerRecycler2.stopShimmerAnimation()
+            binding.shimmerRecycler2.visibility = View.INVISIBLE
             adapter_coming.getdata(it as ArrayList<movie>)
             movie_coming.clear()
             movie_coming.addAll(it)
 
         })
         viewModel.response_popular.observe(requireActivity(), Observer {
+            binding.shimmerRecycler3.stopShimmerAnimation()
+            binding.shimmerRecycler3.visibility = View.INVISIBLE
             adapter_popular.getdata(it as ArrayList<movie>)
             movie_popular.clear()
             movie_popular.addAll(it)
@@ -163,6 +162,7 @@ class HomeFragment : Fragment() {
             bundle.putString("movie_type", binding.txtPopular.text.toString())
             it.findNavController().navigate(R.id.top_ratedFragment, bundle)
         }
+
 
 
         return binding.root
@@ -204,6 +204,10 @@ class HomeFragment : Fragment() {
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+               var b = Bundle()
+                b.putString("search" , query.toString())
+                findNavController().navigate(R.id.action_nav_home_to_searchFragment,b)
+
                 return false
             }
 
@@ -223,6 +227,7 @@ class HomeFragment : Fragment() {
 
     }
 
+
     override fun onResume() {
         super.onResume()
         binding.shimmerRecycler.startShimmerAnimation()
@@ -231,6 +236,15 @@ class HomeFragment : Fragment() {
     override fun onPause() {
         binding.shimmerRecycler.stopShimmerAnimation()
         super.onPause()
+    }
+
+    fun show_shimmer() {
+        binding.shimmerRecycler.startShimmerAnimation()
+        binding.shimmerRecycler.visibility = View.VISIBLE
+        binding.shimmerRecycler2.startShimmerAnimation()
+        binding.shimmerRecycler2.visibility = View.VISIBLE
+        binding.shimmerRecycler3.startShimmerAnimation()
+        binding.shimmerRecycler3.visibility = View.VISIBLE
     }
 
     private fun checkForInternet(context: Context): Boolean {
@@ -273,7 +287,31 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.search_menu, menu)
+        var item = menu.findItem(R.id.searchView_MenuMain)
+        val searchView = SearchView(
+            (context as MainActivity).supportActionBar!!.themedContext
+        )
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.e("onQueryTextSubmit1: ", query.toString())
 
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                return true
+            }
+
+        })
+
+//        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
+    }
 }
 
 

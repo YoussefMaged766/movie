@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.Favourite.favourite_Fragment">
 
-        <!-- TODO: Update blank fragment layout -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_favourite"
             android:layout_width="match_parent"
@@ -25,14 +25,26 @@
             android:id="@+id/txt_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/recycler_favourite"
+            app:layout_constraintTop_toBottomOf="@id/img_error"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/white"
+            android:textColor="#7b7c87"
             android:textSize="30sp"
             android:layout_margin="10dp"
             android:visibility="invisible"
-            android:text="No Data"/>
+            android:text="No Favourite Movie Yet"
+
+            />
+
+        <ImageView
+            android:id="@+id/img_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/error_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#7b7c87"
+            android:visibility="invisible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

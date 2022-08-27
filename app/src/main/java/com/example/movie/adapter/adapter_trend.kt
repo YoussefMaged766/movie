@@ -6,23 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
-import com.example.movie.models.ResultsItem1
-import com.example.movie.models.ResultsItem_trend
 import com.example.movie.util.constants
 import com.example.movie.models.movie
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class adapter_trend(var list: ArrayList<ResultsItem_trend>?) :
+class adapter_trend(var list: ArrayList<movie>?) :
     RecyclerView.Adapter<adapter_trend.viewholder>(), Filterable {
-    private val searchList = ArrayList<ResultsItem_trend>(list)
+    private val searchList = ArrayList<movie>(list)
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -50,9 +46,9 @@ class adapter_trend(var list: ArrayList<ResultsItem_trend>?) :
 
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
-            bundle.putSerializable("movie_trend", item)
+            bundle.putSerializable("movie_details", item)
 
-            it.findNavController().navigate(R.id.movie_trendFragment, bundle)
+            it.findNavController().navigate(R.id.action_nav_trend_to_nav_detailed, bundle)
 
         }
 
@@ -64,7 +60,7 @@ class adapter_trend(var list: ArrayList<ResultsItem_trend>?) :
         return list?.size ?: 0
     }
 
-    fun getdata(data1: ArrayList<ResultsItem_trend>) {
+    fun getdata(data1: ArrayList<movie>) {
         list = data1
         notifyDataSetChanged()
 
@@ -73,7 +69,7 @@ class adapter_trend(var list: ArrayList<ResultsItem_trend>?) :
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence): FilterResults {
-                val filteredList = ArrayList<ResultsItem_trend>()
+                val filteredList = ArrayList<movie>()
 
                 if (constraint.isBlank() or constraint.isEmpty()) {
                     filteredList.addAll(searchList)
@@ -98,7 +94,7 @@ class adapter_trend(var list: ArrayList<ResultsItem_trend>?) :
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 list?.clear()
-                list?.addAll(results!!.values as List<ResultsItem_trend>)
+                list?.addAll(results!!.values as List<movie>)
                 notifyDataSetChanged()
             }
 

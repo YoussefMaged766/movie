@@ -6,14 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
-import com.example.movie.models.ResultsItem1
-import com.example.movie.models.ResultsItem_trend
 import com.example.movie.models.ResultsItem_trendTV
 import com.example.movie.util.constants
 import com.example.movie.models.movie
@@ -52,7 +48,7 @@ class adapter_trend_tv(var list: ArrayList<ResultsItem_trendTV>?) :
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
             bundle.putSerializable("tv_details", item)
-            it.findNavController().navigate(R.id.trend_tvFragment, bundle)
+            it.findNavController().navigate(R.id.action_nav_trend_to_trend_tvFragment, bundle)
 
         }
 

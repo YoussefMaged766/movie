@@ -15,54 +15,52 @@ interface webservices {
         @Query("page") page: Int = 1
     ): Call<TopRatedResponse>
 
+    @GET("movie/top_rated?")
+    suspend fun getTopRatedmoviespaging(
+        @Query("page") page: Int
+    ): TopRatedResponse
+
+
     @GET("movie/upcoming?")
     fun getupcomingmovies(
-        @Query("api_key") key: String,
-        @Query("language") language: String,
         @Query("page") page: Int = 1
     ): Call<TopRatedResponse>
 
     @GET("movie/popular?")
     fun getpopularmovies(
-        @Query("api_key") key: String,
-        @Query("language") language: String,
-        @Query("page") page: Int = 1
+        @Query("page") page: Int
     ): Call<TopRatedResponse>
 
     @GET("movie/{movie_id}/videos?")
     fun get_trailer(
-        @Path("movie_id") id: Int?, @Query("api_key") key: String,
-        @Query("language") language: String
+        @Path("movie_id") id: Int?,
     ): Call<TrailerResponse>
 
     @GET("tv/{tv_id}/videos?")
     fun get_trailer_tv(
-        @Path("tv_id") id: Int?, @Query("api_key") key: String,
-        @Query("language") language: String
+        @Path("tv_id") id: Int?
     ): Call<TrailerResponse>
 
     @GET("movie/{movie_id}/recommendations?")
     fun get_recommended(
-        @Path("movie_id") id: Int?, @Query("api_key") key: String,
-        @Query("language") language: String
-    ): Call<RecommendedResponse>
+        @Path("movie_id") id: Int?
+    ): Call<TopRatedResponse>
 
     @GET("trending/movie/day?")
     fun get_trend_movie(
-        @Query("api_key") key: String,
-        @Query("language") language: String
-    ): Call<TrendResponse>
+    ): Call<TopRatedResponse>
 
     @GET("trending/tv/day?")
     fun get_trend_tv(
-        @Query("api_key") key: String,
-        @Query("language") language: String
     ): Call<TrendtvResponse>
 
     @GET("discover/movie?")
     fun getmovies_by_category(
-        @Query("api_key") key: String,
-        @Query("language") language: String,
         @Query("with_genres") genre: Int
+    ): Call<TopRatedResponse>
+
+    @GET("search/movie?")
+    fun getserchmovies(
+        @Query("query") query: String
     ): Call<TopRatedResponse>
 }

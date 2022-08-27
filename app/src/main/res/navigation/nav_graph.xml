@@ -8,50 +8,87 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.movie.ui.main.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_top_ratedFragment_to_nav_detailed"
-            app:destination="@id/nav_detailed" />
+            app:destination="@id/nav_detailed"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
         <argument
             android:name="movie_details"
             app:argType="com.example.movie.models.movie" />
         <action
             android:id="@+id/action_nav_home_to_nav_tv"
-            app:destination="@id/nav_tv" />
+            app:destination="@id/nav_favourite"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
         <argument
             android:name="movie_type"
             app:argType="string" />
         <action
             android:id="@+id/action_nav_home_to_trend_Fragment"
-            app:destination="@id/nav_trend" />
+            app:destination="@id/nav_trend"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
         <action
             android:id="@+id/action_nav_home_to_movie_by_category_Fragment"
-            app:destination="@id/movie_by_category_Fragment" />
+            app:destination="@id/movie_by_category_Fragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
+        <action
+            android:id="@+id/action_nav_home_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
 
     </fragment>
     <fragment
         android:id="@+id/nav_detailed"
         android:name="com.example.movie.ui.main.detailed.detailedFragment"
-        android:label="fragment_detailed"
-        tools:layout="@layout/fragment_detailed" >
+        android:label="Details"
+        tools:layout="@layout/fragment_detailed">
+
 
         <argument
-            android:name="movie_details1"
-            app:argType="com.example.movie.models.ResultsItem1" />
-
+            android:name="movie_details"
+            app:argType="com.example.movie.models.movie" />
         <action
-            android:id="@+id/action_nav_detailed_to_recommendationFragment"
-            app:destination="@id/recommendationFragment" />
+            android:id="@+id/action_nav_detailed_self"
+            app:destination="@id/nav_detailed"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
-        android:id="@+id/nav_tv"
+        android:id="@+id/nav_favourite"
         android:name="com.example.movie.ui.main.Favourite.favourite_Fragment"
-        android:label="fragment_t_v_"
-        tools:layout="@layout/fragment_t_v_" >
+        android:label="Favourites"
+        tools:layout="@layout/fragment_t_v_">
         <action
-            android:id="@+id/action_top_ratedFragment_to_nav_detailed"
-            app:destination="@id/nav_detailed" />
+            android:id="@+id/action_favouriteFragment_to_nav_detailed"
+            app:destination="@id/nav_detailed"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
         <argument
             android:name="movie_details"
             app:argType="com.example.movie.models.movie" />
@@ -59,63 +96,88 @@
     <fragment
         android:id="@+id/top_ratedFragment"
         android:name="com.example.movie.ui.main.toprated.top_ratedFragment"
-        android:label="top_ratedFragment" >
+        android:label="All Movies">
 
         <action
             android:id="@+id/action_top_ratedFragment_to_nav_detailed"
-            app:destination="@id/nav_detailed" />
+            app:destination="@id/nav_detailed"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
         <argument
             android:name="movie_details"
             app:argType="com.example.movie.models.movie" />
     </fragment>
-    <fragment
-        android:id="@+id/recommendationFragment"
-        android:name="com.example.movie.RecommendationFragment"
-        android:label="fragment_recommendation"
-        tools:layout="@layout/fragment_recommendation" >
-        <argument
-            android:name="movie_details1"
-            app:argType="com.example.movie.models.ResultsItem1" />
 
-        <action
-            android:id="@+id/action_recommendationFragment_self"
-            app:destination="@id/recommendationFragment" />
-    </fragment>
+
+
     <fragment
         android:id="@+id/nav_trend"
         android:name="com.example.movie.ui.main.trend.trend_Fragment"
-        android:label="fragment_trend_"
-        tools:layout="@layout/fragment_trend_" >
+        android:label="Trend"
+        tools:layout="@layout/fragment_trend_">
         <action
             android:id="@+id/action_nav_trend_to_trend_tvFragment"
-            app:destination="@id/trend_tvFragment" />
+            app:destination="@id/trend_tvFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
+
+        <action
+            android:id="@+id/action_nav_trend_to_nav_detailed"
+            app:destination="@id/nav_detailed"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/trend_tvFragment"
         android:name="com.example.movie.trend_tvFragment"
-        android:label="fragment_trend_tv"
-        tools:layout="@layout/fragment_trend_tv" >
+        android:label="Trend"
+        tools:layout="@layout/fragment_trend_tv">
         <argument
             android:name="tv_details"
             app:argType="com.example.movie.models.ResultsItem_trendTV" />
     </fragment>
-    <fragment
-        android:id="@+id/movie_trendFragment"
-        android:name="com.example.movie.movie_trendFragment"
-        android:label="fragment_movie_trend"
-        tools:layout="@layout/fragment_movie_trend" >
-        <argument
-            android:name="movie_trend"
-            app:argType="com.example.movie.models.ResultsItem_trend" />
-    </fragment>
+
     <fragment
         android:id="@+id/movie_by_category_Fragment"
         android:name="com.example.movie.ui.main.category.movie_by_category_Fragment"
-        android:label="fragment_movie_by_category_"
-        tools:layout="@layout/fragment_movie_by_category_" >
+        android:label="All Movies"
+        tools:layout="@layout/fragment_movie_by_category_">
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_movie_by_category_Fragment_to_nav_detailed"
+            app:destination="@id/nav_detailed"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.movie.ui.main.search.SearchFragment"
+        android:label="All Results">
+        <argument
+            android:name="search"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_to_nav_detailed"
+            app:destination="@id/nav_detailed"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
     </fragment>
 
 </navigation>

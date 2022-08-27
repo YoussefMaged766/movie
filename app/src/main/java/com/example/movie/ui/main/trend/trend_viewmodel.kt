@@ -1,6 +1,7 @@
 package com.example.movie.ui.main.trend
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movie.models.*
@@ -12,18 +13,23 @@ import retrofit2.Response
 
 
 class trend_viewmodel:ViewModel() {
-    var response_trend:MutableLiveData<List<ResultsItem_trend?>> = MutableLiveData()
+    var response_trend:MutableLiveData<List<movie?>> = MutableLiveData()
     var response_trend_tv : MutableLiveData<List<ResultsItem_trendTV?>> = MutableLiveData()
     var errormassage:MutableLiveData<String> = MutableLiveData()
     var response_tv_trailer:MutableLiveData<String> = MutableLiveData()
+
+
+
+    var movies :MutableLiveData<List<movie>>?=null
+
     fun gettrend_movie() {
 
         apimanager.getwebbservices()
-            .get_trend_movie( constants.api_key, "en-US")
-            .enqueue(object : Callback<TrendResponse> {
+            .get_trend_movie()
+            .enqueue(object : Callback<TopRatedResponse> {
                 override fun onResponse(
-                    call: Call<TrendResponse>,
-                    response: Response<TrendResponse>
+                    call: Call<TopRatedResponse>,
+                    response: Response<TopRatedResponse>
                 ) {
                     if (response.isSuccessful) {
 
@@ -36,7 +42,7 @@ class trend_viewmodel:ViewModel() {
                     }
                 }
 
-                override fun onFailure(call: Call<TrendResponse>, t: Throwable) {
+                override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
                     errormassage.value= t.localizedMessage
                 }
             })
@@ -45,7 +51,7 @@ class trend_viewmodel:ViewModel() {
     fun gettrend_tv() {
 
         apimanager.getwebbservices()
-            .get_trend_tv( constants.api_key, "en-US")
+            .get_trend_tv( )
             .enqueue(object : Callback<TrendtvResponse> {
                 override fun onResponse(
                     call: Call<TrendtvResponse>,
@@ -71,7 +77,7 @@ class trend_viewmodel:ViewModel() {
     fun gettrailer_tv(id: Int?) {
 
         apimanager.getwebbservices()
-            .get_trailer_tv(id, constants.api_key, "en-US")
+            .get_trailer_tv(id)
             .enqueue(object : Callback<TrailerResponse> {
                 override fun onResponse(
                     call: Call<TrailerResponse>,
@@ -92,5 +98,10 @@ class trend_viewmodel:ViewModel() {
                 }
             })
 
+    }
+
+    fun getmoviesdata(): MutableLiveData<List<movie>>? {
+        movies = TrendRepository.getmovies()
+        return movies
     }
 }

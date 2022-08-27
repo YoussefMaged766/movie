@@ -46,7 +46,7 @@ if (favoriteMovieList!=null){
     holder.itemView.setOnClickListener {
         var bundle = Bundle()
         bundle.putSerializable("movie_details", item)
-        it.findNavController().navigate(R.id.nav_detailed, bundle)
+        it.findNavController().navigate(R.id.action_favouriteFragment_to_nav_detailed, bundle)
 //            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
 
 

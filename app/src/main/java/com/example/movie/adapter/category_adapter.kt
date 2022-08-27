@@ -64,7 +64,7 @@ class category_adapter(var items: ArrayList<category_model>) :
 
             b.putInt("id", hashMap.getValue(holder.category_name.text.toString()))
 
-            it.findNavController().navigate(R.id.movie_by_category_Fragment, b)
+            it.findNavController().navigate(R.id.action_nav_home_to_movie_by_category_Fragment, b)
         }
     }
 

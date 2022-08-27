@@ -24,16 +24,17 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
-    <style name="Theme.Movie.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+<!--    <style name="Theme.Movie.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
 
     <style name="Theme.Movie.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 
-    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     <!-- Customize color of navigation drawer icon and back arrow -->
-    <item name="colorControlNormal">@color/backgroud</item>
+    <item name="colorControlNormal">@color/white</item>
     <item name="layout_scrollFlags">exitUntilCollapsed</item>
     </style>
+
 
 </resources>

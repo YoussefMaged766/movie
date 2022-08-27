@@ -2,6 +2,7 @@ package com.example.movie.ui.main.Favourite
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +21,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class favourite_Fragment : Fragment() {
 
-lateinit var binding:FragmentTVBinding
- lateinit var adapter: favourite_adapter
- var mPrefs:SharedPreferences?=null
-    lateinit var movielist:ArrayList<movie>
-    lateinit var viewmodel:Database_viewmodel
+    lateinit var binding: FragmentTVBinding
+    var adapter: favourite_adapter = favourite_adapter()
+    var mPrefs: SharedPreferences? = null
+    lateinit var movielist: ArrayList<movie>
+    lateinit var viewmodel: Database_viewmodel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,12 +36,12 @@ lateinit var binding:FragmentTVBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
 
-        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_t_v_, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_t_v_, container, false)
         viewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        view.visibility=View.VISIBLE
+        view.visibility = View.VISIBLE
 //        mPrefs = activity?.getPreferences(Context.MODE_PRIVATE)!!
 //        val gson = Gson()
 //        val json: String? = mPrefs?.getString("MyObject", null)
@@ -60,14 +61,25 @@ lateinit var binding:FragmentTVBinding
 //            }
         binding.recyclerFavourite.setLayoutManager(GridLayoutManager(activity, 2))
         binding.recyclerFavourite.setHasFixedSize(true)
+        Log.e("onCreateView: ", adapter.itemCount.toString())
 
 
-viewmodel.getAllFavoriteMovies()?.observe(requireActivity(), Observer {
-    adapter=favourite_adapter()
-    adapter.getdata(it as ArrayList<movie>)
-    binding.recyclerFavourite.adapter=adapter
 
-})
+        viewmodel.getAllFavoriteMovies()?.observe(requireActivity(), Observer {
+            if (it?.isEmpty() == true) {
+                binding.imgError.visibility = View.VISIBLE
+                binding.txtNodata.visibility = View.VISIBLE
+                binding.recyclerFavourite.visibility = View.INVISIBLE
+            } else {
+                adapter = favourite_adapter()
+                adapter.getdata(it as ArrayList<movie>)
+                binding.recyclerFavourite.adapter = adapter
+            }
+        })
+
+
+
+
 
 
 

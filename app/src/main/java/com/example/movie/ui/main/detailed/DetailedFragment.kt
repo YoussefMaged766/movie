@@ -19,7 +19,6 @@ import com.example.movie.R
 import com.example.movie.adapter.adapter_recommended
 import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentDetailedBinding
-import com.example.movie.models.ResultsItem1
 import com.example.movie.models.movie
 import com.example.movie.ui.main.home.homefragment_viewmodel
 import com.example.movie.util.CenterZoomLayoutManager
@@ -35,7 +34,7 @@ class detailedFragment : Fragment() {
     lateinit var databaseViewmodel: Database_viewmodel
     var data: movie? = null
     lateinit var adapter: adapter_recommended
-    lateinit var array: ArrayList<ResultsItem1>
+    lateinit var array: ArrayList<movie>
     var hashMap: HashMap<Int, String> = HashMap()
     lateinit var mPrefs: SharedPreferences
     var favourite_movie: ArrayList<movie> = ArrayList()
@@ -109,7 +108,7 @@ class detailedFragment : Fragment() {
         binding.recyclerRecommendation.adapter = adapter
         viewModel.getrecommended_movie(data?.id)
         viewModel.response_reccommended.observe(requireActivity(), Observer {
-            adapter.getdata(it as ArrayList<ResultsItem1>)
+            adapter.getdata(it as ArrayList<movie>)
         })
 
 

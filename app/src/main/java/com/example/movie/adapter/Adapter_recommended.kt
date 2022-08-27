@@ -12,15 +12,17 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
-import com.example.movie.models.ResultsItem1
+
 import com.example.movie.util.constants
 import com.example.movie.models.movie
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.navigation.fragment.NavHostFragment
 
 
-class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Adapter<adapter_recommended.viewholder>(), Filterable {
-    private val searchList = ArrayList<ResultsItem1>(list)
+class adapter_recommended(var list: ArrayList<movie>?) :
+    RecyclerView.Adapter<adapter_recommended.viewholder>(), Filterable {
+    private val searchList = ArrayList<movie>(list)
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -46,17 +48,12 @@ class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Ad
 
         Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
 
+
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
-            bundle.putSerializable("movie_details1", item)
-            if (NavigationUI.equals(R.id.nav_detailed)){
-                it.findNavController().navigate(R.id.recommendationFragment, bundle)
-            }else{
-                it.findNavController().navigate(R.id.recommendationFragment, bundle)
-            }
+            bundle.putSerializable("movie_details", item)
 
-
-
+            it.findNavController().navigate(R.id.action_nav_detailed_self, bundle)
 
 
         }
@@ -69,7 +66,7 @@ class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Ad
         return list?.size ?: 0
     }
 
-    fun getdata(data1: ArrayList<ResultsItem1>) {
+    fun getdata(data1: ArrayList<movie>) {
         list = data1
         notifyDataSetChanged()
 
@@ -78,7 +75,7 @@ class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Ad
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence): FilterResults {
-                val filteredList = ArrayList<ResultsItem1>()
+                val filteredList = ArrayList<movie>()
 
                 if (constraint.isBlank() or constraint.isEmpty()) {
                     filteredList.addAll(searchList)
@@ -86,7 +83,10 @@ class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Ad
 //                    val filterPattern = constraint.toString().lowercase(Locale.ROOT)
 
                     searchList.forEach {
-                        if ( it.title?.lowercase(Locale.getDefault())?.contains(constraint.toString().lowercase(Locale.getDefault())) == true) {
+                        if (it.title?.lowercase(Locale.getDefault())?.contains(
+                                constraint.toString().lowercase(Locale.getDefault())
+                            ) == true
+                        ) {
                             filteredList.add(it)
 
 
@@ -100,7 +100,7 @@ class adapter_recommended( var list: ArrayList<ResultsItem1>?) : RecyclerView.Ad
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 list?.clear()
-                list?.addAll(results!!.values as List<ResultsItem1>)
+                list?.addAll(results!!.values as List<movie>)
                 notifyDataSetChanged()
             }
 

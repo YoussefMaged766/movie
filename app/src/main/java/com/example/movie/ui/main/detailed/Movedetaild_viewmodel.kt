@@ -13,12 +13,12 @@ class movedetaild_viewmodel :ViewModel() {
 
     var response_toprated:MutableLiveData<String> = MutableLiveData()
     var errormassage :MutableLiveData<String> = MutableLiveData()
-    var response_reccommended :MutableLiveData<List<ResultsItem1?>> =  MutableLiveData()
+    var response_reccommended :MutableLiveData<List<movie?>> =  MutableLiveData()
 
 fun gettrsiler_movie(id: Int?) {
 
     apimanager.getwebbservices()
-        .get_trailer(id,constants.api_key, "en-US")
+        .get_trailer(id)
         .enqueue(object : Callback<TrailerResponse> {
             override fun onResponse(
                 call: Call<TrailerResponse>,
@@ -43,11 +43,11 @@ fun gettrsiler_movie(id: Int?) {
     fun getrecommended_movie(id: Int?) {
 
         apimanager.getwebbservices()
-            .get_recommended(id,constants.api_key, "en-US")
-            .enqueue(object : Callback<RecommendedResponse> {
+            .get_recommended(id)
+            .enqueue(object : Callback<TopRatedResponse> {
                 override fun onResponse(
-                    call: Call<RecommendedResponse>,
-                    response: Response<RecommendedResponse>
+                    call: Call<TopRatedResponse>,
+                    response: Response<TopRatedResponse>
                 ) {
                     if (response.isSuccessful) {
 
@@ -60,7 +60,7 @@ fun gettrsiler_movie(id: Int?) {
                     }
                 }
 
-                override fun onFailure(call: Call<RecommendedResponse>, t: Throwable) {
+                override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
                     errormassage.value= t.localizedMessage
                 }
             })

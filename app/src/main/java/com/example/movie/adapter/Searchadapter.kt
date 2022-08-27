@@ -13,37 +13,43 @@ import com.example.movie.R
 import com.example.movie.models.movie
 import com.example.movie.util.constants
 
-class movie_by_category_adapter(var items: ArrayList<movie>) :
-    RecyclerView.Adapter<movie_by_category_adapter.viewholder>() {
+class Searchadapter(var items :ArrayList<movie>): RecyclerView.Adapter<Searchadapter.viewholder>() {
 
-    class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class viewholder(itemView: View) :RecyclerView.ViewHolder(itemView){
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
         var txtTitle = itemView.findViewById<TextView>(R.id.txttitle)
+        var txtdate = itemView.findViewById<TextView>(R.id.txtreleasedate)
+        fun bind(data :movie){
+            txtTitle.text = data.title
+            txtdate.text = data.releaseDate
+            Glide.with(itemView).load(constants.img_link+data.posterPath).into(img)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewholder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movieitem,parent,false)
+      var view = LayoutInflater.from(parent.context).inflate(R.layout.movieitem,parent,false)
         return viewholder(view)
     }
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
-        var list = items[position]
-        holder.txtTitle.text = list.title
-        Glide.with(holder.itemView).load(constants.img_link + list.posterPath).into(holder.img)
+     holder.bind(items[position])
+
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
-            bundle.putSerializable("movie_details", list)
-            it.findNavController().navigate(R.id.action_movie_by_category_Fragment_to_nav_detailed, bundle)
+            bundle.putSerializable("movie_details", items.get(position))
+            it.findNavController().navigate(R.id.action_searchFragment_to_nav_detailed, bundle)
 //            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
-        }
 
+
+        }
     }
 
     override fun getItemCount(): Int {
-        return items.size
+      return items.size
     }
-    fun getdata( data :ArrayList<movie>){
-        this.items=data
+
+    fun getdata(list :ArrayList<movie>){
+        this.items=list
         notifyDataSetChanged()
     }
 }

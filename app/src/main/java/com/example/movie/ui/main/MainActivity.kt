@@ -4,10 +4,12 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -44,7 +46,7 @@ lateinit var binding:ActivityMainBinding
             ?.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_trend,R.id.nav_tv
+                R.id.nav_home, R.id.nav_trend,R.id.nav_favourite
             )
         )
         setupActionBarWithNavController(navController,appBarConfiguration)
@@ -63,7 +65,14 @@ lateinit var binding:ActivityMainBinding
     }
 
 
-
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.search_menu, menu)
+//        val searchView: SearchView =
+//            menu?.findItem(R.id.searchView_MenuMain)?.actionView as SearchView
+//
+//        searchView.isIconified = false
+//        return true
+//    }
 
 
 }

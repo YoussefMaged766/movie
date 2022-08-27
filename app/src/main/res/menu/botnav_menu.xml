@@ -6,7 +6,7 @@
         android:title="Home"
        />
     <item
-        android:id="@+id/nav_tv"
+        android:id="@+id/nav_favourite"
         android:title="Favorite"
         android:icon="@drawable/heart_seslctor"/>
     <item

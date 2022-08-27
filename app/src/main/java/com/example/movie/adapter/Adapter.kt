@@ -68,6 +68,10 @@ if (list!=null){
         notifyDataSetChanged()
 
     }
+    fun addlist(list1 :ArrayList<movie>){
+        list?.addAll(list1)
+        notifyDataSetChanged()
+    }
 
     override fun getFilter(): Filter {
         return object : Filter() {
