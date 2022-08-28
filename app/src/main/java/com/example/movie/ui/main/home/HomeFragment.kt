@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,9 +33,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class HomeFragment : Fragment() {
 
     lateinit var viewModel: homefragment_viewmodel
-    var movie_toprated = ArrayList<movie>()
-    var movie_coming = ArrayList<movie>()
-    var movie_popular = ArrayList<movie>()
+//    var movie_toprated = ArrayList<movie>()
+//    var movie_coming = ArrayList<movie>()
+//    var movie_popular = ArrayList<movie>()
     var category_list = ArrayList<category_model>()
     lateinit var adapter_category: category_adapter
     lateinit var adapter_toprated: adapter
@@ -57,8 +58,17 @@ class HomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
-        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        view.visibility = View.VISIBLE
+
+
+
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val viewNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        viewNav.visibility = View.VISIBLE
         recycler()
         setHasOptionsMenu(true)
 
@@ -87,9 +97,7 @@ class HomeFragment : Fragment() {
 
         performSearch()
         if (checkForInternet(requireContext())) {
-            viewModel.getdatafromapi_toprated(1)
-            viewModel.getdatafromapi_upcoming(1)
-            viewModel.getdatafromapi_poppular(1)
+
             binding.shimmerRecycler.stopShimmerAnimation()
             binding.shimmerRecycler2.stopShimmerAnimation()
             binding.shimmerRecycler3.stopShimmerAnimation()
@@ -99,7 +107,8 @@ class HomeFragment : Fragment() {
             binding.recyclerToprated.visibility = View.VISIBLE
             binding.recyclerPopular.visibility = View.VISIBLE
             binding.recyclerUpcoming.visibility = View.VISIBLE
-        } else {
+        }
+        else {
             binding.shimmerRecycler.startShimmerAnimation()
             binding.shimmerRecycler.visibility = View.VISIBLE
             binding.shimmerRecycler2.startShimmerAnimation()
@@ -110,40 +119,51 @@ class HomeFragment : Fragment() {
 
         show_shimmer()
 
-        viewModel.get_data().observe(requireActivity(), Observer {
-            binding.shimmerRecycler.stopShimmerAnimation()
-            binding.shimmerRecycler.visibility = View.INVISIBLE
-            adapter_toprated.getdata(it as ArrayList<movie>)
-            movie_toprated.clear()
-            movie_toprated.addAll(it)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.response_toprated.observe(requireActivity(), Observer {
+                binding.shimmerRecycler.stopShimmerAnimation()
+                binding.shimmerRecycler.visibility = View.INVISIBLE
+                adapter_toprated = adapter(it as ArrayList<movie>?)
+                binding.recyclerToprated.adapter = adapter_toprated
+//            movie_toprated.clear()
+//            movie_toprated.addAll(it)
+
+            })
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.response_upcoming.observe(requireActivity(), Observer {
+                binding.shimmerRecycler2.stopShimmerAnimation()
+                binding.shimmerRecycler2.visibility = View.INVISIBLE
+                adapter_coming = adapter(it as ArrayList<movie>?)
+                binding.recyclerUpcoming.adapter = adapter_coming
+//            movie_coming.clear()
+//            movie_coming.addAll(it)
+
+            })
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.response_popular.observe(requireActivity(), Observer {
+                binding.shimmerRecycler3.stopShimmerAnimation()
+                binding.shimmerRecycler3.visibility = View.INVISIBLE
+                adapter_popular = adapter(it as ArrayList<movie>?)
+                binding.recyclerPopular.adapter = adapter_popular
+//            movie_popular.clear()
+//            movie_popular.addAll(it)
+            })
+        }
 
 
-        })
-        viewModel.response_upcoming.observe(requireActivity(), Observer {
-            binding.shimmerRecycler2.stopShimmerAnimation()
-            binding.shimmerRecycler2.visibility = View.INVISIBLE
-            adapter_coming.getdata(it as ArrayList<movie>)
-            movie_coming.clear()
-            movie_coming.addAll(it)
-
-        })
-        viewModel.response_popular.observe(requireActivity(), Observer {
-            binding.shimmerRecycler3.stopShimmerAnimation()
-            binding.shimmerRecycler3.visibility = View.INVISIBLE
-            adapter_popular.getdata(it as ArrayList<movie>)
-            movie_popular.clear()
-            movie_popular.addAll(it)
-        })
 
 
 
 
-
-        viewModel.errormassage.observe(requireActivity(), Observer {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-            binding.shimmerRecycler.stopShimmerAnimation()
-            binding.shimmerRecycler.visibility = View.GONE
-        })
+//        viewModel.errormassage.observe(requireActivity(), Observer {
+//            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+//            binding.shimmerRecycler.stopShimmerAnimation()
+//            binding.shimmerRecycler.visibility = View.GONE
+//        })
 
 
         var bundle = Bundle()
@@ -163,16 +183,13 @@ class HomeFragment : Fragment() {
             it.findNavController().navigate(R.id.top_ratedFragment, bundle)
         }
 
-
-
-        return binding.root
     }
 
     fun recycler() {
 
-        adapter_toprated = adapter(movie_toprated)
-        adapter_coming = adapter(movie_coming)
-        adapter_popular = adapter(movie_popular)
+//        adapter_toprated = adapter(movie_toprated)
+//        adapter_coming = adapter(movie_coming)
+//        adapter_popular = adapter(movie_popular)
 
         val snapHelper = LinearSnapHelper()
         val snapHelper2 = LinearSnapHelper()
@@ -190,11 +207,11 @@ class HomeFragment : Fragment() {
         layoutManager2.orientation = LinearLayoutManager.HORIZONTAL
         var layoutManager3 = CenterZoomLayoutManager(requireContext())
         layoutManager3.orientation = LinearLayoutManager.HORIZONTAL
-        binding.recyclerToprated.adapter = adapter_toprated
+
         binding.recyclerToprated.layoutManager = layoutManager1
-        binding.recyclerUpcoming.adapter = adapter_coming
+
         binding.recyclerUpcoming.layoutManager = layoutManager2
-        binding.recyclerPopular.adapter = adapter_popular
+
         binding.recyclerPopular.layoutManager = layoutManager3
 
     }
@@ -214,9 +231,9 @@ class HomeFragment : Fragment() {
             @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextChange(newText: String?): Boolean {
 
-                adapter_toprated.filter.filter(newText)
-                adapter_coming.filter.filter(newText)
-                adapter_popular.filter.filter(newText)
+//                adapter_toprated.filter.filter(newText)
+//                adapter_coming.filter.filter(newText)
+//                adapter_popular.filter.filter(newText)
 
 
                 return true
@@ -312,6 +329,8 @@ class HomeFragment : Fragment() {
 
 //        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
     }
+
+
 }
 
 

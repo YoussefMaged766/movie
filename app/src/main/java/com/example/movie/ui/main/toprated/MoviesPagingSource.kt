@@ -33,7 +33,7 @@ class MoviesPagingSource(val webservices: webservices) : PagingSource<Int, movie
         val pageIndex = params.key ?: TMDB_STARTING_PAGE_INDEX
         val range = pageIndex.until(pageIndex + params.loadSize)
         return try {
-            delay(500)
+//            delay(500)
             val response = webservices.getTopRatedmoviespaging(page = pageIndex)
             val movies = response.results
             val nextKey =

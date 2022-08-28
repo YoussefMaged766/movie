@@ -47,7 +47,6 @@ if (list!=null){
         var bundle = Bundle()
         bundle.putSerializable("movie_details", item)
         it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
-//            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
 
 
     }
@@ -63,15 +62,15 @@ if (list!=null){
         return list?.size ?: 0
     }
 
-    fun getdata(data1: ArrayList<movie>) {
-        list = data1
-        notifyDataSetChanged()
-
-    }
-    fun addlist(list1 :ArrayList<movie>){
-        list?.addAll(list1)
-        notifyDataSetChanged()
-    }
+//    fun getdata(data1: ArrayList<movie>) {
+//        list = data1
+//        notifyDataSetChanged()
+//
+//    }
+//    fun addlist(list1 :ArrayList<movie>){
+//        list?.addAll(list1)
+//        notifyDataSetChanged()
+//    }
 
     override fun getFilter(): Filter {
         return object : Filter() {

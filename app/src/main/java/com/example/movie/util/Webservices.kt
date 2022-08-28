@@ -10,9 +10,6 @@ interface webservices {
 
     @GET("movie/top_rated?")
     fun getTopRatedmovies(
-        @Query("api_key") key: String,
-        @Query("language") language: String,
-        @Query("page") page: Int = 1
     ): Call<TopRatedResponse>
 
     @GET("movie/top_rated?")
@@ -23,12 +20,11 @@ interface webservices {
 
     @GET("movie/upcoming?")
     fun getupcomingmovies(
-        @Query("page") page: Int = 1
     ): Call<TopRatedResponse>
 
     @GET("movie/popular?")
     fun getpopularmovies(
-        @Query("page") page: Int
+
     ): Call<TopRatedResponse>
 
     @GET("movie/{movie_id}/videos?")

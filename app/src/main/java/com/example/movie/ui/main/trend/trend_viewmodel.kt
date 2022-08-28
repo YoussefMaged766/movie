@@ -1,26 +1,33 @@
 package com.example.movie.ui.main.trend
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.movie.Repository.TrendRepository
 import com.example.movie.models.*
 import com.example.movie.util.apimanager
-import com.example.movie.util.constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class trend_viewmodel:ViewModel() {
-    var response_trend:MutableLiveData<List<movie?>> = MutableLiveData()
-    var response_trend_tv : MutableLiveData<List<ResultsItem_trendTV?>> = MutableLiveData()
-    var errormassage:MutableLiveData<String> = MutableLiveData()
-    var response_tv_trailer:MutableLiveData<String> = MutableLiveData()
+class trend_viewmodel : ViewModel() {
+    var response_trend: MutableLiveData<List<movie>> = MutableLiveData()
+    var response_trend_tv: MutableLiveData<List<ResultsItem_trendTV?>> = MutableLiveData()
+    var errormassage: MutableLiveData<String> = MutableLiveData()
+    var response_tv_trailer: MutableLiveData<String> = MutableLiveData()
 
+    lateinit var movies: MutableLiveData<List<movie>>
+    lateinit var tv: MutableLiveData<List<ResultsItem_trendTV?>>
+    lateinit var trailerr: MutableLiveData<String>
 
+    init {
+        val id = 0
+        getmoviesdata()
+        getTVData()
+        getTvTrailer(id)
+    }
 
-    var movies :MutableLiveData<List<movie>>?=null
 
     fun gettrend_movie() {
 
@@ -34,16 +41,16 @@ class trend_viewmodel:ViewModel() {
                     if (response.isSuccessful) {
 
                         response_trend.value = response.body()?.results
-                        Log.e( "onResponse: ", response.body()?.results.toString())
+                        Log.e("onResponse: ", response.body()?.results.toString())
 
 
                     } else {
-                        errormassage.value= response.message()
+                        errormassage.value = response.message()
                     }
                 }
 
                 override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
-                    errormassage.value= t.localizedMessage
+                    errormassage.value = t.localizedMessage
                 }
             })
     }
@@ -51,7 +58,7 @@ class trend_viewmodel:ViewModel() {
     fun gettrend_tv() {
 
         apimanager.getwebbservices()
-            .get_trend_tv( )
+            .get_trend_tv()
             .enqueue(object : Callback<TrendtvResponse> {
                 override fun onResponse(
                     call: Call<TrendtvResponse>,
@@ -60,16 +67,16 @@ class trend_viewmodel:ViewModel() {
                     if (response.isSuccessful) {
 
                         response_trend_tv.value = response.body()?.results
-                        Log.e( "onResponse: ", response.body()?.results.toString())
+                        Log.e("onResponse: ", response.body()?.results.toString())
 
 
                     } else {
-                        errormassage.value= response.message()
+                        errormassage.value = response.message()
                     }
                 }
 
                 override fun onFailure(call: Call<TrendtvResponse>, t: Throwable) {
-                    errormassage.value= t.localizedMessage
+                    errormassage.value = t.localizedMessage
                 }
             })
     }
@@ -100,8 +107,19 @@ class trend_viewmodel:ViewModel() {
 
     }
 
-    fun getmoviesdata(): MutableLiveData<List<movie>>? {
+
+    private fun getmoviesdata() {
         movies = TrendRepository.getmovies()
-        return movies
     }
+
+    private fun getTVData() {
+        tv = TrendRepository.getTV()
+    }
+
+    fun getTvTrailer(id: Int) {
+        trailerr = TrendRepository.getTvTrailer(id)
+    }
+// naming convention
+
+
 }

@@ -17,7 +17,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class adapter_trend_tv(var list: ArrayList<ResultsItem_trendTV>?) :
+class adapter_trend_tv(var list: ArrayList<ResultsItem_trendTV?>) :
     RecyclerView.Adapter<adapter_trend_tv.viewholder>(), Filterable {
     private val searchList = ArrayList<ResultsItem_trendTV>(list)
 
@@ -60,11 +60,11 @@ class adapter_trend_tv(var list: ArrayList<ResultsItem_trendTV>?) :
         return list?.size ?: 0
     }
 
-    fun getdata(data1: ArrayList<ResultsItem_trendTV>) {
-        list = data1
-        notifyDataSetChanged()
-
-    }
+//    fun getdata(data1: ArrayList<ResultsItem_trendTV>) {
+//        list = data1
+//        notifyDataSetChanged()
+//
+//    }
 
     override fun getFilter(): Filter {
         return object : Filter() {

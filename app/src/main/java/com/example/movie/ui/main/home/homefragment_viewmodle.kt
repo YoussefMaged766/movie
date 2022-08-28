@@ -9,6 +9,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.movie.Repository.MoviesRepo
 
 
 import com.example.movie.models.TopRatedResponse
@@ -28,13 +29,19 @@ import retrofit2.Response
 class homefragment_viewmodel : ViewModel() {
 
 
-    var response_toprated: MutableLiveData<List<movie?>> = MutableLiveData()
-    var response_upcoming: MutableLiveData<List<movie?>> = MutableLiveData()
-    var response_popular: MutableLiveData<List<movie?>> = MutableLiveData()
+    lateinit var response_toprated: MutableLiveData<List<movie?>>
+    lateinit var response_upcoming: MutableLiveData<List<movie?>>
+    lateinit var response_popular: MutableLiveData<List<movie?>>
+
     var pages_toprated: MutableLiveData<Int> = MutableLiveData()
     var pages_upcoming: MutableLiveData<Int> = MutableLiveData()
     var pages_popular: MutableLiveData<Int> = MutableLiveData()
-    var errormassage: MutableLiveData<String> = MutableLiveData()
+
+init {
+    getPopularData()
+    getTopRatedData()
+    getUpComingData()
+}
 
 
 
@@ -42,85 +49,35 @@ class homefragment_viewmodel : ViewModel() {
 
 
 
-
-    fun getdatafromapi_toprated(page: Int) {
-
-        apimanager.getwebbservices()
-            .getTopRatedmovies(constants.api_key, "en-US", page)
-            .enqueue(object : Callback<TopRatedResponse> {
-                override fun onResponse(
-                    call: Call<TopRatedResponse>,
-                    response: Response<TopRatedResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        response_toprated.value = response.body()?.results
-                        pages_toprated.value = response.body()?.totalPages
+    fun getdatafromapi_toprated() {
 
 
-                    } else {
-                        errormassage.value = response.message()
-                    }
-                }
-
-                override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
-                    errormassage.value = t.localizedMessage
-                }
-            })
     }
 
-    fun getdatafromapi_upcoming(page: Int) {
-
-        apimanager.getwebbservices()
-            .getupcomingmovies( page)
-            .enqueue(object : Callback<TopRatedResponse> {
-                override fun onResponse(
-                    call: Call<TopRatedResponse>,
-                    response: Response<TopRatedResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        response_upcoming.value = response.body()?.results
-                        pages_upcoming.value = response.body()?.totalPages
+    fun getdatafromapi_upcoming() {
 
 
-                    } else {
-                        errormassage.value = response.message()
-                    }
-                }
-
-                override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
-                    errormassage.value = t.localizedMessage
-                }
-            })
     }
 
-    fun getdatafromapi_poppular(page: Int) {
-
-        apimanager.getwebbservices()
-            .getpopularmovies( page)
-            .enqueue(object : Callback<TopRatedResponse> {
-                override fun onResponse(
-                    call: Call<TopRatedResponse>,
-                    response: Response<TopRatedResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        response_popular.value = response.body()?.results
-                        pages_popular.value = response.body()?.totalPages
+    fun getdatafromapi_poppular() {
 
 
-                    } else {
-                        errormassage.value = response.message()
-                    }
-                }
-
-                override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
-                    errormassage.value = t.localizedMessage
-                }
-            })
     }
 
-    fun get_data(): MutableLiveData<List<movie?>> {
-        return response_toprated
+//    fun get_data(): MutableLiveData<List<movie?>> {
+//        return response_toprated
+//    }
+
+    fun getTopRatedData(){
+        response_toprated = MoviesRepo.getTopRatedMovies()
     }
+    fun getUpComingData(){
+        response_upcoming = MoviesRepo.getUpComingMovies()
+    }
+    fun  getPopularData(){
+        response_popular = MoviesRepo.getPopularMovies()
+    }
+
 
     fun getListData(): Flow<PagingData<movie>> {
         return Pager (config = PagingConfig(pageSize = 20, enablePlaceholders = true),

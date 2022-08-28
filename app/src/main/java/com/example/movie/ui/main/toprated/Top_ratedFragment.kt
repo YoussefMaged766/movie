@@ -38,19 +38,13 @@ import kotlinx.coroutines.launch
 class top_ratedFragment : Fragment() {
 
     lateinit var binding: FragmentTopRatedBinding
-
-
-    var pages = ArrayList<Int>()
-    var adapter_page: adapter_page = adapter_page(pages)
-     var pagingAdapter: paging_adapter = paging_adapter()
+    var pagingAdapter: paging_adapter = paging_adapter()
     lateinit var viewModel: homefragment_viewmodel
     lateinit var data: String
-    var move_list = ArrayList<movie>()
     lateinit var layoutManager: LinearLayoutManager
-    var adater_moviie: adapter = adapter(move_list)
-    var last_page_toprated: Int = 1
-    var last_page_upcoming = 1
-    var last_page_popular = 1
+    lateinit var adater_moviie: adapter
+    lateinit var adapter_popular :adapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,26 +63,31 @@ class top_ratedFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_top_rated, container, false)
         viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
 
-        val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        view.visibility = View.GONE
+        return binding.root
+    }
 
-//        binding.shimmerRecyclerSeeall.startShimmerAnimation()
-//        binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
-        layoutManager = GridLayoutManager(requireContext(), 2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val viewVav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        viewVav.visibility = View.GONE
+
+        binding.shimmerRecyclerSeeall.startShimmerAnimation()
+        binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
+
         init_recycler()
 
-        adater_moviie = adapter(move_list)
 
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.getListData().collect {
-                pagingAdapter.submitData(it)
-            }
-        }
+
+
 
 
         if (data == "Top Rated Movies") {
-
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                viewModel.getListData().collect {
+                    pagingAdapter.submitData(it)
+                }
+            }
 //            viewModel.response_toprated.observe(requireActivity(), Observer {
 //                adater_moviie.getdata(it as ArrayList<movie>)
 //            })
@@ -96,117 +95,31 @@ class top_ratedFragment : Fragment() {
             binding.recyclerSeeall.adapter = pagingAdapter
 //            pagingAdapter.stateRestorationPolicy= RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-            viewModel.pages_toprated.observe(requireActivity(), Observer {
-                adapter_page.apply {
-                    adapter_page(addpages(it))
-                    binding.recyclerPages.adapter = this
-                }
 
-            })
-
-            adapter_page.setonitemclicklistner(object : adapter_page.onpageclickListner {
-                override fun onppageclick(position: Int, page: Int) {
-                    viewModel.getdatafromapi_toprated(page)
-                    last_page_toprated = page
-                }
-
-            })
 //            binding.recyclerPages.adapter = adapter_page
 //            Log.e("onCreateView: ",addpages().toString() )
         }
         if (data == "Up Coming Movies") {
             viewModel.response_upcoming.observe(requireActivity(), Observer {
-                adater_moviie.getdata(it as ArrayList<movie>)
-                adater_moviie.addlist(it)
-
-            })
-            binding.recyclerSeeall.adapter = adater_moviie
-
-//            binding.recyclerSeeall.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-                //                var counter = 1
-//                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                    super.onScrollStateChanged(recyclerView, newState)
-//
-//                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                        counter += 1
-//                        viewModel.getdatafromapi_upcoming(counter + 1)
-//
-//                        Log.e("onScrollStateChanged: ", counter.toString())
-//                    }
-//                }
-//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                    val visibleitemcount = layoutManager.childCount
-//                    val pastvisibleitem = layoutManager.findFirstVisibleItemPosition()
-//                    val total = adater_moviie.itemCount
-//                    var page = 1
-//                    if (page<200){
-//                        if (visibleitemcount+pastvisibleitem>=total)
-//                            page++
-//                        viewModel.getdatafromapi_upcoming(page)
-//
-//                    }
-//                        super.onScrolled(recyclerView, dx, dy)
-//
-//
-//                }
-//            })
-            binding.recyclerSeeall.smoothScrollToPosition(adater_moviie.itemCount + 2)
-            viewModel.pages_upcoming.observe(requireActivity(), Observer {
-                adapter_page.apply {
-                    adapter_page(addpages(it))
-                    binding.recyclerPages.adapter = this
-                }
-
-            })
-            adapter_page.setonitemclicklistner(object : adapter_page.onpageclickListner {
-                override fun onppageclick(position: Int, page: Int) {
-                    viewModel.getdatafromapi_upcoming(page)
-                    last_page_upcoming = page
-                }
-
+                adater_moviie = adapter(it as ArrayList<movie>)
+//                adater_moviie.addlist(it)
+                binding.recyclerSeeall.adapter = adater_moviie
             })
 
         }
         if (data == "Popular Movies") {
             viewModel.response_popular.observe(requireActivity(), Observer {
-//                binding.shimmerRecyclerSeeall.stopShimmerAnimation()
-//                binding.shimmerRecyclerSeeall.visibility =View.INVISIBLE
-                adater_moviie.getdata(it as ArrayList<movie>)
-
-            })
-            binding.recyclerSeeall.adapter = adater_moviie
-            viewModel.pages_popular.observe(requireActivity(), Observer {
-                adapter_page.apply {
-                    adapter_page(addpages(it))
-                    binding.recyclerPages.adapter = this
-                }
-
+                binding.shimmerRecyclerSeeall.stopShimmerAnimation()
+                binding.shimmerRecyclerSeeall.visibility =View.INVISIBLE
+                adapter_popular = adapter(it as ArrayList<movie>)
+                binding.recyclerSeeall.adapter = adapter_popular
             })
 
-            adapter_page.setonitemclicklistner(object : adapter_page.onpageclickListner {
-                override fun onppageclick(position: Int, page: Int) {
-                    viewModel.getdatafromapi_poppular(page)
-                    last_page_popular = page
-                }
 
-            })
         }
-
-
-        return binding.root
     }
 
-    fun addpages(page: Int): ArrayList<Int> {
 
-        for (i in 1..page) {
-            pages.add(i)
-        }
-
-        return pages
-
-
-    }
 
 
     fun init_recycler() {
@@ -227,9 +140,6 @@ class top_ratedFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (checkForInternet(requireContext())) {
-//            viewModel.getdatafromapi_toprated(last_page_toprated)
-            viewModel.getdatafromapi_upcoming(last_page_upcoming)
-            viewModel.getdatafromapi_poppular(last_page_popular)
             binding.shimmerRecyclerSeeall.stopShimmerAnimation()
             binding.shimmerRecyclerSeeall.visibility = View.INVISIBLE
             binding.recyclerSeeall.visibility = View.VISIBLE
@@ -239,7 +149,7 @@ class top_ratedFragment : Fragment() {
             binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
         }
 
-        Log.e("onStart: ", last_page_upcoming.toString())
+
     }
 
     private fun checkForInternet(context: Context): Boolean {
