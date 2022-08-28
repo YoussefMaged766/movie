@@ -77,11 +77,6 @@ class top_ratedFragment : Fragment() {
         init_recycler()
 
 
-
-
-
-
-
         if (data == "Top Rated Movies") {
             viewLifecycleOwner.lifecycleScope.launchWhenCreated {
                 viewModel.getListData().collect {
@@ -93,16 +88,11 @@ class top_ratedFragment : Fragment() {
 //            })
 
             binding.recyclerSeeall.adapter = pagingAdapter
-//            pagingAdapter.stateRestorationPolicy= RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-
-//            binding.recyclerPages.adapter = adapter_page
-//            Log.e("onCreateView: ",addpages().toString() )
         }
         if (data == "Up Coming Movies") {
             viewModel.response_upcoming.observe(requireActivity(), Observer {
                 adater_moviie = adapter(it as ArrayList<movie>)
-//                adater_moviie.addlist(it)
                 binding.recyclerSeeall.adapter = adater_moviie
             })
 
