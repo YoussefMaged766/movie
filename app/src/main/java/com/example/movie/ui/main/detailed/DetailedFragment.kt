@@ -99,6 +99,7 @@ class detailedFragment : Fragment() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(constants.youtubel_link + it))
             startActivity(intent)
         })
+
         array = ArrayList()
         adapter = adapter_recommended(array)
         var layoutManager1 = CenterZoomLayoutManager(requireContext())
