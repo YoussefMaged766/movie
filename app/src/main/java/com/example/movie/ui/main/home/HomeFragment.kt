@@ -12,6 +12,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -32,7 +33,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
 
-    lateinit var viewModel: homefragment_viewmodel
+     val viewModel: homefragment_viewmodel by activityViewModels()
 //    var movie_toprated = ArrayList<movie>()
 //    var movie_coming = ArrayList<movie>()
 //    var movie_popular = ArrayList<movie>()
@@ -57,7 +58,7 @@ class HomeFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
+//        viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
 
 
 
@@ -120,7 +121,7 @@ class HomeFragment : Fragment() {
         show_shimmer()
 
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+
             viewModel.response_toprated.observe(requireActivity(), Observer {
                 binding.shimmerRecycler.stopShimmerAnimation()
                 binding.shimmerRecycler.visibility = View.INVISIBLE
@@ -130,8 +131,8 @@ class HomeFragment : Fragment() {
 //            movie_toprated.addAll(it)
 
             })
-        }
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+
+
             viewModel.response_upcoming.observe(requireActivity(), Observer {
                 binding.shimmerRecycler2.stopShimmerAnimation()
                 binding.shimmerRecycler2.visibility = View.INVISIBLE
@@ -141,9 +142,9 @@ class HomeFragment : Fragment() {
 //            movie_coming.addAll(it)
 
             })
-        }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+
+
             viewModel.response_popular.observe(requireActivity(), Observer {
                 binding.shimmerRecycler3.stopShimmerAnimation()
                 binding.shimmerRecycler3.visibility = View.INVISIBLE
@@ -152,7 +153,7 @@ class HomeFragment : Fragment() {
 //            movie_popular.clear()
 //            movie_popular.addAll(it)
             })
-        }
+
 
 
 

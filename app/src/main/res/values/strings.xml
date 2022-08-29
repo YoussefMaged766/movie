@@ -11,7 +11,7 @@
         <item>30sp</item>
     </array>
     <string-array name="media_type">
-        <item>tv</item>
         <item>movie</item>
+        <item>tv</item>
     </string-array>
 </resources>

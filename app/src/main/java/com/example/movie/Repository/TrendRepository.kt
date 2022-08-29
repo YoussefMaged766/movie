@@ -14,6 +14,7 @@ open class TrendRepository {
         var response_tv_trailer: MutableLiveData<String> = MutableLiveData()
 
         fun  getmovies(): MutableLiveData<List<movie>> {
+
             apimanager.getwebbservices().get_trend_movie().enqueue(object :Callback<TopRatedResponse>{
                 override fun onResponse(
                     call: Call<TopRatedResponse>,
@@ -48,6 +49,7 @@ open class TrendRepository {
             })
             return tv_response
         }
+
         fun getTvTrailer(id:Int):MutableLiveData<String>{
             apimanager.getwebbservices().get_trailer_tv(id).enqueue(object :Callback<TrailerResponse>{
                 override fun onResponse(

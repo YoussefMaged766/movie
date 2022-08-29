@@ -15,7 +15,7 @@ private const val TMDB_STARTING_PAGE_INDEX = 1
 
 class MoviesPagingSource(val webservices: webservices) : PagingSource<Int, movie>() {
 
-    private fun ensureValidKey(key: Int) = max(TMDB_STARTING_PAGE_INDEX, key)
+
 
     override fun getRefreshKey(state: PagingState<Int, movie>): Int? {
 //        return state.anchorPosition?.let { anchorPosition ->
@@ -39,12 +39,11 @@ class MoviesPagingSource(val webservices: webservices) : PagingSource<Int, movie
             val nextKey =
                 if (movies.isEmpty()) {
                     null
-                } else {
+                } else {pageIndex + 1
                     // By default, initial load size = 3 * NETWORK PAGE SIZE
                     // ensure we're not requesting duplicating items at the 2nd request
 //                    pageIndex + (params.loadSize / 25)
 //                    range.last+1
-                    pageIndex + 1
                 }
             Log.e("load: ", pageIndex.toString())
             LoadResult.Page(

@@ -1,6 +1,7 @@
 package com.example.movie.ui.main.home
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,9 +34,7 @@ class homefragment_viewmodel : ViewModel() {
     lateinit var response_upcoming: MutableLiveData<List<movie?>>
     lateinit var response_popular: MutableLiveData<List<movie?>>
 
-    var pages_toprated: MutableLiveData<Int> = MutableLiveData()
-    var pages_upcoming: MutableLiveData<Int> = MutableLiveData()
-    var pages_popular: MutableLiveData<Int> = MutableLiveData()
+
 
 init {
     getPopularData()
@@ -76,6 +75,7 @@ init {
     }
     fun  getPopularData(){
         response_popular = MoviesRepo.getPopularMovies()
+        Log.e("getPopularData: ","hello" )
     }
 
 

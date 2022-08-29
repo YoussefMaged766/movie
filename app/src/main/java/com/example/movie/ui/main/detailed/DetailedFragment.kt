@@ -30,7 +30,7 @@ class detailedFragment : Fragment() {
 
     lateinit var binding: FragmentDetailedBinding
     lateinit var viewModel: movedetaild_viewmodel
-    lateinit var viewmodel2: homefragment_viewmodel
+//    lateinit var viewmodel2: homefragment_viewmodel
     lateinit var databaseViewmodel: Database_viewmodel
     var data: movie? = null
     lateinit var adapter: adapter_recommended
@@ -61,11 +61,12 @@ class detailedFragment : Fragment() {
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         view.visibility=View.GONE
         viewModel = ViewModelProvider(this).get(movedetaild_viewmodel::class.java)
-        viewmodel2 = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
+//        viewmodel2 = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
         databaseViewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
         mPrefs = activity?.getPreferences(MODE_PRIVATE)!!
         var id_select = mPrefs.getString("id", "")
         var img_select = mPrefs.getBoolean("favourite",false)
+
         if (id_select == data?.id.toString() && (img_select==true) ){
             binding.imageViewAnimation.isSelected = true
         } else {

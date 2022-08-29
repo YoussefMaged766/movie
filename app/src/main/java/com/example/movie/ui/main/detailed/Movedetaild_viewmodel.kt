@@ -16,7 +16,6 @@ class movedetaild_viewmodel :ViewModel() {
     var response_reccommended :MutableLiveData<List<movie?>> =  MutableLiveData()
 
 fun gettrsiler_movie(id: Int?) {
-
     apimanager.getwebbservices()
         .get_trailer(id)
         .enqueue(object : Callback<TrailerResponse> {

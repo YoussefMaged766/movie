@@ -87,7 +87,7 @@ class trend_Fragment : Fragment() {
                     id: Long
                 ) {
                     when (position) {
-                       1 -> {
+                       0 -> {
 
                             viewModel.movies.observe(requireActivity(), Observer {
                                 adapter_trend1 = adapter_trend(it as ArrayList<movie>?)
@@ -97,7 +97,7 @@ class trend_Fragment : Fragment() {
                             })
                         }
 
-                        0 -> {
+                        1 -> {
 
                             viewModel.tv.observe(requireActivity(), Observer {
                                 adpter_trend_tv1 = adapter_trend_tv(it as ArrayList<ResultsItem_trendTV?>)
