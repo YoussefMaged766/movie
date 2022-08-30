@@ -90,9 +90,10 @@ class trend_Fragment : Fragment() {
                        0 -> {
 
                             viewModel.movies.observe(requireActivity(), Observer {
-                                adapter_trend1 = adapter_trend(it as ArrayList<movie>?)
+                                Log.e( "onItemSelected: ","hi" )
+                                adapter_trend1 = adapter_trend(it as ArrayList<movie>)
                                 binding.recyclerTrend.adapter = adapter_trend1
-                                Log.e("onItemSelected: ", it.toString())
+//                                Log.e("onItemSelected: ", it.toString())
 
                             })
                         }

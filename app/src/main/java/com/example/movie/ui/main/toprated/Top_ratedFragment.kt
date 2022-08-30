@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.R
+import com.example.movie.adapter.AdapterPopular
 import com.example.movie.adapter.adapter
 import com.example.movie.adapter.paging_adapter
 import com.example.movie.databinding.FragmentTopRatedBinding
@@ -43,7 +45,11 @@ class top_ratedFragment : Fragment() {
     val viewModel: homefragment_viewmodel by activityViewModels()
     lateinit var data: String
     lateinit var layoutManager: LinearLayoutManager
-    lateinit var adater_moviie: adapter
+
+    lateinit var  adaterPopular :AdapterPopular
+     var state :Parcelable?=null
+
+    var position=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +73,7 @@ class top_ratedFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         val viewVav =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -75,40 +82,46 @@ class top_ratedFragment : Fragment() {
         binding.shimmerRecyclerSeeall.startShimmerAnimation()
         binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
 
+        init_recycler()
 
 
-
-        if (data == "Top Rated Movies") {
-            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-                viewModel.getListData().collectLatest {
-                    pagingAdapter.submitData(it)
-                }
+    if (data == "Top Rated Movies") {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.getListData().collectLatest {
+                pagingAdapter.submitData(it)
             }
+        }
 //            viewModel.response_toprated.observe(requireActivity(), Observer {
 //                adater_moviie.getdata(it as ArrayList<movie>)
 //            })
 
-            binding.recyclerSeeall.adapter = pagingAdapter
+        binding.recyclerSeeall.adapter = pagingAdapter
 
-        }
-        if (data == "Up Coming Movies") {
-            viewModel.response_upcoming.observe(requireActivity(), Observer {
-                adater_moviie = adapter(it as ArrayList<movie>)
-                binding.recyclerSeeall.adapter = adater_moviie
-            })
-
-        }
-        if (data == "Popular Movies") {
-//            viewModel.response_popular.observe(requireActivity(), Observer {
-//                Log.e("getPopularData: ","hello2" )
-//                adater_moviie = adapter(it as ArrayList<movie>)
-//                binding.recyclerSeeall.adapter = adater_moviie
-//            })
-            adater_moviie = adapter(viewModel.response_popular.value as ArrayList<movie>)
+    }
+    if (data == "Up Coming Movies") {
+        viewModel.getdatafromapi_upcoming(1)
+        viewModel.response_upcoming.observe(requireActivity(), Observer {
+          val  adater_moviie = adapter(it as ArrayList<movie>)
             binding.recyclerSeeall.adapter = adater_moviie
+        })
 
-        }
-        init_recycler()
+    }
+    if (data == "Popular Movies") {
+            viewModel.response_popular.observe(requireActivity(), Observer {
+                Log.e("getPopularData: ","hello2" )
+                adaterPopular = AdapterPopular(it as ArrayList<movie>)
+                binding.recyclerSeeall.adapter = adaterPopular
+            })
+//        adaterPopular = adapter(viewModel.response_popular.value as ArrayList<movie>)
+//        binding.recyclerSeeall.adapter = adater_moviie
+
+    }
+
+
+
+
+
+
     }
 
 
@@ -126,8 +139,11 @@ class top_ratedFragment : Fragment() {
     }
 
 
+
+
     override fun onStart() {
         super.onStart()
+
         if (checkForInternet(requireContext())) {
             binding.shimmerRecyclerSeeall.stopShimmerAnimation()
             binding.shimmerRecyclerSeeall.visibility = View.INVISIBLE
@@ -181,5 +197,9 @@ class top_ratedFragment : Fragment() {
         }
     }
 
-
+    override fun onSaveInstanceState(outState: Bundle) {
+        state = binding.recyclerSeeall.layoutManager?.onSaveInstanceState()
+        outState.putParcelable("SAVED_RECYCLER_VIEW_STATUS_ID" , state)
+        super.onSaveInstanceState(outState)
+    }
 }

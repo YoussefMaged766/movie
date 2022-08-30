@@ -10,12 +10,12 @@ import retrofit2.Response
 
 class MoviesRepo {
     companion object {
-        var response_toprated: MutableLiveData<List<movie?>> = MutableLiveData()
-        var response_upcoming: MutableLiveData<List<movie?>> = MutableLiveData()
-        var response_popular: MutableLiveData<List<movie?>> = MutableLiveData()
+        var response_toprated: MutableLiveData<List<movie>> = MutableLiveData()
+        var response_upcoming: MutableLiveData<List<movie>> = MutableLiveData()
+        var response_popular: MutableLiveData<List<movie>> = MutableLiveData()
         var errormassage: MutableLiveData<String> = MutableLiveData()
 
-        fun getTopRatedMovies(): MutableLiveData<List<movie?>> {
+        fun getTopRatedMovies(): MutableLiveData<List<movie>> {
             apimanager.getwebbservices()
                 .getTopRatedmovies()
                 .enqueue(object : Callback<TopRatedResponse> {
@@ -39,7 +39,7 @@ class MoviesRepo {
             return response_toprated
         }
 
-        fun getPopularMovies(): MutableLiveData<List<movie?>> {
+        fun getPopularMovies(): MutableLiveData<List<movie>> {
             apimanager.getwebbservices()
                 .getpopularmovies()
                 .enqueue(object : Callback<TopRatedResponse> {
@@ -63,27 +63,8 @@ class MoviesRepo {
             return response_popular
         }
 
-        fun getUpComingMovies(): MutableLiveData<List<movie?>> {
-            apimanager.getwebbservices()
-                .getupcomingmovies()
-                .enqueue(object : Callback<TopRatedResponse> {
-                    override fun onResponse(
-                        call: Call<TopRatedResponse>,
-                        response: Response<TopRatedResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            response_upcoming.value = response.body()?.results
+        fun getUpComingMovies(): MutableLiveData<List<movie>> {
 
-
-                        } else {
-                            errormassage.value = response.message()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
-                        errormassage.value = t.localizedMessage
-                    }
-                })
             return response_upcoming
 
         }

@@ -20,6 +20,7 @@ interface webservices {
 
     @GET("movie/upcoming?")
     fun getupcomingmovies(
+        @Query("page") page: Int
     ): Call<TopRatedResponse>
 
     @GET("movie/popular?")

@@ -1,6 +1,7 @@
 package com.example.movie.ui.main.home
 
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -30,16 +31,19 @@ import retrofit2.Response
 class homefragment_viewmodel : ViewModel() {
 
 
-    lateinit var response_toprated: MutableLiveData<List<movie?>>
-    lateinit var response_upcoming: MutableLiveData<List<movie?>>
-    lateinit var response_popular: MutableLiveData<List<movie?>>
+     var response_toprated: MutableLiveData<List<movie>> = MutableLiveData()
+     var response_upcoming: MutableLiveData<List<movie>> = MutableLiveData()
+     var response_popular: MutableLiveData<List<movie>> = MutableLiveData()
+
+    var errormassage: MutableLiveData<String> = MutableLiveData()
+
 
 
 
 init {
     getPopularData()
     getTopRatedData()
-    getUpComingData()
+//    getUpComingData()
 }
 
 
@@ -53,8 +57,27 @@ init {
 
     }
 
-    fun getdatafromapi_upcoming() {
+    fun getdatafromapi_upcoming(page:Int) {
+        apimanager.getwebbservices()
+            .getupcomingmovies(page)
+            .enqueue(object : Callback<TopRatedResponse> {
+                override fun onResponse(
+                    call: Call<TopRatedResponse>,
+                    response: Response<TopRatedResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response_upcoming.value = response.body()?.results
 
+
+                    } else {
+                        errormassage.value = response.message()
+                    }
+                }
+
+                override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
+                    errormassage.value = t.localizedMessage
+                }
+            })
 
     }
 
@@ -70,9 +93,9 @@ init {
     fun getTopRatedData(){
         response_toprated = MoviesRepo.getTopRatedMovies()
     }
-    fun getUpComingData(){
-        response_upcoming = MoviesRepo.getUpComingMovies()
-    }
+//    fun getUpComingData(){
+//        response_upcoming = MoviesRepo.getUpComingMovies()
+//    }
     fun  getPopularData(){
         response_popular = MoviesRepo.getPopularMovies()
         Log.e("getPopularData: ","hello" )

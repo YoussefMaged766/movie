@@ -67,6 +67,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         val viewNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         viewNav.visibility = View.VISIBLE
@@ -131,7 +132,7 @@ class HomeFragment : Fragment() {
 //            movie_toprated.addAll(it)
 
             })
-
+        viewModel.getdatafromapi_upcoming(1)
 
             viewModel.response_upcoming.observe(requireActivity(), Observer {
                 binding.shimmerRecycler2.stopShimmerAnimation()
@@ -185,6 +186,8 @@ class HomeFragment : Fragment() {
         }
 
     }
+
+
 
     fun recycler() {
 
