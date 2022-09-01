@@ -16,8 +16,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class adapter(var list: ArrayList<movie>?=null) : RecyclerView.Adapter<adapter.viewholder>(), Filterable {
-    private val searchList = ArrayList<movie>(list)
+class adapter(var list: ArrayList<movie>? = null) : RecyclerView.Adapter<adapter.viewholder>() {
+
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -34,25 +34,24 @@ class adapter(var list: ArrayList<movie>?=null) : RecyclerView.Adapter<adapter.v
     }
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
-if (list!=null){
-    val item = list?.get(position)
-    holder.txtTitle.setText(item?.title)
-    holder.txtdate.setText(item?.releaseDate)
-    holder.setIsRecyclable(false)
-    holder.img.clipToOutline = true
+        if (list != null) {
+            val item = list?.get(position)
+            holder.txtTitle.setText(item?.title)
+            holder.txtdate.setText(item?.releaseDate)
+            holder.setIsRecyclable(false)
+            holder.img.clipToOutline = true
 
-    Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
+            Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
 
-    holder.itemView.setOnClickListener {
-        var bundle = Bundle()
-        bundle.putSerializable("movie_details", item)
-        it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
-
-
-    }
-}
+            holder.itemView.setOnClickListener {
+                var bundle = Bundle()
+                bundle.putSerializable("movie_details", item)
+                it.findNavController()
+                    .navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
 
 
+            }
+        }
 
 
     }
@@ -60,48 +59,6 @@ if (list!=null){
 
     override fun getItemCount(): Int {
         return list?.size ?: 0
-    }
-
-//    fun getdata(data1: ArrayList<movie>) {
-//        list = data1
-//        notifyDataSetChanged()
-//
-//    }
-//    fun addlist(list1 :ArrayList<movie>){
-//        list?.addAll(list1)
-//        notifyDataSetChanged()
-//    }
-
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence): FilterResults {
-                val filteredList = ArrayList<movie>()
-
-                if (constraint.isBlank() or constraint.isEmpty()) {
-                    filteredList.addAll(searchList)
-                } else {
-//                    val filterPattern = constraint.toString().lowercase(Locale.ROOT)
-
-                    searchList.forEach {
-                        if ( it.title?.lowercase(Locale.getDefault())?.contains(constraint.toString().lowercase(Locale.getDefault())) == true) {
-                            filteredList.add(it)
-
-
-                        }
-                    }
-                }
-                val result = FilterResults()
-                result.values = filteredList
-                return result
-            }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                list?.clear()
-                list?.addAll(results!!.values as List<movie>)
-                notifyDataSetChanged()
-            }
-
-        }
     }
 
 

@@ -13,19 +13,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.R
-import com.example.movie.adapter.AdapterPopular
-import com.example.movie.adapter.adapter
 import com.example.movie.adapter.paging_adapter
 import com.example.movie.databinding.FragmentTopRatedBinding
 import com.example.movie.models.movie
@@ -44,11 +34,8 @@ class top_ratedFragment : Fragment() {
     var pagingAdapter: paging_adapter = paging_adapter()
     val viewModel: homefragment_viewmodel by activityViewModels()
     lateinit var data: String
-    lateinit var layoutManager: LinearLayoutManager
-
-    lateinit var  adaterPopular :AdapterPopular
+    lateinit var layoutManager: GridLayoutManager
      var state :Parcelable?=null
-
     var position=0
 
 
@@ -79,41 +66,45 @@ class top_ratedFragment : Fragment() {
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         viewVav.visibility = View.GONE
 
+
+
+        init_recycler()
+        perform_internet()
+
+
         binding.shimmerRecyclerSeeall.startShimmerAnimation()
         binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
 
-        init_recycler()
-
-
     if (data == "Top Rated Movies") {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.getListData().collectLatest {
+            viewModel.getListDataTopRated().collectLatest {
                 pagingAdapter.submitData(it)
             }
         }
-//            viewModel.response_toprated.observe(requireActivity(), Observer {
-//                adater_moviie.getdata(it as ArrayList<movie>)
-//            })
+
 
         binding.recyclerSeeall.adapter = pagingAdapter
 
     }
     if (data == "Up Coming Movies") {
-        viewModel.getdatafromapi_upcoming(1)
-        viewModel.response_upcoming.observe(requireActivity(), Observer {
-          val  adater_moviie = adapter(it as ArrayList<movie>)
-            binding.recyclerSeeall.adapter = adater_moviie
-        })
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.getListDataUpComing().collectLatest {
+                pagingAdapter.submitData(it)
+            }
+        }
+        binding.recyclerSeeall.adapter = pagingAdapter
+
 
     }
     if (data == "Popular Movies") {
-            viewModel.response_popular.observe(requireActivity(), Observer {
-                Log.e("getPopularData: ","hello2" )
-                adaterPopular = AdapterPopular(it as ArrayList<movie>)
-                binding.recyclerSeeall.adapter = adaterPopular
-            })
-//        adaterPopular = adapter(viewModel.response_popular.value as ArrayList<movie>)
-//        binding.recyclerSeeall.adapter = adater_moviie
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.getListDataPopular().collectLatest {
+                pagingAdapter.submitData(it)
+            }
+        }
+        binding.recyclerSeeall.adapter = pagingAdapter
 
     }
 
@@ -137,25 +128,18 @@ class top_ratedFragment : Fragment() {
 
 
     }
-
-
-
-
-    override fun onStart() {
-        super.onStart()
-
+    fun perform_internet(){
         if (checkForInternet(requireContext())) {
             binding.shimmerRecyclerSeeall.stopShimmerAnimation()
             binding.shimmerRecyclerSeeall.visibility = View.INVISIBLE
             binding.recyclerSeeall.visibility = View.VISIBLE
-            binding.recyclerPages.visibility = View.VISIBLE
+
         } else {
             binding.shimmerRecyclerSeeall.startShimmerAnimation()
             binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
         }
-
-
     }
+
 
     private fun checkForInternet(context: Context): Boolean {
 

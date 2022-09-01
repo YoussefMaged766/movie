@@ -64,6 +64,26 @@ class MoviesRepo {
         }
 
         fun getUpComingMovies(): MutableLiveData<List<movie>> {
+            apimanager.getwebbservices()
+                .getupcomingmovies()
+                .enqueue(object : Callback<TopRatedResponse> {
+                    override fun onResponse(
+                        call: Call<TopRatedResponse>,
+                        response: Response<TopRatedResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            response_upcoming.value = response.body()?.results
+
+
+                        } else {
+                            errormassage.value = response.message()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
+                        errormassage.value = t.localizedMessage
+                    }
+                })
 
             return response_upcoming
 

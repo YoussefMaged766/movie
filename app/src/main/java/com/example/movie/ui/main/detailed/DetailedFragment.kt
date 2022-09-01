@@ -30,15 +30,15 @@ class detailedFragment : Fragment() {
 
     lateinit var binding: FragmentDetailedBinding
     lateinit var viewModel: movedetaild_viewmodel
-//    lateinit var viewmodel2: homefragment_viewmodel
+
+    //    lateinit var viewmodel2: homefragment_viewmodel
     lateinit var databaseViewmodel: Database_viewmodel
     var data: movie? = null
     lateinit var adapter: adapter_recommended
-    lateinit var array: ArrayList<movie>
+    var list = ArrayList<movie>()
     var hashMap: HashMap<Int, String> = HashMap()
     lateinit var mPrefs: SharedPreferences
-    var favourite_movie: ArrayList<movie> = ArrayList()
-     var like:Int?=null
+    var like: Int? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,15 +59,15 @@ class detailedFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailed, container, false)
 
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        view.visibility=View.GONE
+        view.visibility = View.GONE
         viewModel = ViewModelProvider(this).get(movedetaild_viewmodel::class.java)
-//        viewmodel2 = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
         databaseViewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
-        mPrefs = activity?.getPreferences(MODE_PRIVATE)!!
-        var id_select = mPrefs.getString("id", "")
-        var img_select = mPrefs.getBoolean("favourite",false)
 
-        if (id_select == data?.id.toString() && (img_select==true) ){
+        mPrefs = activity?.getPreferences(MODE_PRIVATE)!!
+        val id_select = mPrefs.getString("id", "")
+        val img_select = mPrefs.getBoolean("favourite", false)
+
+        if (id_select == data?.id.toString() && (img_select == true)) {
             binding.imageViewAnimation.isSelected = true
         } else {
             binding.imageViewAnimation.isSelected = false
@@ -75,14 +75,10 @@ class detailedFragment : Fragment() {
 
 
 
-//and in if
+
 
 
         display_movie_detailes()
-
-
-
-
 
 
         append_genre()
@@ -100,14 +96,9 @@ class detailedFragment : Fragment() {
             startActivity(intent)
         })
 
-        array = ArrayList()
-        adapter = adapter_recommended(array)
-        var layoutManager1 = CenterZoomLayoutManager(requireContext())
-        layoutManager1.orientation = LinearLayoutManager.HORIZONTAL
-        binding.recyclerRecommendation.layoutManager = layoutManager1
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(binding.recyclerRecommendation)
-        binding.recyclerRecommendation.adapter = adapter
+
+        recycler()
+
         viewModel.getrecommended_movie(data?.id)
         viewModel.response_reccommended.observe(requireActivity(), Observer {
             adapter.getdata(it as ArrayList<movie>)
@@ -116,6 +107,16 @@ class detailedFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    fun recycler() {
+        adapter = adapter_recommended(list)
+        val layoutManager1 = CenterZoomLayoutManager(requireContext())
+        layoutManager1.orientation = LinearLayoutManager.HORIZONTAL
+        binding.recyclerRecommendation.layoutManager = layoutManager1
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.recyclerRecommendation)
+        binding.recyclerRecommendation.adapter = adapter
     }
 
     fun append_genre() {
@@ -138,7 +139,7 @@ class detailedFragment : Fragment() {
         hashMap.put(53, "Thriller")
         hashMap.put(10752, "War")
         hashMap.put(37, "Western")
-        if (data?.genreIds!=null) {
+        if (data?.genreIds != null) {
             for (id in data?.genreIds!!) {
                 for (key in hashMap.keys) {
                     if (key == id) {
@@ -153,11 +154,11 @@ class detailedFragment : Fragment() {
     fun image_heart_select() {
         binding.imageViewHeart.setOnClickListener {
             if (binding.imageViewAnimation.isSelected) {
-                if (like==1){
+                if (like == 1) {
                     binding.imageViewAnimation.isSelected = false
                     databaseViewmodel.UnFavoriteMovie(data?.id)
                     databaseViewmodel.deleteMovie(data)
-                    like=0
+                    like = 0
 
                 }
 
@@ -178,7 +179,7 @@ class detailedFragment : Fragment() {
                 binding.imageViewAnimation.likeAnimation()
                 databaseViewmodel.insertMovie(data)
                 databaseViewmodel.setFavoriteMovie(data?.id)
-                like=1
+                like = 1
 
 //                mPrefs.edit().putBoolean("favourite", like).apply()
 //                mPrefs.edit().putString("id", data?.id.toString()).apply()
@@ -201,11 +202,11 @@ class detailedFragment : Fragment() {
         }
 
         data?.id?.let { databaseViewmodel.IsFavorite(it) }?.observe(requireActivity(), Observer {
-            if (it!=null){
-                like=it
-                if (it==1){
+            if (it != null) {
+                like = it
+                if (it == 1) {
                     binding.imageViewAnimation.isSelected = true
-                }else{
+                } else {
                     binding.imageViewAnimation.isSelected = false
                 }
             }

@@ -21,7 +21,7 @@ import androidx.navigation.fragment.NavHostFragment
 
 
 class adapter_recommended(var list: ArrayList<movie>?) :
-    RecyclerView.Adapter<adapter_recommended.viewholder>(), Filterable {
+    RecyclerView.Adapter<adapter_recommended.viewholder>() {
     private val searchList = ArrayList<movie>(list)
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -72,40 +72,7 @@ class adapter_recommended(var list: ArrayList<movie>?) :
 
     }
 
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence): FilterResults {
-                val filteredList = ArrayList<movie>()
 
-                if (constraint.isBlank() or constraint.isEmpty()) {
-                    filteredList.addAll(searchList)
-                } else {
-//                    val filterPattern = constraint.toString().lowercase(Locale.ROOT)
-
-                    searchList.forEach {
-                        if (it.title?.lowercase(Locale.getDefault())?.contains(
-                                constraint.toString().lowercase(Locale.getDefault())
-                            ) == true
-                        ) {
-                            filteredList.add(it)
-
-
-                        }
-                    }
-                }
-                val result = FilterResults()
-                result.values = filteredList
-                return result
-            }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                list?.clear()
-                list?.addAll(results!!.values as List<movie>)
-                notifyDataSetChanged()
-            }
-
-        }
-    }
 
 
 }

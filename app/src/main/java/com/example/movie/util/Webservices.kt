@@ -8,11 +8,11 @@ import retrofit2.http.Query
 
 interface webservices {
 
-    @GET("movie/top_rated?")
+    @GET("movie/top_rated")
     fun getTopRatedmovies(
     ): Call<TopRatedResponse>
 
-    @GET("movie/top_rated?")
+    @GET("movie/top_rated")
     suspend fun getTopRatedmoviespaging(
         @Query("page") page: Int
     ): TopRatedResponse
@@ -20,13 +20,22 @@ interface webservices {
 
     @GET("movie/upcoming?")
     fun getupcomingmovies(
-        @Query("page") page: Int
     ): Call<TopRatedResponse>
+
+    @GET("movie/upcoming")
+   suspend fun getupcomingmoviesPaging(
+        @Query("page") page: Int
+    ): TopRatedResponse
 
     @GET("movie/popular?")
     fun getpopularmovies(
 
     ): Call<TopRatedResponse>
+
+    @GET("movie/popular")
+   suspend fun getpopularmoviesPaging(
+        @Query("page") page: Int
+    ): TopRatedResponse
 
     @GET("movie/{movie_id}/videos?")
     fun get_trailer(

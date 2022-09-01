@@ -26,7 +26,7 @@ class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(Movie
         fun bind(data: movie) {
             txtTitle.text = data.title
             txtdate.text = data.releaseDate
-            Glide.with(itemView).load(constants.img_link + data?.posterPath).into(img)
+            Glide.with(itemView).load(constants.img_link + data.posterPath).into(img)
         }
     }
 
@@ -37,7 +37,7 @@ class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(Movie
             var bundle = Bundle()
             bundle.putSerializable("movie_details", getItem(position))
             it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
-//            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
+
 
 
         }

@@ -18,6 +18,8 @@ import com.example.movie.models.TopRatedResponse
 import com.example.movie.util.apimanager
 import com.example.movie.util.constants
 import com.example.movie.models.movie
+import com.example.movie.ui.main.toprated.MoviePopularPagingSource
+import com.example.movie.ui.main.toprated.MovieUpComingPagingSource
 import com.example.movie.ui.main.toprated.MoviesPagingSource
 
 import com.example.movie.util.webservices
@@ -35,76 +37,35 @@ class homefragment_viewmodel : ViewModel() {
      var response_upcoming: MutableLiveData<List<movie>> = MutableLiveData()
      var response_popular: MutableLiveData<List<movie>> = MutableLiveData()
 
-    var errormassage: MutableLiveData<String> = MutableLiveData()
-
-
-
-
 init {
     getPopularData()
     getTopRatedData()
-//    getUpComingData()
+    getUpComingData()
 }
-
-
-
-
-
-
-
-    fun getdatafromapi_toprated() {
-
-
-    }
-
-    fun getdatafromapi_upcoming(page:Int) {
-        apimanager.getwebbservices()
-            .getupcomingmovies(page)
-            .enqueue(object : Callback<TopRatedResponse> {
-                override fun onResponse(
-                    call: Call<TopRatedResponse>,
-                    response: Response<TopRatedResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        response_upcoming.value = response.body()?.results
-
-
-                    } else {
-                        errormassage.value = response.message()
-                    }
-                }
-
-                override fun onFailure(call: Call<TopRatedResponse>, t: Throwable) {
-                    errormassage.value = t.localizedMessage
-                }
-            })
-
-    }
-
-    fun getdatafromapi_poppular() {
-
-
-    }
-
-//    fun get_data(): MutableLiveData<List<movie?>> {
-//        return response_toprated
-//    }
 
     fun getTopRatedData(){
         response_toprated = MoviesRepo.getTopRatedMovies()
     }
-//    fun getUpComingData(){
-//        response_upcoming = MoviesRepo.getUpComingMovies()
-//    }
+    fun getUpComingData(){
+        response_upcoming = MoviesRepo.getUpComingMovies()
+    }
     fun  getPopularData(){
         response_popular = MoviesRepo.getPopularMovies()
         Log.e("getPopularData: ","hello" )
     }
 
 
-    fun getListData(): Flow<PagingData<movie>> {
+    fun getListDataTopRated(): Flow<PagingData<movie>> {
         return Pager (config = PagingConfig(pageSize = 20, enablePlaceholders = true),
             pagingSourceFactory = {MoviesPagingSource(apimanager.getwebbservices())}).flow.cachedIn(viewModelScope)
+    }
+    fun getListDataPopular(): Flow<PagingData<movie>> {
+        return Pager (config = PagingConfig(pageSize = 20, enablePlaceholders = true),
+            pagingSourceFactory = {MoviePopularPagingSource(apimanager.getwebbservices())}).flow.cachedIn(viewModelScope)
+    }
+    fun getListDataUpComing(): Flow<PagingData<movie>> {
+        return Pager (config = PagingConfig(pageSize = 20, enablePlaceholders = true),
+            pagingSourceFactory = { MovieUpComingPagingSource(apimanager.getwebbservices()) }).flow.cachedIn(viewModelScope)
     }
 
 }

@@ -1,48 +1,41 @@
 package com.example.movie.ui.main.toprated
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.movie.models.movie
-import com.example.movie.util.constants
 import com.example.movie.util.webservices
-import kotlinx.coroutines.delay
 import retrofit2.HttpException
 import java.io.IOException
-import kotlin.math.max
 
 private const val TMDB_STARTING_PAGE_INDEX = 1
 
-class MoviesPagingSource(val webservices: webservices) : PagingSource<Int, movie>() {
-
-
-
+class MovieUpComingPagingSource(val webservices: webservices) : PagingSource<Int, movie>() {
     override fun getRefreshKey(state: PagingState<Int, movie>): Int? {
-        TODO("not")
-
+        TODO("Not yet implemented")
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, movie> {
+
         val pageIndex = params.key ?: TMDB_STARTING_PAGE_INDEX
 
         return try {
-            val responseTopRated = webservices.getTopRatedmoviespaging(page = pageIndex)
-            val movies = responseTopRated.results
+            val responseUpComing = webservices.getupcomingmoviesPaging(page = pageIndex)
+            val movies = responseUpComing.results
             val nextKey = if (movies.isEmpty()) null else pageIndex + 1
-            val prevKey =  if (pageIndex == TMDB_STARTING_PAGE_INDEX) null else pageIndex - 1
+            val prevKey = if (pageIndex == TMDB_STARTING_PAGE_INDEX) null else pageIndex - 1
+
 
             LoadResult.Page(
                 data = movies,
-               prevKey = prevKey,
-                nextKey = nextKey
+                nextKey = nextKey,
+                prevKey = prevKey
             )
+
 
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
         } catch (exception: HttpException) {
             return LoadResult.Error(exception)
         }
-
-
     }
 }
