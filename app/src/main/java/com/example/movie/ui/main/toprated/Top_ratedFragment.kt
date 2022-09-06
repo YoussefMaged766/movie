@@ -18,25 +18,25 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movie.R
 import com.example.movie.adapter.paging_adapter
 import com.example.movie.databinding.FragmentTopRatedBinding
-import com.example.movie.models.movie
 import com.example.movie.ui.main.home.homefragment_viewmodel
-import com.example.movie.util.apimanager
-import com.example.movie.util.webservices
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class top_ratedFragment : Fragment() {
 
     lateinit var binding: FragmentTopRatedBinding
     var pagingAdapter: paging_adapter = paging_adapter()
+
     val viewModel: homefragment_viewmodel by activityViewModels()
     lateinit var data: String
     lateinit var layoutManager: GridLayoutManager
-     var state :Parcelable?=null
-    var position=0
+    var state: Parcelable? = null
+    var position = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,46 +71,45 @@ class top_ratedFragment : Fragment() {
         init_recycler()
         perform_internet()
 
-
-        binding.shimmerRecyclerSeeall.startShimmerAnimation()
         binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
+        binding.shimmerRecyclerSeeall.startShimmerAnimation()
 
-    if (data == "Top Rated Movies") {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.getListDataTopRated().collectLatest {
-                pagingAdapter.submitData(it)
+
+        if (data == "Top Rated Movies") {
+
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){
+                viewModel.getListDataTopRated().collect {
+                    pagingAdapter.submitData(lifecycle, it)
+                }
+
             }
+
+
+
+            binding.recyclerSeeall.adapter = pagingAdapter
+
         }
+        if (data == "Up Coming Movies") {
 
-
-        binding.recyclerSeeall.adapter = pagingAdapter
-
-    }
-    if (data == "Up Coming Movies") {
-
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.getListDataUpComing().collectLatest {
-                pagingAdapter.submitData(it)
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                viewModel.getListDataUpComing().collectLatest {
+                    pagingAdapter.submitData(it)
+                }
             }
+            binding.recyclerSeeall.adapter = pagingAdapter
+
+
         }
-        binding.recyclerSeeall.adapter = pagingAdapter
+        if (data == "Popular Movies") {
 
-
-    }
-    if (data == "Popular Movies") {
-
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.getListDataPopular().collectLatest {
-                pagingAdapter.submitData(it)
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                viewModel.getListDataPopular().collectLatest {
+                    pagingAdapter.submitData(it)
+                }
             }
+            binding.recyclerSeeall.adapter = pagingAdapter
+
         }
-        binding.recyclerSeeall.adapter = pagingAdapter
-
-    }
-
-
-
-
 
 
     }
@@ -128,7 +127,8 @@ class top_ratedFragment : Fragment() {
 
 
     }
-    fun perform_internet(){
+
+    fun perform_internet() {
         if (checkForInternet(requireContext())) {
             binding.shimmerRecyclerSeeall.stopShimmerAnimation()
             binding.shimmerRecyclerSeeall.visibility = View.INVISIBLE
@@ -183,7 +183,7 @@ class top_ratedFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         state = binding.recyclerSeeall.layoutManager?.onSaveInstanceState()
-        outState.putParcelable("SAVED_RECYCLER_VIEW_STATUS_ID" , state)
+        outState.putParcelable("SAVED_RECYCLER_VIEW_STATUS_ID", state)
         super.onSaveInstanceState(outState)
     }
 }

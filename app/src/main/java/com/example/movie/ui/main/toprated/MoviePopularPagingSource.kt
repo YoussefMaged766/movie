@@ -1,9 +1,13 @@
 package com.example.movie.ui.main.toprated
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.movie.models.movie
 import com.example.movie.util.webservices
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -19,6 +23,7 @@ class MoviePopularPagingSource(val webservices: webservices) : PagingSource<Int,
         val pageIndex = params.key ?: TMDB_STARTING_PAGE_INDEX
 
         return try {
+            Log.e("load: ",Thread.currentThread().name )
             val responsePopular = webservices.getpopularmoviesPaging(page = pageIndex)
             val movies = responsePopular.results
             val nextKey = if (movies.isEmpty()) null else pageIndex + 1

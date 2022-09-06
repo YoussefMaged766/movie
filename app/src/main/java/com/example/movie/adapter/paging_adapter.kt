@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
+import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,9 +18,11 @@ import com.bumptech.glide.Glide
 import com.example.movie.R
 import com.example.movie.models.movie
 import com.example.movie.util.constants
+import java.util.*
+import kotlin.collections.ArrayList
 
-class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(MovieDiffCallBack()) {
-
+class paging_adapter() : PagingDataAdapter<movie, paging_adapter.viewholder>(MovieDiffCallBack()) {
+    private val searchList = ArrayList<movie>()
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
         var txtTitle = itemView.findViewById<TextView>(R.id.txttitle)
@@ -48,6 +53,9 @@ class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(Movie
         return viewholder(view)
     }
 
+
+
+
 }
 
 class MovieDiffCallBack : DiffUtil.ItemCallback<movie>() {
@@ -58,4 +66,6 @@ class MovieDiffCallBack : DiffUtil.ItemCallback<movie>() {
     override fun areContentsTheSame(oldItem: movie, newItem: movie): Boolean {
         return oldItem == newItem
     }
+
+
 }

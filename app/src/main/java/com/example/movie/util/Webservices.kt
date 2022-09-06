@@ -9,8 +9,8 @@ import retrofit2.http.Query
 interface webservices {
 
     @GET("movie/top_rated")
-    fun getTopRatedmovies(
-    ): Call<TopRatedResponse>
+  suspend  fun getTopRatedmovies(
+    ): TopRatedResponse
 
     @GET("movie/top_rated")
     suspend fun getTopRatedmoviespaging(

@@ -171,7 +171,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txt_toprated"
                         android:layout_marginTop="10dp"
-
                         android:visibility="invisible"/>
 
                     <TextView

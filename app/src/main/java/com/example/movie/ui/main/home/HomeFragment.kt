@@ -9,10 +9,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,9 +27,10 @@ import com.example.movie.adapter.category_adapter
 import com.example.movie.databinding.FragmentHomeBinding
 import com.example.movie.models.movie
 import com.example.movie.ui.main.MainActivity
-import com.example.movie.util.CenterZoomLayoutManager
-import com.example.movie.util.constants
+import com.example.movie.util.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -34,6 +39,7 @@ class HomeFragment : Fragment() {
     lateinit var adapter_category: category_adapter
     lateinit var adapterMovie: adapter
     lateinit var binding: FragmentHomeBinding
+    lateinit var mainViewModel: MainViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +56,10 @@ class HomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 //        viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
-
+        mainViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(apimanager.getwebbservices())
+        ).get(MainViewModel::class.java)
 
         return binding.root
     }
@@ -95,10 +104,7 @@ class HomeFragment : Fragment() {
 
     fun recycler() {
 
-//        adapter_toprated = adapter(movie_toprated)
-//        adapter_coming = adapter(movie_coming)
-//        adapter_popular = adapter(movie_popular)
-
+        adapterMovie =adapter(arrayListOf())
         val snapHelper = LinearSnapHelper()
         val snapHelper2 = LinearSnapHelper()
         val snapHelper3 = LinearSnapHelper()
@@ -166,8 +172,8 @@ class HomeFragment : Fragment() {
     }
 
     fun show_shimmer() {
-        binding.shimmerRecycler.startShimmerAnimation()
-        binding.shimmerRecycler.visibility = View.VISIBLE
+//        binding.shimmerRecycler.startShimmerAnimation()
+//        binding.shimmerRecycler.visibility = View.VISIBLE
         binding.shimmerRecycler2.startShimmerAnimation()
         binding.shimmerRecycler2.visibility = View.VISIBLE
         binding.shimmerRecycler3.startShimmerAnimation()
@@ -194,14 +200,47 @@ class HomeFragment : Fragment() {
     }
 
     fun observation() {
-        viewModel.response_toprated.observe(requireActivity(), Observer {
-            binding.shimmerRecycler.stopShimmerAnimation()
-            binding.shimmerRecycler.visibility = View.INVISIBLE
-            adapterMovie = adapter(it as ArrayList<movie>?)
-            binding.recyclerToprated.adapter = adapterMovie
+//        viewModel.response_toprated.observe(requireActivity(), Observer {
+//            binding.shimmerRecycler.stopShimmerAnimation()
+//            binding.shimmerRecycler.visibility = View.INVISIBLE
+//            adapterMovie = adapter(it as ArrayList<movie>?)
+//            binding.recyclerToprated.adapter = adapterMovie
+//
+//
+//        })
+        viewLifecycleOwner.lifecycleScope.launch{
+
+            mainViewModel.getMovies().observe(requireActivity(), Observer {
+                it?.let { resource ->
+                    when (resource.status) {
+                        Status.SUCCESS -> {
+                            binding.recyclerToprated.visibility = View.VISIBLE
+                            binding.shimmerRecycler.visibility = View.INVISIBLE
+                            binding.shimmerRecycler.stopShimmerAnimation()
+                            resource.data.let {response->
+                                adapterMovie = adapter(response?.results as ArrayList<movie>?)
+                                binding.recyclerToprated.adapter = adapterMovie
+                            }
 
 
-        })
+                        }
+                        Status.ERROR -> {
+                            binding.recyclerToprated.visibility = View.VISIBLE
+                            binding.shimmerRecycler.visibility =View.GONE
+                            binding.shimmerRecycler.stopShimmerAnimation()
+                            Toast.makeText(requireActivity() ,it.message ,Toast.LENGTH_SHORT).show()
+                        }
+                        Status.LOADING -> {
+
+                            binding.shimmerRecycler.visibility = View.VISIBLE
+                            binding.shimmerRecycler.startShimmerAnimation()
+                            binding.recyclerToprated.visibility= View.INVISIBLE
+                        }
+                    }
+                }
+            })
+        }
+
 
 
         viewModel.response_upcoming.observe(requireActivity(), Observer {
@@ -223,6 +262,8 @@ class HomeFragment : Fragment() {
 
         })
     }
+
+
 
 
     private fun checkForInternet(context: Context): Boolean {
