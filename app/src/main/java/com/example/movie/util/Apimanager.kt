@@ -50,8 +50,8 @@ class apimanager {
             return retrofit!!
         }
 
-        fun getwebbservices(): webservices {
-            return getinstance().create(webservices::class.java)
+        fun getwebbservices(): WebServices {
+            return getinstance().create(WebServices::class.java)
 
         }
     }

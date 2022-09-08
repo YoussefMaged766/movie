@@ -85,7 +85,8 @@ class HomeFragment : Fragment() {
             binding.recyclerToprated.visibility = View.VISIBLE
             binding.recyclerPopular.visibility = View.VISIBLE
             binding.recyclerUpcoming.visibility = View.VISIBLE
-        } else {
+        }
+        else {
             binding.shimmerRecycler.startShimmerAnimation()
             binding.shimmerRecycler.visibility = View.VISIBLE
             binding.shimmerRecycler2.startShimmerAnimation()
@@ -94,7 +95,7 @@ class HomeFragment : Fragment() {
             binding.shimmerRecycler3.visibility = View.VISIBLE
         }
 
-        show_shimmer()
+
         navigation()
         observation()
 
@@ -115,11 +116,11 @@ class HomeFragment : Fragment() {
         binding.recyclerUpcoming.isNestedScrollingEnabled = false
         binding.recyclerPopular.isNestedScrollingEnabled = false
 
-        var layoutManager1 = CenterZoomLayoutManager(requireContext())
+        val layoutManager1 = CenterZoomLayoutManager(requireContext())
         layoutManager1.orientation = LinearLayoutManager.HORIZONTAL
-        var layoutManager2 = CenterZoomLayoutManager(requireContext())
+        val layoutManager2 = CenterZoomLayoutManager(requireContext())
         layoutManager2.orientation = LinearLayoutManager.HORIZONTAL
-        var layoutManager3 = CenterZoomLayoutManager(requireContext())
+        val layoutManager3 = CenterZoomLayoutManager(requireContext())
         layoutManager3.orientation = LinearLayoutManager.HORIZONTAL
 
         binding.recyclerToprated.layoutManager = layoutManager1
@@ -140,17 +141,11 @@ class HomeFragment : Fragment() {
                 val b = Bundle()
                 b.putString("search", query.toString())
                 findNavController().navigate(R.id.action_nav_home_to_searchFragment, b)
-
                 return false
             }
 
             @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextChange(newText: String?): Boolean {
-
-//                adapter_toprated.filter.filter(newText)
-//                adapter_coming.filter.filter(newText)
-//                adapter_popular.filter.filter(newText)
-
 
                 return true
 
@@ -161,24 +156,8 @@ class HomeFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        binding.shimmerRecycler.startShimmerAnimation()
-    }
 
-    override fun onPause() {
-        binding.shimmerRecycler.stopShimmerAnimation()
-        super.onPause()
-    }
 
-    fun show_shimmer() {
-//        binding.shimmerRecycler.startShimmerAnimation()
-//        binding.shimmerRecycler.visibility = View.VISIBLE
-        binding.shimmerRecycler2.startShimmerAnimation()
-        binding.shimmerRecycler2.visibility = View.VISIBLE
-        binding.shimmerRecycler3.startShimmerAnimation()
-        binding.shimmerRecycler3.visibility = View.VISIBLE
-    }
 
     fun navigation() {
         val bundle = Bundle()
@@ -200,17 +179,10 @@ class HomeFragment : Fragment() {
     }
 
     fun observation() {
-//        viewModel.response_toprated.observe(requireActivity(), Observer {
-//            binding.shimmerRecycler.stopShimmerAnimation()
-//            binding.shimmerRecycler.visibility = View.INVISIBLE
-//            adapterMovie = adapter(it as ArrayList<movie>?)
-//            binding.recyclerToprated.adapter = adapterMovie
-//
-//
-//        })
+
         viewLifecycleOwner.lifecycleScope.launch{
 
-            mainViewModel.getMovies().observe(requireActivity(), Observer {
+            mainViewModel.getTopRatedMovies().observe(requireActivity(), Observer {
                 it?.let { resource ->
                     when (resource.status) {
                         Status.SUCCESS -> {
@@ -221,8 +193,6 @@ class HomeFragment : Fragment() {
                                 adapterMovie = adapter(response?.results as ArrayList<movie>?)
                                 binding.recyclerToprated.adapter = adapterMovie
                             }
-
-
                         }
                         Status.ERROR -> {
                             binding.recyclerToprated.visibility = View.VISIBLE
@@ -231,7 +201,6 @@ class HomeFragment : Fragment() {
                             Toast.makeText(requireActivity() ,it.message ,Toast.LENGTH_SHORT).show()
                         }
                         Status.LOADING -> {
-
                             binding.shimmerRecycler.visibility = View.VISIBLE
                             binding.shimmerRecycler.startShimmerAnimation()
                             binding.recyclerToprated.visibility= View.INVISIBLE
@@ -239,28 +208,60 @@ class HomeFragment : Fragment() {
                     }
                 }
             })
+            mainViewModel.getUpComingMovies().observe(requireActivity(), Observer {
+                it?.let { resource ->
+                    when (resource.status) {
+                        Status.SUCCESS -> {
+                            binding.recyclerUpcoming.visibility = View.VISIBLE
+                            binding.shimmerRecycler2.visibility = View.INVISIBLE
+                            binding.shimmerRecycler2.stopShimmerAnimation()
+                            resource.data.let {response->
+                                adapterMovie = adapter(response?.results as ArrayList<movie>?)
+                                binding.recyclerUpcoming.adapter = adapterMovie
+                            }
+                        }
+                        Status.ERROR -> {
+                            binding.recyclerUpcoming.visibility = View.VISIBLE
+                            binding.shimmerRecycler2.visibility =View.GONE
+                            binding.shimmerRecycler2.stopShimmerAnimation()
+                            Toast.makeText(requireActivity() ,it.message ,Toast.LENGTH_SHORT).show()
+                        }
+                        Status.LOADING -> {
+                            binding.shimmerRecycler2.visibility = View.VISIBLE
+                            binding.shimmerRecycler2.startShimmerAnimation()
+                            binding.recyclerUpcoming.visibility= View.INVISIBLE
+                        }
+                    }
+                }
+            })
+            mainViewModel.getPopularMovies().observe(requireActivity(), Observer {
+                it?.let { resource ->
+                    when (resource.status) {
+                        Status.SUCCESS -> {
+                            binding.recyclerPopular.visibility = View.VISIBLE
+                            binding.shimmerRecycler3.visibility = View.INVISIBLE
+                            binding.shimmerRecycler3.stopShimmerAnimation()
+                            resource.data.let {response->
+                                adapterMovie = adapter(response?.results as ArrayList<movie>?)
+                                binding.recyclerPopular.adapter = adapterMovie
+                            }
+                        }
+                        Status.ERROR -> {
+                            binding.recyclerPopular.visibility = View.VISIBLE
+                            binding.shimmerRecycler3.visibility =View.GONE
+                            binding.shimmerRecycler3.stopShimmerAnimation()
+                            Toast.makeText(requireActivity() ,it.message ,Toast.LENGTH_SHORT).show()
+                        }
+                        Status.LOADING -> {
+                            binding.shimmerRecycler3.visibility = View.VISIBLE
+                            binding.shimmerRecycler3.startShimmerAnimation()
+                            binding.recyclerPopular.visibility= View.INVISIBLE
+                        }
+                    }
+                }
+            })
         }
 
-
-
-        viewModel.response_upcoming.observe(requireActivity(), Observer {
-            binding.shimmerRecycler2.stopShimmerAnimation()
-            binding.shimmerRecycler2.visibility = View.INVISIBLE
-            adapterMovie = adapter(it as ArrayList<movie>?)
-            binding.recyclerUpcoming.adapter = adapterMovie
-
-
-        })
-
-
-
-        viewModel.response_popular.observe(requireActivity(), Observer {
-            binding.shimmerRecycler3.stopShimmerAnimation()
-            binding.shimmerRecycler3.visibility = View.INVISIBLE
-            adapterMovie = adapter(it as ArrayList<movie>?)
-            binding.recyclerPopular.adapter = adapterMovie
-
-        })
     }
 
 
@@ -306,31 +307,31 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-        inflater.inflate(R.menu.search_menu, menu)
-        var item = menu.findItem(R.id.searchView_MenuMain)
-        val searchView = SearchView(
-            (context as MainActivity).supportActionBar!!.themedContext
-        )
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.e("onQueryTextSubmit1: ", query.toString())
-
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-
-                return true
-            }
-
-        })
-
-
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        menu.clear()
+//        inflater.inflate(R.menu.search_menu, menu)
+//        var item = menu.findItem(R.id.searchView_MenuMain)
+//        val searchView = SearchView(
+//            (context as MainActivity).supportActionBar!!.themedContext
+//        )
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                Log.e("onQueryTextSubmit1: ", query.toString())
+//
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//
+//                return true
+//            }
+//
+//        })
+//
+//
+//    }
 
 
 }

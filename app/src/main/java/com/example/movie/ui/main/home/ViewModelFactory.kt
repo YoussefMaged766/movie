@@ -2,11 +2,10 @@ package com.example.movie.ui.main.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.movie.Repository.MoviesRepo
-import com.example.movie.util.apimanager
-import com.example.movie.util.webservices
+import com.example.movie.Repository.MainRepository
+import com.example.movie.util.WebServices
 
-class ViewModelFactory(private val webservices: webservices ):ViewModelProvider.Factory {
+class ViewModelFactory(private val webservices: WebServices):ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(MainRepository(webservices)) as T

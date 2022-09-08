@@ -7,7 +7,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.movie.Repository.MoviesRepo
 import com.example.movie.util.apimanager
 import com.example.movie.models.movie
 import com.example.movie.ui.main.toprated.MoviePopularPagingSource
@@ -21,28 +20,13 @@ import kotlinx.coroutines.flow.Flow
 
 class homefragment_viewmodel : ViewModel() {
 
-    var response_upcoming: MutableLiveData<List<movie>> = MutableLiveData()
-    var response_popular: MutableLiveData<List<movie>> = MutableLiveData()
-
-
     init {
-        getPopularData()
-        getUpComingData()
+
         getListDataTopRated()
         getListDataPopular()
         getListDataUpComing()
     }
 
-
-
-    fun getUpComingData() {
-        response_upcoming = MoviesRepo.getUpComingMovies()
-    }
-
-    fun getPopularData() {
-        response_popular = MoviesRepo.getPopularMovies()
-        Log.e("getPopularData: ", "hello")
-    }
 
 
     fun getListDataTopRated(): Flow<PagingData<movie>> {

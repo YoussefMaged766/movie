@@ -24,19 +24,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class top_ratedFragment : Fragment() {
 
     lateinit var binding: FragmentTopRatedBinding
     var pagingAdapter: paging_adapter = paging_adapter()
-
     val viewModel: homefragment_viewmodel by activityViewModels()
     lateinit var data: String
     lateinit var layoutManager: GridLayoutManager
     var state: Parcelable? = null
     var position = 0
+    var positionIndex = 0
+    var topView = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +67,6 @@ class top_ratedFragment : Fragment() {
         viewVav.visibility = View.GONE
 
 
-
         init_recycler()
         perform_internet()
 
@@ -77,7 +76,7 @@ class top_ratedFragment : Fragment() {
 
         if (data == "Top Rated Movies") {
 
-            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                 viewModel.getListDataTopRated().collect {
                     pagingAdapter.submitData(lifecycle, it)
                 }
@@ -116,15 +115,8 @@ class top_ratedFragment : Fragment() {
 
 
     fun init_recycler() {
-        binding.apply {
-            recyclerSeeall.apply {
-                layoutManager = GridLayoutManager(requireContext(), 2)
-                recyclerSeeall.layoutManager = layoutManager
-
-
-            }
-        }
-
+        layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerSeeall.layoutManager = layoutManager
 
     }
 
@@ -185,5 +177,23 @@ class top_ratedFragment : Fragment() {
         state = binding.recyclerSeeall.layoutManager?.onSaveInstanceState()
         outState.putParcelable("SAVED_RECYCLER_VIEW_STATUS_ID", state)
         super.onSaveInstanceState(outState)
+    }
+
+    //save recycler position
+
+    override fun onPause() {
+        super.onPause()
+        positionIndex = layoutManager.findFirstVisibleItemPosition()
+        val startView: View = binding.recyclerSeeall.getChildAt(0)
+        topView =
+            startView.top - binding.recyclerSeeall.getPaddingTop()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (positionIndex != -1) {
+            layoutManager.scrollToPositionWithOffset(positionIndex, topView);
+        }
     }
 }

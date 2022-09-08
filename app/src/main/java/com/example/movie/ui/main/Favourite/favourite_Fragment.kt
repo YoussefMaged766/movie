@@ -3,28 +3,26 @@ package com.example.movie.ui.main.Favourite
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movie.R
-import com.example.movie.adapter.favourite_adapter
+import com.example.movie.adapter.FavouriteAdapter
 import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentTVBinding
 import com.example.movie.models.movie
+import com.example.movie.ui.main.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class favourite_Fragment : Fragment() {
 
     lateinit var binding: FragmentTVBinding
-    var adapter: favourite_adapter = favourite_adapter()
-    var mPrefs: SharedPreferences? = null
-    lateinit var movielist: ArrayList<movie>
+     lateinit var adapter: FavouriteAdapter
     lateinit var viewmodel: Database_viewmodel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,28 +40,12 @@ class favourite_Fragment : Fragment() {
         viewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         view.visibility = View.VISIBLE
-//        mPrefs = activity?.getPreferences(Context.MODE_PRIVATE)!!
-//        val gson = Gson()
-//        val json: String? = mPrefs?.getString("MyObject", null)
-//        val type: Type = object : TypeToken<ArrayList<movie?>?>() {}.type
-//         movielist = gson.fromJson(json, type)
-//
-//
-//            if (movielist.isEmpty()){
-//
-//                movielist=ArrayList()
-//                binding.txtNodata.visibility =View.VISIBLE
-//
-//            }else{
-//                binding.txtNodata.visibility =View.GONE
-//                adapter=adapter((movielist))
-//                binding.recyclerFavourite.adapter=adapter
-//            }
-        binding.recyclerFavourite.setLayoutManager(GridLayoutManager(activity, 2))
+        adapter = FavouriteAdapter()
+        binding.recyclerFavourite.layoutManager = GridLayoutManager(activity, 2)
         binding.recyclerFavourite.setHasFixedSize(true)
         Log.e("onCreateView: ", adapter.itemCount.toString())
 
-
+        setHasOptionsMenu(true)
 
         viewmodel.getAllFavoriteMovies()?.observe(requireActivity(), Observer {
             if (it?.isEmpty() == true) {
@@ -71,21 +53,53 @@ class favourite_Fragment : Fragment() {
                 binding.txtNodata.visibility = View.VISIBLE
                 binding.recyclerFavourite.visibility = View.INVISIBLE
             } else {
-                adapter = favourite_adapter()
                 adapter.getdata(it as ArrayList<movie>)
                 binding.recyclerFavourite.adapter = adapter
+
             }
         })
 
 
+        binding.searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return true
+            }
 
-
-
-
+        })
 
         return binding.root
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        inflater.inflate(R.menu.search_menu, menu)
+//        val item = menu.findItem(R.id.searchView_MenuMain)
+//        val searchView = SearchView(
+//            (context as MainActivity).supportActionBar!!.themedContext
+//        )
+//        item.actionView = searchView
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                Log.e("onQueryTextSubmit1: ", query.toString())
+//
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                adapter.filter.filter(newText)
+//                return false
+//            }
+//
+//        })
+//
+//
+//    }
 
 
 }

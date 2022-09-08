@@ -4,16 +4,13 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.movie.models.movie
-import com.example.movie.util.webservices
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.movie.util.WebServices
 import retrofit2.HttpException
 import java.io.IOException
 
 private const val TMDB_STARTING_PAGE_INDEX = 1
 
-class MoviePopularPagingSource(val webservices: webservices) : PagingSource<Int, movie>() {
+class MoviePopularPagingSource(val webservices: WebServices) : PagingSource<Int, movie>() {
     override fun getRefreshKey(state: PagingState<Int, movie>): Int? {
         TODO("Not yet implemented")
     }
@@ -24,7 +21,7 @@ class MoviePopularPagingSource(val webservices: webservices) : PagingSource<Int,
 
         return try {
             Log.e("load: ",Thread.currentThread().name )
-            val responsePopular = webservices.getpopularmoviesPaging(page = pageIndex)
+            val responsePopular = webservices.getPopularMovies(page = pageIndex)
             val movies = responsePopular.results
             val nextKey = if (movies.isEmpty()) null else pageIndex + 1
             val prevKey =  if (pageIndex == TMDB_STARTING_PAGE_INDEX) null else pageIndex - 1
