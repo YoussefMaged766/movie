@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
-    val viewModel: homefragment_viewmodel by activityViewModels()
+
     lateinit var adapter_category: category_adapter
     lateinit var adapterMovie: adapter
     lateinit var binding: FragmentHomeBinding
@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-//        viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
+
         mainViewModel = ViewModelProvider(
             this,
             ViewModelFactory(apimanager.getwebbservices())

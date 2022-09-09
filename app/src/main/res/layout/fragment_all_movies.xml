@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.toprated.top_ratedFragment">
+        tools:context=".ui.main.toprated.AllMoviesFragment">
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_recycler_seeall"

@@ -17,8 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movie.R
 import com.example.movie.adapter.paging_adapter
-import com.example.movie.databinding.FragmentTopRatedBinding
-import com.example.movie.ui.main.home.homefragment_viewmodel
+import com.example.movie.databinding.FragmentAllMoviesBinding
+import com.example.movie.ui.main.home.AllMoviesFragmentViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -26,11 +26,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class top_ratedFragment : Fragment() {
+class AllMoviesFragment : Fragment() {
 
-    lateinit var binding: FragmentTopRatedBinding
+    lateinit var binding: FragmentAllMoviesBinding
     var pagingAdapter: paging_adapter = paging_adapter()
-    val viewModel: homefragment_viewmodel by activityViewModels()
+    val viewModel: AllMoviesFragmentViewModel by activityViewModels()
     lateinit var data: String
     lateinit var layoutManager: GridLayoutManager
     var state: Parcelable? = null
@@ -53,8 +53,7 @@ class top_ratedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_top_rated, container, false)
-//        viewModel = ViewModelProvider(this).get(homefragment_viewmodel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_movies, container, false)
 
         return binding.root
     }
@@ -82,9 +81,6 @@ class top_ratedFragment : Fragment() {
                 }
 
             }
-
-
-
             binding.recyclerSeeall.adapter = pagingAdapter
 
         }

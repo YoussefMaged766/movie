@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 
-class homefragment_viewmodel : ViewModel() {
+class AllMoviesFragmentViewModel : ViewModel() {
 
     init {
 

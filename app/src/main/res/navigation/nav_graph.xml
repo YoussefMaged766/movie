@@ -95,7 +95,7 @@
     </fragment>
     <fragment
         android:id="@+id/top_ratedFragment"
-        android:name="com.example.movie.ui.main.toprated.top_ratedFragment"
+        android:name="com.example.movie.ui.main.toprated.AllMoviesFragment"
         android:label="All Movies">
 
         <action

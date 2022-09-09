@@ -20,7 +20,6 @@ import com.example.movie.adapter.adapter_recommended
 import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentDetailedBinding
 import com.example.movie.models.movie
-import com.example.movie.ui.main.home.homefragment_viewmodel
 import com.example.movie.util.CenterZoomLayoutManager
 import com.example.movie.util.constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
