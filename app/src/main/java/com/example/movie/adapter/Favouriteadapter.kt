@@ -16,8 +16,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FavouriteAdapter() : RecyclerView.Adapter<FavouriteAdapter.viewholder>(),Filterable{
-    var favoriteMovieList: ArrayList<movie> = ArrayList()
+class FavouriteAdapter(var favoriteMovieList: ArrayList<movie>) : RecyclerView.Adapter<FavouriteAdapter.viewholder>(),Filterable{
+
     private val searchList = ArrayList<movie>(favoriteMovieList)
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -56,7 +56,7 @@ class FavouriteAdapter() : RecyclerView.Adapter<FavouriteAdapter.viewholder>(),F
 
 
     override fun getItemCount(): Int {
-        return favoriteMovieList.size ?: 0
+        return favoriteMovieList.size
     }
 
     fun getdata(data1: ArrayList<movie>) {

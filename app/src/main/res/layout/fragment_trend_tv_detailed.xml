@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".trend_tvFragment">
+        tools:context=".TrendTVDetailsFragment">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">

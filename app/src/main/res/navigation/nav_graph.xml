@@ -137,9 +137,9 @@
     </fragment>
     <fragment
         android:id="@+id/trend_tvFragment"
-        android:name="com.example.movie.trend_tvFragment"
+        android:name="com.example.movie.TrendTVDetailsFragment"
         android:label="Trend"
-        tools:layout="@layout/fragment_trend_tv">
+        tools:layout="@layout/fragment_trend_tv_detailed">
         <argument
             android:name="tv_details"
             app:argType="com.example.movie.models.ResultsItem_trendTV" />

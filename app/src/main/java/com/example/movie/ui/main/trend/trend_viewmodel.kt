@@ -19,13 +19,13 @@ class trend_viewmodel : ViewModel() {
 
     lateinit var movies: MutableLiveData<List<movie>>
     lateinit var tv: MutableLiveData<List<ResultsItem_trendTV?>>
-    lateinit var trailerr: MutableLiveData<String>
+
 
     init {
-        val id = 0
+
         getmoviesdata()
         getTVData()
-        getTvTrailer(id)
+
     }
 
 
@@ -116,9 +116,7 @@ class trend_viewmodel : ViewModel() {
         tv = TrendRepository.getTV()
     }
 
-    fun getTvTrailer(id: Int) {
-        trailerr = TrendRepository.getTvTrailer(id)
-    }
+
 // naming convention
 
 

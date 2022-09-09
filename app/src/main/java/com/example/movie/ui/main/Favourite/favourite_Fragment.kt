@@ -22,8 +22,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class favourite_Fragment : Fragment() {
 
     lateinit var binding: FragmentTVBinding
-     lateinit var adapter: FavouriteAdapter
+    lateinit var adapter: FavouriteAdapter
     lateinit var viewmodel: Database_viewmodel
+    var movieList :ArrayList<movie> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,7 +41,7 @@ class favourite_Fragment : Fragment() {
         viewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         view.visibility = View.VISIBLE
-        adapter = FavouriteAdapter()
+        adapter = FavouriteAdapter(movieList)
         binding.recyclerFavourite.layoutManager = GridLayoutManager(activity, 2)
         binding.recyclerFavourite.setHasFixedSize(true)
         Log.e("onCreateView: ", adapter.itemCount.toString())
@@ -55,19 +56,21 @@ class favourite_Fragment : Fragment() {
             } else {
                 adapter.getdata(it as ArrayList<movie>)
                 binding.recyclerFavourite.adapter = adapter
+                movieList.clear()
+                movieList.addAll(it)
 
             }
         })
 
 
-        binding.searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
-                return true
+//                adapter.filter.filter(newText)
+                return false
             }
 
         })

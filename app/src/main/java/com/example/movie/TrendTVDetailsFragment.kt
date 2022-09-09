@@ -11,16 +11,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.movie.databinding.FragmentTrendTvBinding
+import com.example.movie.databinding.FragmentTrendTvDetailedBinding
 import com.example.movie.models.ResultsItem_trendTV
 import com.example.movie.ui.main.trend.trend_viewmodel
 import com.example.movie.util.constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class trend_tvFragment : Fragment() {
+class TrendTVDetailsFragment : Fragment() {
 
-    lateinit var binding: FragmentTrendTvBinding
+    lateinit var binding: FragmentTrendTvDetailedBinding
     lateinit var data: ResultsItem_trendTV
     var hashMap: HashMap<Int, String> = HashMap()
     lateinit var viewmodel: trend_viewmodel
@@ -36,7 +36,7 @@ class trend_tvFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trend_tv, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trend_tv_detailed, container, false)
         viewmodel = ViewModelProvider(this).get(trend_viewmodel::class.java)
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         view.visibility=View.GONE
