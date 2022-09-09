@@ -1,7 +1,6 @@
 package com.example.movie.ui.main.home
 
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -12,8 +11,6 @@ import com.example.movie.models.movie
 import com.example.movie.ui.main.toprated.MoviePopularPagingSource
 import com.example.movie.ui.main.toprated.MovieUpComingPagingSource
 import com.example.movie.ui.main.toprated.MoviesPagingSource
-import com.example.movie.util.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 
 

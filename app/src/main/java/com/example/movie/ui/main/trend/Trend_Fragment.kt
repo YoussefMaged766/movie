@@ -22,18 +22,12 @@ import com.example.movie.databinding.FragmentTrendBinding
 import com.example.movie.models.ResultsItem_trendTV
 import com.example.movie.models.movie
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class trend_Fragment : Fragment() {
 
     lateinit var binding: FragmentTrendBinding
-    lateinit var viewModel: trend_viewmodel
-//    val viewModel: trend_viewmodel by activityViewModels()
-
-    lateinit var layoutManager: GridLayoutManager
-    lateinit var adapter_trend1: adapter_trend
-    lateinit var adpter_trend_tv1: adapter_trend_tv
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +42,6 @@ class trend_Fragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trend_, container, false)
-        viewModel = ViewModelProvider(this).get(trend_viewmodel::class.java)
 
         return binding.root
     }
@@ -63,69 +56,25 @@ class trend_Fragment : Fragment() {
         view_nav.visibility = View.VISIBLE
 
 
-        val media_type = resources.getStringArray(R.array.media_type)
-
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item, media_type
-        )
-//        binding.spinnerMediaType.adapter = adapter
-//
-//
-//
-//
-//        layoutManager = GridLayoutManager(requireContext(), 2)
-//        binding.recyclerTrend.layoutManager = layoutManager
-//
-//
-//
-//        binding.spinnerMediaType.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(
-//                    parent: AdapterView<*>?,
-//                    view: View?,
-//                    position: Int,
-//                    id: Long
-//                ) {
-//                    when (position) {
-//                       0 -> {
-//
-//                            viewModel.movies.observe(requireActivity(), Observer {
-//                                Log.e( "onItemSelected: ","hi" )
-//                                adapter_trend1 = adapter_trend(it as ArrayList<movie>)
-//                                binding.recyclerTrend.adapter = adapter_trend1
-////                                Log.e("onItemSelected: ", it.toString())
-//
-//                            })
-//                        }
-//
-//                        1 -> {
-//
-//                            viewModel.tv.observe(requireActivity(), Observer {
-//                                adpter_trend_tv1 = adapter_trend_tv(it as ArrayList<ResultsItem_trendTV?>)
-//                                binding.recyclerTrend.adapter = adpter_trend_tv1
-//                                Log.e("trend ", it.toString())
-//                            })
-//                        }
-//
-//                    }
-//                }
-//
-//                override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//                }
-//
-//            }
+        setUpViewPager()
 
 
-        val adapter1 =
-            ViewPagerAdapter(supportFragmentManager = requireActivity().supportFragmentManager)
-        adapter1.addFragment(TendMovieFragment(),"Movie")
-        adapter1.addFragment(TrendTVFragment(),"TV")
-        binding.viewpager.adapter = adapter1
-        binding.tabs.setupWithViewPager(binding.viewpager)
+    }
 
-
+    private fun setUpViewPager() {
+        val adapter =
+            ViewPagerAdapter(
+                supportFragmentManager = requireActivity().supportFragmentManager,
+                lifecycle = lifecycle
+            )
+        adapter.addFragment(TendMovieFragment(), "Movie")
+        adapter.addFragment(TrendTVFragment(), "TV")
+        binding.viewpager.adapter = adapter
+        binding.viewpager.isSaveEnabled = true
+        TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
+            tab.text = adapter.getPageTitle(position)
+            binding.viewpager.setCurrentItem(tab.position, true)
+        }.attach()
     }
 
 

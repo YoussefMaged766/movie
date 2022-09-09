@@ -3,25 +3,26 @@ package com.example.movie.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ViewPagerAdapter(supportFragmentManager: FragmentManager):FragmentStatePagerAdapter(supportFragmentManager) {
+class ViewPagerAdapter(supportFragmentManager: FragmentManager,lifecycle: Lifecycle): FragmentStateAdapter(supportFragmentManager,lifecycle) {
     private val mFragmentList = ArrayList<Fragment>()
     private val mFragmentTitleList = ArrayList<String>()
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         return mFragmentList.size
     }
 
-    override fun getItem(position: Int): Fragment {
+    override fun createFragment(position: Int): Fragment {
         return mFragmentList[position]
     }
-    override fun getPageTitle(position: Int): CharSequence{
-        // return title of the tab
-        return mFragmentTitleList[position]
-    }
-
-    fun addFragment(fragment: Fragment, title: String) {
-        // add each fragment and its title to the array list
+    fun addFragment(fragment: Fragment, title: String){
         mFragmentList.add(fragment)
         mFragmentTitleList.add(title)
     }
+
+    fun getPageTitle(position: Int): CharSequence? {
+        return mFragmentTitleList[position]
+    }
+
 }
