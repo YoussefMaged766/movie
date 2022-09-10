@@ -7,15 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import com.example.movie.R
 import com.example.movie.adapter.PagingTrendMoviesAdapter
-import com.example.movie.adapter.adapter_trend
 import com.example.movie.databinding.FragmentTendMovieBinding
-import com.example.movie.models.movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
