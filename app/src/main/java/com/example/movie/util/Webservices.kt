@@ -10,17 +10,17 @@ interface WebServices {
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(
-        @Query("page") page: Int?=null
+        @Query("page") page: Int? = null
     ): TopRatedResponse
 
     @GET("movie/upcoming")
-   suspend fun getUpComingMovies(
-        @Query("page") page: Int?=null
+    suspend fun getUpComingMovies(
+        @Query("page") page: Int? = null
     ): TopRatedResponse
 
     @GET("movie/popular")
-   suspend fun getPopularMovies(
-        @Query("page") page: Int?=null
+    suspend fun getPopularMovies(
+        @Query("page") page: Int? = null
     ): TopRatedResponse
 
     @GET("movie/{movie_id}/videos?")
@@ -39,12 +39,14 @@ interface WebServices {
     ): Call<TopRatedResponse>
 
     @GET("trending/movie/day?")
-    fun get_trend_movie(
-    ): Call<TopRatedResponse>
+    suspend fun get_trend_movie(
+        @Query("page") page: Int? = null
+    ): TopRatedResponse
 
     @GET("trending/tv/day?")
-    fun get_trend_tv(
-    ): Call<TrendtvResponse>
+    suspend fun get_trend_tv(
+        @Query("page") page: Int? = null
+    ): TrendtvResponse
 
     @GET("discover/movie?")
     fun getmovies_by_category(

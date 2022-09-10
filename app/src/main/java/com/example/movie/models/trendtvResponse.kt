@@ -12,7 +12,7 @@ data class TrendtvResponse(
 	val totalPages: Int? = null,
 
 	@field:SerializedName("results")
-	val results: List<ResultsItem_trendTV?>? = null,
+	val results: List<ResultsItem_trendTV>? = null,
 
 	@field:SerializedName("total_results")
 	val totalResults: Int? = null

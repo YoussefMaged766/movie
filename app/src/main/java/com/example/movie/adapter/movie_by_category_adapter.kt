@@ -34,7 +34,6 @@ class movie_by_category_adapter(var items: ArrayList<movie>) :
             var bundle = Bundle()
             bundle.putSerializable("movie_details", list)
             it.findNavController().navigate(R.id.action_movie_by_category_Fragment_to_nav_detailed, bundle)
-//            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
         }
 
     }

@@ -179,5 +179,21 @@
             app:popExitAnim="@anim/to_right"
             />
     </fragment>
+    <fragment
+        android:id="@+id/tendMovieFragment"
+        android:name="com.example.movie.ui.main.trend.TendMovieFragment"
+        android:label="TendMovieFragment" >
+        <action
+            android:id="@+id/action_tendMovieFragment_to_nav_detailed"
+            app:destination="@id/nav_detailed" />
+    </fragment>
+    <fragment
+        android:id="@+id/trendTVFragment"
+        android:name="com.example.movie.ui.main.trend.TrendTVFragment"
+        android:label="TrendTVFragment" >
+        <action
+            android:id="@+id/action_trendTVFragment_to_nav_detailed"
+            app:destination="@id/nav_detailed" />
+    </fragment>
 
 </navigation>

@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movie.R
@@ -30,13 +32,9 @@ class AllMoviesFragment : Fragment() {
 
     lateinit var binding: FragmentAllMoviesBinding
     var pagingAdapter: paging_adapter = paging_adapter()
-    val viewModel: AllMoviesFragmentViewModel by activityViewModels()
+    lateinit var viewModel: AllMoviesFragmentViewModel
     lateinit var data: String
-    lateinit var layoutManager: GridLayoutManager
-    var state: Parcelable? = null
-    var position = 0
-    var positionIndex = 0
-    var topView = 0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +52,7 @@ class AllMoviesFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_movies, container, false)
-
+        viewModel = ViewModelProvider(requireActivity()).get(AllMoviesFragmentViewModel::class.java)
         return binding.root
     }
 
@@ -66,7 +64,7 @@ class AllMoviesFragment : Fragment() {
         viewVav.visibility = View.GONE
 
 
-        init_recycler()
+
         perform_internet()
 
         binding.shimmerRecyclerSeeall.visibility = View.VISIBLE
@@ -110,11 +108,7 @@ class AllMoviesFragment : Fragment() {
     }
 
 
-    fun init_recycler() {
-        layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.recyclerSeeall.layoutManager = layoutManager
 
-    }
 
     fun perform_internet() {
         if (checkForInternet(requireContext())) {
@@ -169,27 +163,9 @@ class AllMoviesFragment : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        state = binding.recyclerSeeall.layoutManager?.onSaveInstanceState()
-        outState.putParcelable("SAVED_RECYCLER_VIEW_STATUS_ID", state)
-        super.onSaveInstanceState(outState)
-    }
+
 
     //save recycler position
 
-    override fun onPause() {
-        super.onPause()
-        positionIndex = layoutManager.findFirstVisibleItemPosition()
-        val startView: View = binding.recyclerSeeall.getChildAt(0)
-        topView =
-            startView.top - binding.recyclerSeeall.getPaddingTop()
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (positionIndex != -1) {
-            layoutManager.scrollToPositionWithOffset(positionIndex, topView);
-        }
-    }
 }

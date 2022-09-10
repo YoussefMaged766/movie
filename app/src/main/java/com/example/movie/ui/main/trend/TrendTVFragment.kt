@@ -1,25 +1,25 @@
 package com.example.movie.ui.main.trend
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.movie.R
-import com.example.movie.adapter.adapter_trend_tv
-import com.example.movie.databinding.FragmentTVBinding
+import com.example.movie.adapter.PagingTrendTVAdapter
 import com.example.movie.databinding.FragmentTrendTVBinding
-import com.example.movie.models.ResultsItem_trendTV
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class TrendTVFragment : Fragment() {
 
     lateinit var binding: FragmentTrendTVBinding
     lateinit var viewModel: trend_viewmodel
-    lateinit var adpter_trend_tv: adapter_trend_tv
+    lateinit var adpter_trend_tv: PagingTrendTVAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,12 +39,16 @@ class TrendTVFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adpter_trend_tv = adapter_trend_tv(arrayListOf())
-        viewModel.tv.observe(requireActivity(), Observer {
-            adpter_trend_tv = adapter_trend_tv(it as ArrayList<ResultsItem_trendTV?>)
-            binding.recyclerTV.adapter = adpter_trend_tv
-            Log.e("trend ", it.toString())
-        })
+        adpter_trend_tv = PagingTrendTVAdapter()
+
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getListDataTrendTV().collect {
+                adpter_trend_tv.submitData(lifecycle, it)
+            }
+
+        }
+        binding.recyclerTV.adapter = adpter_trend_tv
 
 
     }

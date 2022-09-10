@@ -10,16 +10,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.lifecycle.lifecycleScope
 import com.example.movie.R
+import com.example.movie.adapter.PagingTrendMoviesAdapter
 import com.example.movie.adapter.adapter_trend
 import com.example.movie.databinding.FragmentTendMovieBinding
 import com.example.movie.models.movie
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class TendMovieFragment : Fragment() {
 
     lateinit var binding: FragmentTendMovieBinding
     lateinit var viewModel: trend_viewmodel
-    lateinit var adapter_trend:adapter_trend
+    lateinit var adapter_trend:PagingTrendMoviesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,13 +44,16 @@ class TendMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter_trend = adapter_trend(arrayListOf())
+        adapter_trend = PagingTrendMoviesAdapter()
 
-        viewModel.movies.observe(requireActivity(), Observer {
-            Log.e("onItemSelected: ", "hi")
-            adapter_trend = adapter_trend(it as ArrayList<movie>)
-            binding.recyclerMovie.adapter = adapter_trend
-        })
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getListDataTrendMovie().collect {
+                adapter_trend.submitData(lifecycle, it)
+            }
+
+        }
+        binding.recyclerMovie.adapter = adapter_trend
 
     }
 

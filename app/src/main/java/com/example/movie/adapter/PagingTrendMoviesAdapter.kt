@@ -21,7 +21,7 @@ import com.example.movie.util.constants
 import java.util.*
 import kotlin.collections.ArrayList
 
-class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(MovieDiffCallBack()) {
+class PagingTrendMoviesAdapter : PagingDataAdapter<movie, PagingTrendMoviesAdapter.viewholder>(MovieDiffCallBack1()) {
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
@@ -41,7 +41,7 @@ class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(Movie
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
             bundle.putSerializable("movie_details", getItem(position))
-            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
+            it.findNavController().navigate(R.id.action_nav_trend_to_nav_detailed, bundle)
 
 
 
@@ -58,7 +58,7 @@ class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(Movie
 
 }
 
-class MovieDiffCallBack : DiffUtil.ItemCallback<movie>() {
+class MovieDiffCallBack1 : DiffUtil.ItemCallback<movie>() {
     override fun areItemsTheSame(oldItem: movie, newItem: movie): Boolean {
         return oldItem.id == newItem.id
     }

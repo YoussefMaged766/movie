@@ -16,21 +16,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
+import com.example.movie.models.ResultsItem_trendTV
 import com.example.movie.models.movie
 import com.example.movie.util.constants
 import java.util.*
 import kotlin.collections.ArrayList
 
-class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(MovieDiffCallBack()) {
+class PagingTrendTVAdapter : PagingDataAdapter<ResultsItem_trendTV, PagingTrendTVAdapter.viewholder>(MovieDiffCallBack2()) {
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
         var txtTitle = itemView.findViewById<TextView>(R.id.txttitle)
         var txtdate = itemView.findViewById<TextView>(R.id.txtreleasedate)
 
-        fun bind(data: movie) {
-            txtTitle.text = data.title
-            txtdate.text = data.releaseDate
+        fun bind(data: ResultsItem_trendTV) {
+            txtTitle.text = data.name
+            txtdate.text = data.firstAirDate
             Glide.with(itemView).load(constants.img_link + data.posterPath).into(img)
         }
     }
@@ -40,8 +41,8 @@ class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(Movie
         Log.e( "onBindViewHolder: ",position.toString() )
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
-            bundle.putSerializable("movie_details", getItem(position))
-            it.findNavController().navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)
+            bundle.putSerializable("tv_details", getItem(position))
+            it.findNavController().navigate(R.id.action_nav_trend_to_trend_tvFragment, bundle)
 
 
 
@@ -58,12 +59,12 @@ class paging_adapter : PagingDataAdapter<movie, paging_adapter.viewholder>(Movie
 
 }
 
-class MovieDiffCallBack : DiffUtil.ItemCallback<movie>() {
-    override fun areItemsTheSame(oldItem: movie, newItem: movie): Boolean {
+class MovieDiffCallBack2 : DiffUtil.ItemCallback<ResultsItem_trendTV>() {
+    override fun areItemsTheSame(oldItem: ResultsItem_trendTV, newItem: ResultsItem_trendTV): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: movie, newItem: movie): Boolean {
+    override fun areContentsTheSame(oldItem: ResultsItem_trendTV, newItem: ResultsItem_trendTV): Boolean {
         return oldItem == newItem
     }
 
