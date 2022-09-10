@@ -161,17 +161,7 @@ class detailedFragment : Fragment() {
 
                 }
 
-//                mPrefs.edit().putBoolean("favourite", like).apply()
-//                mPrefs.edit().putString("id", data?.id.toString()).apply()
-//                if (favourite_movie.isNotEmpty()) {
-//                    favourite_movie.remove(data)
-//                }
-//                var prefsEditor: SharedPreferences.Editor = mPrefs.edit()
-//                var gson: Gson = Gson()
-//                var json: String = gson.toJson(favourite_movie)
-//                prefsEditor.putString("MyObject", json)
-//                prefsEditor.apply()
-//                Log.e("image_heart_select: ", favourite_movie.toString())
+
 
             } else {
                 binding.imageViewAnimation.isSelected = true
@@ -180,22 +170,7 @@ class detailedFragment : Fragment() {
                 databaseViewmodel.setFavoriteMovie(data?.id)
                 like = 1
 
-//                mPrefs.edit().putBoolean("favourite", like).apply()
-//                mPrefs.edit().putString("id", data?.id.toString()).apply()
-//
-//
-//                //data = movie details
-//                var myObject = (data)
-//                if (myObject != null) {
-//                    favourite_movie.add((myObject))
-//                }
-//                var prefsEditor: SharedPreferences.Editor = mPrefs.edit()
-//                var gson: Gson = Gson()
-//                var json: String = gson.toJson(favourite_movie)
-//                prefsEditor.putString("MyObject", json)
-//                prefsEditor.apply()
-//
-//                Log.e("image_heart_select: ", favourite_movie.toString())
+
 
             }
         }

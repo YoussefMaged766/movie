@@ -28,7 +28,16 @@
             app:popupTheme="@style/Theme.Movie.PopupOverlay"
             app:titleTextColor="@color/white"
 
-            />
+            >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:src="@drawable/logo" />
+
+
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
 

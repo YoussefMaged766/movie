@@ -2,18 +2,21 @@ package com.example.movie.ui.main.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -26,10 +29,11 @@ import com.example.movie.adapter.adapter
 import com.example.movie.adapter.category_adapter
 import com.example.movie.databinding.FragmentHomeBinding
 import com.example.movie.models.movie
-import com.example.movie.ui.main.MainActivity
-import com.example.movie.util.*
+import com.example.movie.util.CenterZoomLayoutManager
+import com.example.movie.util.Status
+import com.example.movie.util.apimanager
+import com.example.movie.util.constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -70,8 +74,8 @@ class HomeFragment : Fragment() {
         val viewNav =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         viewNav.visibility = View.VISIBLE
+
         recycler()
-        setHasOptionsMenu(true)
 
         performSearch()
         if (checkForInternet(requireContext())) {
@@ -85,8 +89,7 @@ class HomeFragment : Fragment() {
             binding.recyclerToprated.visibility = View.VISIBLE
             binding.recyclerPopular.visibility = View.VISIBLE
             binding.recyclerUpcoming.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             binding.shimmerRecycler.startShimmerAnimation()
             binding.shimmerRecycler.visibility = View.VISIBLE
             binding.shimmerRecycler2.startShimmerAnimation()
@@ -105,7 +108,7 @@ class HomeFragment : Fragment() {
 
     fun recycler() {
 
-        adapterMovie =adapter(arrayListOf())
+        adapterMovie = adapter(arrayListOf())
         val snapHelper = LinearSnapHelper()
         val snapHelper2 = LinearSnapHelper()
         val snapHelper3 = LinearSnapHelper()
@@ -152,11 +155,21 @@ class HomeFragment : Fragment() {
 
             }
         })
+        val icon = binding.search.findViewById<ImageView>(androidx.appcompat.R.id.search_button)
+        val closeIcon =
+            binding.search.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+        val editText =
+            binding.search.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        val frame = binding.search.findViewById<View>(androidx.appcompat.R.id.search_plate)
+        editText.setHintTextColor(Color.GRAY)
+        editText.setTextColor(Color.WHITE)
+        editText.hint = "Search Movies"
+        icon.setColorFilter(Color.WHITE)
+        closeIcon.setColorFilter(Color.WHITE)
+        frame.setBackgroundResource(android.R.color.transparent)
+
 
     }
-
-
-
 
 
     fun navigation() {
@@ -180,7 +193,7 @@ class HomeFragment : Fragment() {
 
     fun observation() {
 
-        viewLifecycleOwner.lifecycleScope.launch{
+        viewLifecycleOwner.lifecycleScope.launch {
 
             mainViewModel.getTopRatedMovies().observe(requireActivity(), Observer {
                 it?.let { resource ->
@@ -189,21 +202,21 @@ class HomeFragment : Fragment() {
                             binding.recyclerToprated.visibility = View.VISIBLE
                             binding.shimmerRecycler.visibility = View.INVISIBLE
                             binding.shimmerRecycler.stopShimmerAnimation()
-                            resource.data.let {response->
+                            resource.data.let { response ->
                                 adapterMovie = adapter(response?.results as ArrayList<movie>?)
                                 binding.recyclerToprated.adapter = adapterMovie
                             }
                         }
                         Status.ERROR -> {
                             binding.recyclerToprated.visibility = View.VISIBLE
-                            binding.shimmerRecycler.visibility =View.GONE
+                            binding.shimmerRecycler.visibility = View.GONE
                             binding.shimmerRecycler.stopShimmerAnimation()
-                            Toast.makeText(requireActivity() ,it.message ,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
                         }
                         Status.LOADING -> {
                             binding.shimmerRecycler.visibility = View.VISIBLE
                             binding.shimmerRecycler.startShimmerAnimation()
-                            binding.recyclerToprated.visibility= View.INVISIBLE
+                            binding.recyclerToprated.visibility = View.INVISIBLE
                         }
                     }
                 }
@@ -215,21 +228,21 @@ class HomeFragment : Fragment() {
                             binding.recyclerUpcoming.visibility = View.VISIBLE
                             binding.shimmerRecycler2.visibility = View.INVISIBLE
                             binding.shimmerRecycler2.stopShimmerAnimation()
-                            resource.data.let {response->
+                            resource.data.let { response ->
                                 adapterMovie = adapter(response?.results as ArrayList<movie>?)
                                 binding.recyclerUpcoming.adapter = adapterMovie
                             }
                         }
                         Status.ERROR -> {
                             binding.recyclerUpcoming.visibility = View.VISIBLE
-                            binding.shimmerRecycler2.visibility =View.GONE
+                            binding.shimmerRecycler2.visibility = View.GONE
                             binding.shimmerRecycler2.stopShimmerAnimation()
-                            Toast.makeText(requireActivity() ,it.message ,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
                         }
                         Status.LOADING -> {
                             binding.shimmerRecycler2.visibility = View.VISIBLE
                             binding.shimmerRecycler2.startShimmerAnimation()
-                            binding.recyclerUpcoming.visibility= View.INVISIBLE
+                            binding.recyclerUpcoming.visibility = View.INVISIBLE
                         }
                     }
                 }
@@ -241,21 +254,21 @@ class HomeFragment : Fragment() {
                             binding.recyclerPopular.visibility = View.VISIBLE
                             binding.shimmerRecycler3.visibility = View.INVISIBLE
                             binding.shimmerRecycler3.stopShimmerAnimation()
-                            resource.data.let {response->
+                            resource.data.let { response ->
                                 adapterMovie = adapter(response?.results as ArrayList<movie>?)
                                 binding.recyclerPopular.adapter = adapterMovie
                             }
                         }
                         Status.ERROR -> {
                             binding.recyclerPopular.visibility = View.VISIBLE
-                            binding.shimmerRecycler3.visibility =View.GONE
+                            binding.shimmerRecycler3.visibility = View.GONE
                             binding.shimmerRecycler3.stopShimmerAnimation()
-                            Toast.makeText(requireActivity() ,it.message ,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
                         }
                         Status.LOADING -> {
                             binding.shimmerRecycler3.visibility = View.VISIBLE
                             binding.shimmerRecycler3.startShimmerAnimation()
-                            binding.recyclerPopular.visibility= View.INVISIBLE
+                            binding.recyclerPopular.visibility = View.INVISIBLE
                         }
                     }
                 }
@@ -263,8 +276,6 @@ class HomeFragment : Fragment() {
         }
 
     }
-
-
 
 
     private fun checkForInternet(context: Context): Boolean {
@@ -307,31 +318,15 @@ class HomeFragment : Fragment() {
         }
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        super.onCreateOptionsMenu(menu, inflater)
-//        menu.clear()
-//        inflater.inflate(R.menu.search_menu, menu)
-//        var item = menu.findItem(R.id.searchView_MenuMain)
-//        val searchView = SearchView(
-//            (context as MainActivity).supportActionBar!!.themedContext
-//        )
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                Log.e("onQueryTextSubmit1: ", query.toString())
-//
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//
-//                return true
-//            }
-//
-//        })
-//
-//
-//    }
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    }
 
 
 }

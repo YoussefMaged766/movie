@@ -11,18 +11,23 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.lifecycle.lifecycleScope
 import com.example.movie.R
+import com.example.movie.adapter.PagingMoviesByCategoryAdapter
 import com.example.movie.adapter.movie_by_category_adapter
 import com.example.movie.databinding.FragmentMovieByCategoryBinding
 import com.example.movie.models.movie
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 class movie_by_category_Fragment : Fragment() {
 
-    lateinit var viewmodel1: viewmodel
-    lateinit var adapter: movie_by_category_adapter
-    var moive_list = ArrayList<movie>()
+    lateinit var viewModel: viewmodel
+     var adapter: PagingMoviesByCategoryAdapter = PagingMoviesByCategoryAdapter()
+
     lateinit var binding: FragmentMovieByCategoryBinding
     var data: Int = 0
 
@@ -30,14 +35,14 @@ class movie_by_category_Fragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             data = it.getInt("id")
-            Log.e( "onCreate: ",data.toString() )
+            Log.e("onCreate: ", data.toString())
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -46,23 +51,24 @@ class movie_by_category_Fragment : Fragment() {
             false
         )
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        view.visibility=View.GONE
+        view.visibility = View.GONE
 
-        viewmodel1=ViewModelProvider(this).get(viewmodel::class.java)
-        viewmodel1.getmovies_by_category(data)
-        adapter=movie_by_category_adapter(moive_list)
-        viewmodel1.response_category.observe(requireActivity(), Observer {
-            adapter.getdata(it as ArrayList<movie>)
-        })
-        binding.recyclerCategory.adapter=adapter
-        viewmodel1.errormassage.observe(requireActivity(), Observer {
-            Toast.makeText(requireActivity(),it.toString(),Toast.LENGTH_SHORT).show()
-        })
-
-
-
+        viewModel = ViewModelProvider(requireActivity()).get(viewmodel::class.java)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+//        adapter = PagingMoviesByCategoryAdapter()
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getListDataCategory(data).collect {
+                adapter.submitData(lifecycle, it)
+            }
+
+        }
+        binding.recyclerCategory.adapter = adapter
     }
 
 

@@ -36,5 +36,14 @@
     <item name="layout_scrollFlags">exitUntilCollapsed</item>
     </style>
 
+    <style name="SearchView" parent="Widget.AppCompat.SearchView">
+        <!-- Text color -->
+        <item name="android:editTextColor">@color/white</item>
+        <!-- Hint text color -->
+        <item name="fontFamily"> @font/cairo</item>
+        <item name="iconTint">@color/white</item>
+
+    </style>
+
 
 </resources>

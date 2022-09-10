@@ -10,6 +10,7 @@
     <color name="red">#FF0000</color>
     <color name="backgroud">#10111c</color>
     <color name="transperent">#07000000</color>
+    <color name="hint">#787878</color>
 
 
 </resources>

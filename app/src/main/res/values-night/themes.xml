@@ -15,5 +15,14 @@
         <item name="android:windowFullscreen">true</item>
 
     </style>
+    <style name="SearchView" parent="Widget.AppCompat.SearchView">
+        <!-- Text color -->
+        <item name="android:editTextColor">@color/white</item>
+        <!-- Hint text color -->
+        <item name="android:textColorHint">#939393</item>
+        <item name="fontFamily"> @font/cairo</item>
+        <item name="iconTint">@color/white</item>
+
+    </style>
 
 </resources>

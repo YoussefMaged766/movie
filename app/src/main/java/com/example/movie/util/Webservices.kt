@@ -49,9 +49,10 @@ interface WebServices {
     ): TrendtvResponse
 
     @GET("discover/movie?")
-    fun getmovies_by_category(
-        @Query("with_genres") genre: Int
-    ): Call<TopRatedResponse>
+   suspend fun getmovies_by_category(
+        @Query("with_genres") genre: Int?=null,
+        @Query("page") page: Int? = null
+    ): TopRatedResponse
 
     @GET("search/movie?")
     fun getserchmovies(
