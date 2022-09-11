@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
 import com.example.movie.R
 import com.example.movie.adapter.PagingRecommendedAdapter
-import com.example.movie.adapter.adapter_recommended
 import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentDetailedBinding
 import com.example.movie.models.movie
