@@ -29,22 +29,22 @@ class adapter(var list: ArrayList<movie>? = null) : RecyclerView.Adapter<adapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewholder {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.movieitem, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.movieitem, parent, false)
         return viewholder(view)
     }
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
         if (list != null) {
             val item = list?.get(position)
-            holder.txtTitle.setText(item?.title)
-            holder.txtdate.setText(item?.releaseDate)
+            holder.txtTitle.text = item?.title
+            holder.txtdate.text = item?.releaseDate
             holder.setIsRecyclable(false)
             holder.img.clipToOutline = true
 
             Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
 
             holder.itemView.setOnClickListener {
-                var bundle = Bundle()
+                val bundle = Bundle()
                 bundle.putSerializable("movie_details", item)
                 it.findNavController()
                     .navigate(R.id.action_top_ratedFragment_to_nav_detailed, bundle)

@@ -12,10 +12,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
 import com.example.movie.R
+import com.example.movie.adapter.PagingRecommendedAdapter
 import com.example.movie.adapter.adapter_recommended
 import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentDetailedBinding
@@ -23,17 +25,17 @@ import com.example.movie.models.movie
 import com.example.movie.util.CenterZoomLayoutManager
 import com.example.movie.util.constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class detailedFragment : Fragment() {
 
     lateinit var binding: FragmentDetailedBinding
     lateinit var viewModel: movedetaild_viewmodel
-
-    //    lateinit var viewmodel2: homefragment_viewmodel
     lateinit var databaseViewmodel: Database_viewmodel
     var data: movie? = null
-    lateinit var adapter: adapter_recommended
+    lateinit var adapter: PagingRecommendedAdapter
     var list = ArrayList<movie>()
     var hashMap: HashMap<Int, String> = HashMap()
     lateinit var mPrefs: SharedPreferences
@@ -98,10 +100,13 @@ class detailedFragment : Fragment() {
 
         recycler()
 
-        viewModel.getrecommended_movie(data?.id)
-        viewModel.response_reccommended.observe(requireActivity(), Observer {
-            adapter.getdata(it as ArrayList<movie>)
-        })
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getListDataRecommended(data?.id!!).collect {
+                adapter.submitData(lifecycle, it)
+            }
+
+        }
 
 
 
@@ -109,7 +114,7 @@ class detailedFragment : Fragment() {
     }
 
     fun recycler() {
-        adapter = adapter_recommended(list)
+        adapter = PagingRecommendedAdapter()
         val layoutManager1 = CenterZoomLayoutManager(requireContext())
         layoutManager1.orientation = LinearLayoutManager.HORIZONTAL
         binding.recyclerRecommendation.layoutManager = layoutManager1

@@ -6,20 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import com.example.movie.R
 import com.example.movie.adapter.PagingMoviesByCategoryAdapter
-import com.example.movie.adapter.movie_by_category_adapter
 import com.example.movie.databinding.FragmentMovieByCategoryBinding
-import com.example.movie.models.movie
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -61,7 +55,6 @@ class movie_by_category_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        adapter = PagingMoviesByCategoryAdapter()
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             viewModel.getListDataCategory(data).collect {
                 adapter.submitData(lifecycle, it)
