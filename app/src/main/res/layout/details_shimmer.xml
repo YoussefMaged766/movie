@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/img_detailed"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:adjustViewBounds="true"
+        android:alpha="0.5"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#656565"/>
+
+    <xyz.hanks.library.bang.SmallBangView
+        android:id="@+id/imageViewAnimation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_detailed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_detailed"
+       >
+
+        <ImageView
+            android:id="@+id/imageView_heart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="#656565"
+            />
+
+    </xyz.hanks.library.bang.SmallBangView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#656565"
+        app:borderWidth="0dp"
+        app:elevation="10dp"
+        app:fabCustomSize="50dp"
+        app:layout_constraintBottom_toBottomOf="@id/txt_rating"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_rating" />
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_img_poster"
+        android:layout_width="200dp"
+        android:layout_height="350dp"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewAnimation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imageViewAnimation">
+
+        <ImageView
+            android:id="@+id/img_detailed_poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/img_style"
+            android:scaleType="centerCrop"
+            />
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/txt_title_detailed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/cairo"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/card_img_poster"
+        app:layout_constraintStart_toStartOf="@id/card_img_poster"
+        app:layout_constraintTop_toBottomOf="@id/card_img_poster"
+        android:background="#656565"
+        />
+
+    <TextView
+        android:id="@+id/txt_genre_detailed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/cairo"
+        android:maxLines="1"
+        android:textColor="#34353f"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@id/card_img_poster"
+        app:layout_constraintStart_toStartOf="@id/card_img_poster"
+        app:layout_constraintTop_toBottomOf="@id/txt_title_detailed"
+        android:background="#656565"/>
+
+    <ImageView
+        android:id="@+id/img_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_star_24"
+        app:layout_constraintStart_toStartOf="@id/card_img_poster"
+        app:layout_constraintTop_toBottomOf="@id/txt_genre_detailed"
+        app:tint ="#656565"/>
+
+    <TextView
+        android:id="@+id/txt_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo"
+        android:text="13254"
+        android:textColor="#34353f"
+        app:layout_constraintBottom_toBottomOf="@+id/img_star"
+        app:layout_constraintStart_toEndOf="@id/img_star"
+        app:layout_constraintTop_toTopOf="@id/img_star"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/cairo"
+        android:text="Overview"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/card_img_poster"
+        app:layout_constraintTop_toBottomOf="@id/img_star"
+        android:visibility="invisible"/>
+
+
+    <TextView
+        android:id="@+id/txt_overview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:justificationMode="inter_word"
+        android:textColor="#34353f"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/card_img_poster"
+        app:layout_constraintTop_toBottomOf="@id/text"
+        android:background="#656565"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,7 @@ data class ResultsItem_trendTV(
 	val originalLanguage: String? = null,
 
 	@field:SerializedName("genre_ids")
-	val genreIds: List<Int?>? = null,
+	val genreIds: ArrayList<Int?>? = null,
 
 	@field:SerializedName("poster_path")
 	val posterPath: String? = null,

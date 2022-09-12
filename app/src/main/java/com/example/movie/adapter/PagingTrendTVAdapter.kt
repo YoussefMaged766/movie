@@ -42,6 +42,8 @@ class PagingTrendTVAdapter : PagingDataAdapter<ResultsItem_trendTV, PagingTrendT
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
             bundle.putSerializable("tv_details", getItem(position))
+            bundle.putInt("TVID", getItem(position)?.id!!)
+            bundle.putIntegerArrayList("genres" ,getItem(position)?.genreIds)
             it.findNavController().navigate(R.id.action_nav_trend_to_trend_tvFragment, bundle)
 
 

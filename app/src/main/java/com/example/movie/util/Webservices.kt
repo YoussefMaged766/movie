@@ -29,12 +29,12 @@ interface WebServices {
     ): Call<TrailerResponse>
 
     @GET("tv/{tv_id}/videos?")
-    fun get_trailer_tv(
+  suspend  fun get_trailer_tv(
         @Path("tv_id") id: Int?
-    ): Call<TrailerResponse>
+    ): TrailerResponse
 
     @GET("movie/{movie_id}/recommendations?")
-   suspend fun get_recommended(
+    suspend fun get_recommended(
         @Path("movie_id") id: Int?,
         @Query("page") page: Int? = null
     ): TopRatedResponse
@@ -50,8 +50,8 @@ interface WebServices {
     ): TrendtvResponse
 
     @GET("discover/movie?")
-   suspend fun getmovies_by_category(
-        @Query("with_genres") genre: Int?=null,
+    suspend fun getmovies_by_category(
+        @Query("with_genres") genre: Int? = null,
         @Query("page") page: Int? = null
     ): TopRatedResponse
 
@@ -60,4 +60,8 @@ interface WebServices {
         @Query("query") query: String,
         @Query("page") page: Int? = null
     ): TopRatedResponse
+
+    @GET("tv/{tv_id}")
+    suspend fun getTVDetails(@Path("tv_id") id: Int
+    ): TVDetailesResponse
 }

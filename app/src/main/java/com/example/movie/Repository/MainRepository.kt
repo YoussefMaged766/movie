@@ -8,6 +8,10 @@ class MainRepository(val webservices: WebServices) {
     suspend fun fetchPopularMovies() = webservices.getPopularMovies()
     suspend fun fetchUpComingMovies() = webservices.getUpComingMovies()
 
+    suspend fun fetchTVDetailes(id:Int)=webservices.getTVDetails(id)
+
+    suspend fun fetchTVTrailer(id:Int) = webservices.get_trailer_tv(id)
+
 
 
 }

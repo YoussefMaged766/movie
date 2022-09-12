@@ -17,47 +17,11 @@ import retrofit2.Response
 
 class trend_viewmodel : ViewModel() {
 
-    var errormassage: MutableLiveData<String> = MutableLiveData()
-    var response_tv_trailer: MutableLiveData<String> = MutableLiveData()
-
-    lateinit var movies: MutableLiveData<List<movie>>
-
-
     init {
         getListDataTrendMovie()
         getListDataTrendTV()
 
     }
-
-
-    fun gettrailer_tv(id: Int?) {
-
-        apimanager.getwebbservices()
-            .get_trailer_tv(id)
-            .enqueue(object : Callback<TrailerResponse> {
-                override fun onResponse(
-                    call: Call<TrailerResponse>,
-                    response: Response<TrailerResponse>
-                ) {
-                    if (response.isSuccessful) {
-
-                        response_tv_trailer.value = response.body()?.results?.get(0)?.key
-
-
-                    } else {
-                        errormassage.value = response.message()
-                    }
-                }
-
-                override fun onFailure(call: Call<TrailerResponse>, t: Throwable) {
-                    errormassage.value = t.localizedMessage
-                }
-            })
-
-    }
-
-
-
 
     fun getListDataTrendMovie(): Flow<PagingData<movie>> {
 

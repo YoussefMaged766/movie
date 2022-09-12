@@ -8,9 +8,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movie.models.*
-import com.example.movie.ui.main.search.SearchPagingSource
+import com.example.movie.ui.main.detailed.movies.RecommendedPagingSource
 import com.example.movie.util.apimanager
-import com.example.movie.util.constants
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 import retrofit2.Callback

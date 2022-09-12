@@ -1,4 +1,4 @@
-package com.example.movie.ui.main.detailed
+package com.example.movie.ui.main.detailed.movies
 
 import android.util.Log
 import androidx.paging.PagingSource
