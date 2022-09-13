@@ -64,4 +64,16 @@ interface WebServices {
     @GET("tv/{tv_id}")
     suspend fun getTVDetails(@Path("tv_id") id: Int
     ): TVDetailesResponse
+
+    @GET("tv/{tv_id}/season/{season_number}")
+    suspend fun getSeasonDetails(
+        @Path("tv_id") tvId:Int,
+        @Path("season_number") seasonNumber:Int
+    ):TVSeasonsDetailsResponse
+
+    @GET("tv/{tv_id}/season/{season_number}")
+    suspend fun getCrewDetails(
+        @Path("tv_id") tvId:Int,
+        @Path("season_number") seasonNumber:Int
+    ):CrewItem
 }
