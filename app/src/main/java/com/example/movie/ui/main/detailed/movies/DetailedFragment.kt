@@ -26,6 +26,7 @@ import com.example.movie.util.constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 
 class detailedFragment : Fragment() {

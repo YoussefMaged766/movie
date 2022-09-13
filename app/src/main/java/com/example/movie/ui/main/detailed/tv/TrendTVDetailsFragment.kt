@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.movie.R
+import com.example.movie.adapter.TVSeasonsAdapter
 import com.example.movie.databinding.FragmentTrendTvDetailedBinding
 import com.example.movie.util.Status
 import com.example.movie.util.apimanager
@@ -33,6 +33,7 @@ class TrendTVDetailsFragment : Fragment() {
     var genres: ArrayList<Int> = ArrayList()
     var hashMap: HashMap<Int, String> = HashMap()
     lateinit var viewmodel: TVViewModel
+    lateinit var adapter: TVSeasonsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -72,17 +73,16 @@ class TrendTVDetailsFragment : Fragment() {
             }
         }
 
-//        if (checkForInternet(requireActivity())){
-//
-//            binding.shimmerDetailes.visibility=View.GONE
-//            binding.shimmerDetailes.stopShimmerAnimation()
-//            binding.container.visibility =View.VISIBLE
-//            }
-//        else{
-//            binding.container.visibility=View.GONE
-//            binding.shimmerDetailes.visibility=View.VISIBLE
-//            binding.shimmerDetailes.startShimmerAnimation()
-//        }
+        if (checkForInternet(requireActivity())) {
+
+            binding.shimmerDetailes.visibility = View.GONE
+            binding.shimmerDetailes.stopShimmerAnimation()
+            binding.container.visibility = View.VISIBLE
+        } else {
+            binding.container.visibility = View.GONE
+            binding.shimmerDetailes.visibility = View.VISIBLE
+            binding.shimmerDetailes.startShimmerAnimation()
+        }
 
 
 
@@ -132,18 +132,22 @@ class TrendTVDetailsFragment : Fragment() {
                             binding.txtTitleDetailed.text = it.data?.name
                             binding.txtRating.text = it.data?.voteAverage.toString()
                             binding.txtOverview.text = it.data?.overview
+                            it.data.let {
+                                adapter = TVSeasonsAdapter(it?.id,it?.seasons!!)
+                                binding.RecyclerSeasons.adapter=adapter
+                            }
 
                             binding.apply {
-                                container.visibility=View.VISIBLE
-                                shimmerDetailes.visibility=View.GONE
+                                container.visibility = View.VISIBLE
+                                shimmerDetailes.visibility = View.GONE
                                 shimmerDetailes.stopShimmerAnimation()
                             }
 
                         }
                         Status.LOADING -> {
                             binding.apply {
-                                container.visibility=View.GONE
-                                shimmerDetailes.visibility=View.VISIBLE
+                                container.visibility = View.GONE
+                                shimmerDetailes.visibility = View.VISIBLE
                                 shimmerDetailes.startShimmerAnimation()
                             }
                         }
@@ -154,8 +158,8 @@ class TrendTVDetailsFragment : Fragment() {
                                 Toast.LENGTH_SHORT
                             ).show()
                             binding.apply {
-                                container.visibility=View.VISIBLE
-                                shimmerDetailes.visibility =View.GONE
+                                container.visibility = View.VISIBLE
+                                shimmerDetailes.visibility = View.GONE
                                 shimmerDetailes.stopShimmerAnimation()
                             }
                         }
@@ -182,8 +186,8 @@ class TrendTVDetailsFragment : Fragment() {
 
                             }
                             Status.LOADING -> {
-                                binding.progress.visibility=View.VISIBLE
-                                binding.container.isClickable=false
+                                binding.progress.visibility = View.VISIBLE
+                                binding.container.isClickable = false
 
                             }
                             Status.ERROR -> {}
@@ -201,37 +205,25 @@ class TrendTVDetailsFragment : Fragment() {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        // if the android version is equal to M
-        // or greater we need to use the
-        // NetworkCapabilities to check what type of
-        // network has the internet connection
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-            // Returns a Network object corresponding to
-            // the currently active default data network.
-            val network = connectivityManager.activeNetwork ?: return false
+        // Returns a Network object corresponding to
+        // the currently active default data network.
+        val network = connectivityManager.activeNetwork ?: return false
 
-            // Representation of the capabilities of an active network.
-            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+        // Representation of the capabilities of an active network.
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
 
-            return when {
-                // Indicates this network uses a Wi-Fi transport,
-                // or WiFi has network connectivity
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+        return when {
+            // Indicates this network uses a Wi-Fi transport,
+            // or WiFi has network connectivity
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
 
-                // Indicates this network uses a Cellular transport. or
-                // Cellular has network connectivity
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            // Indicates this network uses a Cellular transport. or
+            // Cellular has network connectivity
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
 
-                // else return false
-                else -> false
-            }
-        } else {
-            // if the android version is below M
-            @Suppress("DEPRECATION") val networkInfo =
-                connectivityManager.activeNetworkInfo ?: return false
-            @Suppress("DEPRECATION")
-            return networkInfo.isConnected
+            // else return false
+            else -> false
         }
     }
 }

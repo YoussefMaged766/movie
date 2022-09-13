@@ -89,7 +89,8 @@ class HomeFragment : Fragment() {
             binding.recyclerToprated.visibility = View.VISIBLE
             binding.recyclerPopular.visibility = View.VISIBLE
             binding.recyclerUpcoming.visibility = View.VISIBLE
-        } else {
+        }
+        else {
             binding.shimmerRecycler.startShimmerAnimation()
             binding.shimmerRecycler.visibility = View.VISIBLE
             binding.shimmerRecycler2.startShimmerAnimation()

@@ -143,6 +143,14 @@
         <argument
             android:name="tv_details"
             app:argType="com.example.movie.models.ResultsItem_trendTV" />
+        <action
+            android:id="@+id/action_trend_tvFragment_to_TVSeasonsDetailsFragment"
+            app:destination="@id/TVSeasonsDetailsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            />
     </fragment>
 
     <fragment
@@ -195,5 +203,10 @@
             android:id="@+id/action_trendTVFragment_to_nav_detailed"
             app:destination="@id/nav_detailed" />
     </fragment>
+    <fragment
+        android:id="@+id/TVSeasonsDetailsFragment"
+        android:name="com.example.movie.TVSeasonsDetailsFragment"
+        android:label="fragment_t_v_seasons_details"
+        tools:layout="@layout/fragment_t_v_seasons_details" />
 
 </navigation>
