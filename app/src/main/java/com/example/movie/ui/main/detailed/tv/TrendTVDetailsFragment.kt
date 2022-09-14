@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.movie.R
 import com.example.movie.adapter.TVSeasonsAdapter
@@ -171,18 +173,23 @@ class TrendTVDetailsFragment : Fragment() {
     }
 
     private fun playTrailer() {
-        binding.btnPlay.setOnClickListener {
+        binding.btnPlay.setOnClickListener {view1->
             viewLifecycleOwner.lifecycleScope.launch {
                 viewmodel.getTVTrailer(tvId).observe(requireActivity(), Observer {
                     it.let {
                         when (it.status) {
                             Status.SUCCESS -> {
-                                val intent = Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(constants.youtubel_link + it.data?.results?.get(0)?.key)
-                                )
-                                startActivity(intent)
-                                binding.progress.visibility = View.GONE
+                                if (it.data?.results!!.isEmpty()){
+                                    Toast.makeText(requireActivity(),"There Is No Trailer for this",Toast.LENGTH_SHORT).show()
+
+                                } else{
+                                    val bundle=Bundle()
+                                    bundle.putString("key",it.data?.results?.get(0)?.key)
+                                    view1.findNavController().navigate(R.id.action_trend_tvFragment_to_webViewFragment,bundle)
+                                    binding.progress.visibility = View.GONE
+                                }
+
+
 
                             }
                             Status.LOADING -> {

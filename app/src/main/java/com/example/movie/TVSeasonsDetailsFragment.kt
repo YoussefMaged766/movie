@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.movie.adapter.CrewAdapter
 import com.example.movie.databinding.FragmentTVSeasonsDetailsBinding
@@ -71,6 +72,10 @@ class TVSeasonsDetailsFragment : Fragment() {
                             binding.txtDateDetailed.text = it.data?.airDate
                             binding.txtOverview.text = it.data?.overview
 
+                            adaptercrew = CrewAdapter(it.data?.episodes?.get(0)?.crew!!)
+                            binding.recyclerCrew.adapter=adaptercrew
+
+
                         }
                         Status.LOADING -> {}
                         Status.ERROR -> {
@@ -84,24 +89,32 @@ class TVSeasonsDetailsFragment : Fragment() {
                     }
                 }
             })
-        }
 
-        viewLifecycleOwner.lifecycleScope.launch{
-            viewmodel.getCrewDetails(tvid,seasonNumber).observe(requireActivity(), Observer {
+            viewmodel.getSeasonTrailer(tvid,seasonNumber).observe(requireActivity(), Observer {
                 it.let {
                     when(it.status){
                         Status.SUCCESS->{
-//                            adaptercrew = CrewAdapter(listOf(it.data))
-//                            binding.recyclerCrew.adapter=adaptercrew
+                            binding.btnPlay.setOnClickListener { view->
+                                if (it.data?.results!!.isEmpty()){
+                                    Toast.makeText(requireActivity(),"There Is No Trailer for this",Toast.LENGTH_SHORT).show()
+                                } else{
+                                    val bundle=Bundle()
+                                    bundle.putString("key", it.data.results[0]?.key)
+                                    view.findNavController().navigate(R.id.action_TVSeasonsDetailsFragment_to_webViewFragment,bundle)
+                                }
+
+                            }
                         }
                         Status.LOADING->{}
                         Status.ERROR->{}
-
                     }
                 }
             })
         }
 
+
+
     }
+
 
 }

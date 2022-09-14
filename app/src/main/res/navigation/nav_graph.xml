@@ -151,6 +151,13 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
             />
+        <action
+            android:id="@+id/action_trend_tvFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
 
     <fragment
@@ -207,6 +214,18 @@
         android:id="@+id/TVSeasonsDetailsFragment"
         android:name="com.example.movie.TVSeasonsDetailsFragment"
         android:label="fragment_t_v_seasons_details"
-        tools:layout="@layout/fragment_t_v_seasons_details" />
+        tools:layout="@layout/fragment_t_v_seasons_details" >
+        <action
+            android:id="@+id/action_TVSeasonsDetailsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.movie.ui.main.WebViewFragment"
+        android:label="WebViewFragment" />
 
 </navigation>

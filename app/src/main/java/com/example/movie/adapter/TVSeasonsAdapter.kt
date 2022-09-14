@@ -1,6 +1,7 @@
 package com.example.movie.adapter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,7 @@ class TVSeasonsAdapter(var tvId: Int?, var items: List<SeasonsItem?>) :
             bundle.putInt("tvid", tvId!!)
             it.findNavController()
                 .navigate(R.id.action_trend_tvFragment_to_TVSeasonsDetailsFragment, bundle)
+            Log.e( "onBindViewHolder: ",items[position]?.id.toString() )
         }
     }
 

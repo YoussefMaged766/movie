@@ -1,6 +1,7 @@
 package com.example.movie.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class TrailerResponse(
 
@@ -9,7 +10,7 @@ data class TrailerResponse(
 
 	@field:SerializedName("results")
 	val results: List<ResultsItem?>? = null
-)
+) : Serializable
 
 data class ResultsItem(
 

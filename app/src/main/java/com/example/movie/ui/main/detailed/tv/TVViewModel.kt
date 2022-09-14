@@ -37,13 +37,15 @@ class TVViewModel(val mainRepository: MainRepository) : ViewModel() {
         }
     }
 
-    suspend fun getCrewDetails(id: Int, number: Int) = liveData(Dispatchers.IO) {
+    suspend fun getSeasonTrailer(id: Int, number: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {
-            emit(Resource.success(mainRepository.fetchCrewDetails(id, number)))
+            emit(Resource.success(mainRepository.fetchSeasonTrailer(id, number)))
 
         } catch (e: Exception) {
             emit(Resource.error(null,e.message.toString()))
         }
     }
+
+
 }
