@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
@@ -17,9 +18,12 @@ class CrewAdapter(var items: List<CrewItem?>) : RecyclerView.Adapter<CrewAdapter
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var img = itemView.findViewById<ImageView>(R.id.crewProfile)
+        val name =itemView.findViewById<TextView>(R.id.txtName)
         fun bind(data: CrewItem) {
+            name.text=data.name
             if (data.profilePath==null){
-                img.setImageResource(R.drawable.ic_baseline_person_pin_24)
+                img.setImageResource(R.drawable.person_account_icon)
+
             } else{
                 Glide.with(itemView).load(constants.img_link + data.profilePath).into(img)
             }

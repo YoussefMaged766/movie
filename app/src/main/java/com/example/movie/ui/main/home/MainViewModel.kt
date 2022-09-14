@@ -32,4 +32,14 @@ class MainViewModel(private val mainRepository: MainRepository):ViewModel() {
         }
     }
 
+    suspend fun getMovieTrailer(id: Int) = liveData(Dispatchers.IO) {
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(mainRepository.fetchTrailerMovies(id)))
+
+        } catch (e: Exception) {
+            emit(Resource.error(null,e.message.toString()))
+        }
+    }
+
 }

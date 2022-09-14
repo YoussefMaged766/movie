@@ -16,12 +16,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
+import com.example.movie.models.TopRatedResponse
 import com.example.movie.models.movie
 import com.example.movie.util.constants
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PagingRecommendedAdapter : PagingDataAdapter<movie, PagingRecommendedAdapter.viewholder>(MovieDiffCallBack5()) {
+class PagingRecommendedAdapter :
+    PagingDataAdapter<movie, PagingRecommendedAdapter.viewholder>(MovieDiffCallBack5()) {
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
@@ -37,12 +39,11 @@ class PagingRecommendedAdapter : PagingDataAdapter<movie, PagingRecommendedAdapt
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
         holder.bind(getItem(position)!!)
-        Log.e( "onBindViewHolder: ",position.toString() )
+        Log.e("onBindViewHolder: ", position.toString())
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
             bundle.putSerializable("movie_details", getItem(position))
             it.findNavController().navigate(R.id.action_nav_detailed_self, bundle)
-
 
 
         }

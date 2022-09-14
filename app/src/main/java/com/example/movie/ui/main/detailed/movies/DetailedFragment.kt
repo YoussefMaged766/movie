@@ -5,14 +5,17 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
@@ -21,7 +24,11 @@ import com.example.movie.adapter.PagingRecommendedAdapter
 import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentDetailedBinding
 import com.example.movie.models.movie
+import com.example.movie.ui.main.home.MainViewModel
+import com.example.movie.ui.main.home.ViewModelFactoryHome
 import com.example.movie.util.CenterZoomLayoutManager
+import com.example.movie.util.Status
+import com.example.movie.util.apimanager
 import com.example.movie.util.constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +41,7 @@ class detailedFragment : Fragment() {
     lateinit var binding: FragmentDetailedBinding
     lateinit var viewModel: movedetaild_viewmodel
     lateinit var databaseViewmodel: Database_viewmodel
+    lateinit var viewModel2: MainViewModel
     var data: movie? = null
     lateinit var adapter: PagingRecommendedAdapter
     var list = ArrayList<movie>()
@@ -64,6 +72,11 @@ class detailedFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(movedetaild_viewmodel::class.java)
         databaseViewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
 
+        viewModel2 = ViewModelProvider(
+            this,
+            ViewModelFactoryHome(apimanager.getwebbservices())
+        ).get(MainViewModel::class.java)
+
         mPrefs = activity?.getPreferences(MODE_PRIVATE)!!
         val id_select = mPrefs.getString("id", "")
         val img_select = mPrefs.getBoolean("favourite", false)
@@ -74,39 +87,22 @@ class detailedFragment : Fragment() {
             binding.imageViewAnimation.isSelected = false
         }
 
-
-
-
-
-
         display_movie_detailes()
-
-
         append_genre()
         image_heart_select()
-
-
-        binding.btnPlay.setOnClickListener {
-            //data.id = movie id
-            viewModel.gettrsiler_movie(data?.id)
-
-        }
-        viewModel.response_toprated.observe(requireActivity(), Observer {
-
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(constants.youtubel_link + it))
-            startActivity(intent)
-        })
-
-
+        playTrailer()
         recycler()
 
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             viewModel.getListDataRecommended(data?.id!!).collect {
                 adapter.submitData(lifecycle, it)
+
             }
 
         }
+
+        Log.e( "onCreateViewmo: ",data?.id.toString() )
 
 
 
@@ -167,14 +163,12 @@ class detailedFragment : Fragment() {
                 }
 
 
-
             } else {
                 binding.imageViewAnimation.isSelected = true
                 binding.imageViewAnimation.likeAnimation()
                 databaseViewmodel.insertMovie(data)
                 databaseViewmodel.setFavoriteMovie(data?.id)
                 like = 1
-
 
 
             }
@@ -203,6 +197,44 @@ class detailedFragment : Fragment() {
             binding.imgAdult.setImageResource(R.drawable.ic_baseline_true_24)
         } else {
             binding.imgAdult.setImageResource(R.drawable.ic_baseline_false_24)
+        }
+    }
+
+    private fun playTrailer() {
+        binding.btnPlay.setOnClickListener { view1 ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel2.getMovieTrailer(data?.id!!).observe(requireActivity(), Observer {
+                    it.let {
+                        when (it.status) {
+                            Status.SUCCESS -> {
+                                if (it.data?.results!!.isEmpty()) {
+                                    Toast.makeText(
+                                        requireActivity(), "There Is No Trailer for this",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                } else {
+                                    val bundle = Bundle()
+                                    bundle.putString("key", it.data?.results?.get(0)?.key)
+                                    view1.findNavController().navigate(
+                                        R.id.action_nav_detailed_to_webViewFragment,
+                                        bundle
+                                    )
+
+                                }
+
+
+                            }
+                            Status.LOADING -> {
+
+
+                            }
+                            Status.ERROR -> {}
+                        }
+                    }
+                })
+            }
+
         }
     }
 

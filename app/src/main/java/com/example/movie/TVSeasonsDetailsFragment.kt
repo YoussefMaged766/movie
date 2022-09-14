@@ -70,6 +70,9 @@ class TVSeasonsDetailsFragment : Fragment() {
                                 .into(binding.imgDetailed)
                             binding.txtTitleDetailed.text = it.data?.name
                             binding.txtDateDetailed.text = it.data?.airDate
+                            if (it.data?.overview!!.isEmpty()){
+                                binding.text.visibility=View.INVISIBLE
+                            }
                             binding.txtOverview.text = it.data?.overview
 
                             adaptercrew = CrewAdapter(it.data?.episodes?.get(0)?.crew!!)

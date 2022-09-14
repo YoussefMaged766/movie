@@ -17,5 +17,7 @@ class MainRepository(val webservices: WebServices) {
     suspend fun fetchTVTrailer(id: Int) = webservices.get_trailer_tv(id)
     suspend fun fetchSeasonTrailer(id:Int, number:Int) = webservices.getSeasonTrailer(id,number)
 
+    suspend fun fetchTrailerMovies(id:Int)=webservices.get_trailer(id)
+
 
 }

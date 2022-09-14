@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
@@ -24,6 +25,7 @@ import kotlin.collections.ArrayList
 class PagingMoviesByCategoryAdapter : PagingDataAdapter<movie, PagingMoviesByCategoryAdapter.viewholder>(MovieDiffCallBack3()) {
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var imgNotFound = itemView.findViewById<ImageView>(R.id.imgNotFound)
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
         var txtTitle = itemView.findViewById<TextView>(R.id.txttitle)
         var txtdate = itemView.findViewById<TextView>(R.id.txtreleasedate)
@@ -31,7 +33,11 @@ class PagingMoviesByCategoryAdapter : PagingDataAdapter<movie, PagingMoviesByCat
         fun bind(data: movie) {
             txtTitle.text = data.title
             txtdate.text = data.releaseDate
+            if (data.posterPath==null){
+               imgNotFound.visibility=View.VISIBLE
+            }
             Glide.with(itemView).load(constants.img_link + data.posterPath).into(img)
+            Log.e( "bindcategory: ", data.posterPath.toString())
         }
     }
 

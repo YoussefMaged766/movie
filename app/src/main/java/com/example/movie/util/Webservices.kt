@@ -24,9 +24,9 @@ interface WebServices {
     ): TopRatedResponse
 
     @GET("movie/{movie_id}/videos?")
-    fun get_trailer(
+    suspend fun get_trailer(
         @Path("movie_id") id: Int?,
-    ): Call<TrailerResponse>
+    ): TrailerResponse
 
     @GET("tv/{tv_id}/videos?")
     suspend fun get_trailer_tv(

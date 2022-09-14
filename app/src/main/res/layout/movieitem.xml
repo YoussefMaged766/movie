@@ -8,21 +8,33 @@
     >
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="150dp"
         android:layout_height="250dp"
         android:layout_margin="10dp"
-        android:background="@color/white"
         android:elevation="8dp"
         android:padding="16dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imgNotFound"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/no_image"
+                android:visibility="gone"/>
 
             <com.flaviofaria.kenburnsview.KenBurnsView
                 android:id="@+id/movieImg"
