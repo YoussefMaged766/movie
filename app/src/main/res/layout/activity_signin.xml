@@ -1,52 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.intro.Signin_Activity"
     >
 
-    <FrameLayout
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        tools:context=".ui.main.intro.Signin_Activity"
+        android:background="@color/backgroud">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha=".5"
-            android:background="@drawable/background" />
-    </FrameLayout>
+        <!--    <FrameLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="match_parent"-->
+        <!--        android:background="@color/black">-->
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"
-
-        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        app:boxStrokeColor="#707070"
-        app:hintTextColor="#707070"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/transperent"
-            android:drawableEnd="@drawable/icons_name"
-            android:hint="Name"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:maxLines="1"
-            android:autoSizeTextType="uniform"
-            android:inputType="text"
-
-           />
+        <!--        <ImageView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:alpha=".5"-->
+        <!--            android:background="@drawable/background" />-->
+        <!--    </FrameLayout>-->
 
 
-    </com.google.android.material.textfield.TextInputLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--    <com.google.android.material.textfield.TextInputLayout-->
+        <!--        android:layout_width="0dp"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginHorizontal="16dp"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toTopOf="parent"-->
+        <!--        android:layout_marginTop="20dp"-->
+        <!--        android:theme="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"-->
+        <!--        app:boxStrokeColor="#707070"-->
+        <!--        app:hintTextColor="#707070"-->
+        <!--        >-->
+        <!--        <com.google.android.material.textfield.TextInputEditText-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="@color/transperent"-->
+        <!--            android:drawableEnd="@drawable/icons_name"-->
+        <!--            android:hint="Name"-->
+        <!--            android:textSize="20sp"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:maxLines="1"-->
+        <!--            android:autoSizeTextType="uniform"-->
+        <!--            android:inputType="text"-->
+
+        <!--           />-->
+        <!--        -->
+        <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/backgroud"
+            android:textColor="@color/white"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -26,6 +26,7 @@
         android:gravity="center"
         android:autoSizeTextType="uniform"
         android:maxLines="1"
+        android:textColor="@color/white"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

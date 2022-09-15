@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.movie.R
 import com.example.movie.adapter.ViewPagerAdapter
 import com.example.movie.databinding.FragmentTrendBinding
+import com.example.movie.util.FadeOutTransformation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -16,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class trend_Fragment : Fragment() {
 
     lateinit var binding: FragmentTrendBinding
+    var fadeOutTransformation=FadeOutTransformation()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +65,7 @@ class trend_Fragment : Fragment() {
             tab.text = adapter.getPageTitle(position)
             binding.viewpager.setCurrentItem(tab.position, true)
         }.attach()
+        binding.viewpager.setPageTransformer(fadeOutTransformation)
     }
 
 
