@@ -21,7 +21,7 @@ class FavouriteAdapter(var favoriteMovieList: ArrayList<movie>) : RecyclerView.A
     private val searchList = ArrayList<movie>(favoriteMovieList)
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        var imgNotFound = itemView.findViewById<ImageView>(R.id.imgNotFound)
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
         var txtTitle = itemView.findViewById<TextView>(R.id.txttitle)
         var txtdate = itemView.findViewById<TextView>(R.id.txtreleasedate)
@@ -40,7 +40,9 @@ class FavouriteAdapter(var favoriteMovieList: ArrayList<movie>) : RecyclerView.A
         holder.txtdate.text = item.releaseDate
         holder.setIsRecyclable(false)
         holder.img.clipToOutline = true
-
+        if (item?.posterPath==null){
+            holder.imgNotFound.visibility=View.VISIBLE
+        }
         Glide.with(holder.itemView).load(constants.img_link + item.posterPath).into(holder.img)
 
         holder.itemView.setOnClickListener {

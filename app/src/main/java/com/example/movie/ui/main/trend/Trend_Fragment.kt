@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class trend_Fragment : Fragment() {
 
     lateinit var binding: FragmentTrendBinding
-    var fadeOutTransformation=FadeOutTransformation()
+    var cubeOutTransformation= FadeOutTransformation()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +65,7 @@ class trend_Fragment : Fragment() {
             tab.text = adapter.getPageTitle(position)
             binding.viewpager.setCurrentItem(tab.position, true)
         }.attach()
-        binding.viewpager.setPageTransformer(fadeOutTransformation)
+        binding.viewpager.setPageTransformer(cubeOutTransformation)
     }
 
 

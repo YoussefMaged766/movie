@@ -20,7 +20,7 @@ class adapter(var list: ArrayList<movie>? = null) : RecyclerView.Adapter<adapter
 
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        var imgNotFound = itemView.findViewById<ImageView>(R.id.imgNotFound)
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
         var txtTitle = itemView.findViewById<TextView>(R.id.txttitle)
         var txtdate = itemView.findViewById<TextView>(R.id.txtreleasedate)
@@ -41,6 +41,9 @@ class adapter(var list: ArrayList<movie>? = null) : RecyclerView.Adapter<adapter
             holder.setIsRecyclable(false)
             holder.img.clipToOutline = true
 
+            if (item?.posterPath==null){
+               holder.imgNotFound.visibility=View.VISIBLE
+            }
             Glide.with(holder.itemView).load(constants.img_link + item?.posterPath).into(holder.img)
 
             holder.itemView.setOnClickListener {

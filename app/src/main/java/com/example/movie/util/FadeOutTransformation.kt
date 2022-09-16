@@ -7,33 +7,31 @@ import kotlin.math.abs
 class FadeOutTransformation: ViewPager2.PageTransformer {
     override fun transformPage(page: View, position: Float) {
 
-        // fade out
-//        page.translationX = -position*page.width
-//        page.alpha = 1- abs(position)
-
-
-        //cube out
         if (position < -1){    // [-Infinity,-1)
             // This page is way off-screen to the left.
-            page.alpha=0f
+            page.setAlpha(0f)
 
         }
-        else if (position <= 0) {    // [-1,0]
-            page.alpha=1f
-            page.pivotX = page.width.toFloat()
-            page.rotationY = -90 * abs(position);
+        else if (position <= 0){    // [-1,0]
+            page.setAlpha(1f);
+            page.setTranslationX(0f);
+            page.setScaleX(1f);
+            page.setScaleY(1f);
 
         }
         else if (position <= 1){    // (0,1]
-            page.alpha=1f
-            page.pivotX =0f
-            page.rotationY = 90 * abs(position);
+            page.setTranslationX(-position*page.getWidth());
+            page.setAlpha(1-Math.abs(position));
+            page.setScaleX(1-Math.abs(position));
+            page.setScaleY(1-Math.abs(position));
 
         }
         else {    // (1,+Infinity]
             // This page is way off-screen to the right.
-            page.alpha=0f
+            page.setAlpha(0f);
 
         }
+
     }
 }
+

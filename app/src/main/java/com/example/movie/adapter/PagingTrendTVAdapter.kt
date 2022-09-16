@@ -25,6 +25,7 @@ import kotlin.collections.ArrayList
 class PagingTrendTVAdapter : PagingDataAdapter<ResultsItem_trendTV, PagingTrendTVAdapter.viewholder>(MovieDiffCallBack2()) {
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var imgNotFound = itemView.findViewById<ImageView>(R.id.imgNotFound)
         var img = itemView.findViewById<ImageView>(R.id.movieImg)
         var txtTitle = itemView.findViewById<TextView>(R.id.txttitle)
         var txtdate = itemView.findViewById<TextView>(R.id.txtreleasedate)
@@ -32,6 +33,9 @@ class PagingTrendTVAdapter : PagingDataAdapter<ResultsItem_trendTV, PagingTrendT
         fun bind(data: ResultsItem_trendTV) {
             txtTitle.text = data.name
             txtdate.text = data.firstAirDate
+            if (data.posterPath==null){
+                imgNotFound.visibility=View.VISIBLE
+            }
             Glide.with(itemView).load(constants.img_link + data.posterPath).into(img)
         }
     }

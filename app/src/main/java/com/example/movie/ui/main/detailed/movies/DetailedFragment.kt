@@ -198,6 +198,10 @@ class detailedFragment : Fragment() {
         } else {
             binding.imgAdult.setImageResource(R.drawable.ic_baseline_false_24)
         }
+        binding.imgShare.setOnClickListener{
+
+
+        }
     }
 
     private fun playTrailer() {
@@ -229,6 +233,27 @@ class detailedFragment : Fragment() {
 
 
                             }
+                            Status.ERROR -> {}
+                        }
+                    }
+                })
+            }
+
+        }
+
+        binding.imgShare.setOnClickListener { view1 ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel2.getMovieTrailer(data?.id!!).observe(requireActivity(), Observer {
+                    it.let {
+                        when (it.status) {
+                            Status.SUCCESS -> {
+                                val intent= Intent()
+                                intent.action=Intent.ACTION_SEND
+                                intent.putExtra(Intent.EXTRA_TEXT,constants.youtubel_link+ it.data?.results!![0]?.key)
+                                intent.type="text/plain"
+                                startActivity(Intent.createChooser(intent,"Share To:"))
+                            }
+                            Status.LOADING -> {}
                             Status.ERROR -> {}
                         }
                     }

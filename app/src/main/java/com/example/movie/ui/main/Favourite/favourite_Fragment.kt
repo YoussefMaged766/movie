@@ -51,7 +51,8 @@ class favourite_Fragment : Fragment() {
         viewmodel.getAllFavoriteMovies()?.observe(requireActivity(), Observer {
             if (it?.isEmpty() == true) {
                 binding.imgError.visibility = View.VISIBLE
-                binding.txtNodata.visibility = View.VISIBLE
+                binding.imgError.setAnimation(R.raw.not_found)
+                binding.imgError.playAnimation()
                 binding.recyclerFavourite.visibility = View.INVISIBLE
             } else {
                 adapter.getdata(it as ArrayList<movie>)

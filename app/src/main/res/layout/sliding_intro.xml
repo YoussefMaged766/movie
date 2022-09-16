@@ -13,7 +13,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true" />
+        app:lottie_loop="true"
+
+        app:layout_constraintHeight_percent="50"/>
 
     <TextView
         android:id="@+id/txtDis"
@@ -23,6 +25,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lottieImg"
         android:layout_margin="16dp"
+        android:fontFamily="@font/cairo"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

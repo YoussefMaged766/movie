@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/active.xml" value="0.133" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/custom_tab.xml" value="0.133" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/edittext_style.xml" value="0.136" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/heart_seslctor.xml" value="0.136" />
@@ -13,6 +14,7 @@
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/icon_botnav_style.xml" value="0.136" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/icon_play_style.xml" value="0.136" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/img_style.xml" value="0.136" />
+        <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/inactive.xml" value="0.133" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/person_account_icon.xml" value="0.133" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/search_style.xml" value="0.136" />
         <entry key="..\:/AndroidProjects/movie/app/src/main/res/drawable/trend_icon_style.xml" value="0.12" />

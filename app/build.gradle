@@ -91,6 +91,8 @@ dependencies {
 
     implementation 'com.airbnb.android:lottie:3.4.0'
 
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
+
 
 
 }

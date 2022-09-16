@@ -21,12 +21,17 @@ class TVSeasonsAdapter(var tvId: Int?, var items: List<SeasonsItem?>) :
 
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var imgNotFound = itemView.findViewById<ImageView>(R.id.imgNotFound)
+
         val img = itemView.findViewById<ImageView>(R.id.TVImg)
         val title = itemView.findViewById<TextView>(R.id.txttitle)
         val date = itemView.findViewById<TextView>(R.id.txtdate)
         fun bind(data: SeasonsItem) {
             title.text = data.name
             date.text = data.airDate.toString()
+            if (data.posterPath==null){
+                imgNotFound.visibility=View.VISIBLE
+            }
             Glide.with(itemView).load(constants.img_link + data.posterPath)
                 .into(img)
         }
