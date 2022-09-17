@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
 
         mainViewModel = ViewModelProvider(
             this,
-            ViewModelFactoryHome(apimanager.getwebbservices())
+            ViewModelFactoryHome()
         ).get(MainViewModel::class.java)
 
         return binding.root

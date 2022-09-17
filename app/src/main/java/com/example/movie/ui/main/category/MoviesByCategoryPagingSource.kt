@@ -12,7 +12,7 @@ private const val TMDB_STARTING_PAGE_INDEX = 1
 
 class MoviesByCategoryPagingSource(val genre:Int,val webservices: WebServices) : PagingSource<Int, movie>() {
     override fun getRefreshKey(state: PagingState<Int, movie>): Int? {
-        TODO("Not yet implemented")
+     return  state.anchorPosition
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, movie> {
@@ -24,12 +24,12 @@ class MoviesByCategoryPagingSource(val genre:Int,val webservices: WebServices) :
             val responsePopular = webservices.getmovies_by_category(genre,page = pageIndex)
             val movies = responsePopular.results
             val nextKey = if (movies.isEmpty()) null else pageIndex + 1
-            val prevKey =  if (pageIndex == TMDB_STARTING_PAGE_INDEX) null else pageIndex - 1
+
 
             LoadResult.Page(
                 data =  movies,
                 nextKey = nextKey,
-                prevKey = prevKey
+                prevKey = null
             )
 
         } catch (exception: IOException) {

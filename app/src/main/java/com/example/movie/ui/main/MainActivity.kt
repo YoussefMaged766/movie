@@ -39,7 +39,6 @@ lateinit var binding:ActivityMainBinding
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
-//      binding.bottomNavigationView.setupWithNavController(navController)
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
 
         binding.toolbar.getNavigationIcon()

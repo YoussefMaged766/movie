@@ -74,7 +74,7 @@ class detailedFragment : Fragment() {
 
         viewModel2 = ViewModelProvider(
             this,
-            ViewModelFactoryHome(apimanager.getwebbservices())
+            ViewModelFactoryHome()
         ).get(MainViewModel::class.java)
 
         mPrefs = activity?.getPreferences(MODE_PRIVATE)!!

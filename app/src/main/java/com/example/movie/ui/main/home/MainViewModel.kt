@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.movie.Repository.MainRepository
 import com.example.movie.util.Resource
+import com.example.movie.util.apimanager
 import kotlinx.coroutines.Dispatchers
 
-class MainViewModel(private val mainRepository: MainRepository):ViewModel() {
+class MainViewModel():ViewModel() {
+    private val mainRepository: MainRepository = MainRepository(apimanager.getwebbservices())
    suspend fun getTopRatedMovies() = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {

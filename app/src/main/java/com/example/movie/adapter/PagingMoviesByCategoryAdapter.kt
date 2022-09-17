@@ -22,7 +22,8 @@ import com.example.movie.util.constants
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PagingMoviesByCategoryAdapter : PagingDataAdapter<movie, PagingMoviesByCategoryAdapter.viewholder>(MovieDiffCallBack3()) {
+class PagingMoviesByCategoryAdapter :
+    PagingDataAdapter<movie, PagingMoviesByCategoryAdapter.viewholder>(MovieDiffCallBack3()) {
 
     class viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var imgNotFound = itemView.findViewById<ImageView>(R.id.imgNotFound)
@@ -33,22 +34,22 @@ class PagingMoviesByCategoryAdapter : PagingDataAdapter<movie, PagingMoviesByCat
         fun bind(data: movie) {
             txtTitle.text = data.title
             txtdate.text = data.releaseDate
-            if (data.posterPath==null){
-               imgNotFound.visibility=View.VISIBLE
+            if (data.posterPath == null) {
+                imgNotFound.visibility = View.VISIBLE
             }
             Glide.with(itemView).load(constants.img_link + data.posterPath).into(img)
-            Log.e( "bindcategory: ", data.posterPath.toString())
+            Log.e("bindcategory: ", data.posterPath.toString())
         }
     }
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
         holder.bind(getItem(position)!!)
-        Log.e( "onBindViewHolder: ",position.toString() )
+        Log.e("onBindViewHolder: ", position.toString())
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
             bundle.putSerializable("movie_details", getItem(position))
-            it.findNavController().navigate(R.id.action_movie_by_category_Fragment_to_nav_detailed, bundle)
-
+            it.findNavController()
+                .navigate(R.id.action_movie_by_category_Fragment_to_nav_detailed, bundle)
 
 
         }
@@ -60,17 +61,15 @@ class PagingMoviesByCategoryAdapter : PagingDataAdapter<movie, PagingMoviesByCat
     }
 
 
-
-
 }
 
 class MovieDiffCallBack3 : DiffUtil.ItemCallback<movie>() {
     override fun areItemsTheSame(oldItem: movie, newItem: movie): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.id == newItem.id && oldItem.title == newItem.title
     }
 
     override fun areContentsTheSame(oldItem: movie, newItem: movie): Boolean {
-        return oldItem == newItem
+        return oldItem.id == newItem.id && oldItem.title == newItem.title
     }
 
 

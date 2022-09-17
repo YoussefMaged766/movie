@@ -22,7 +22,7 @@ class viewmodel : ViewModel() {
 
 
     fun getListDataCategory(id: Int): Flow<PagingData<movie>> {
-        return Pager(config = PagingConfig(pageSize = 20, enablePlaceholders = true),
+        return Pager(config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { MoviesByCategoryPagingSource(id,apimanager.getwebbservices()) }).flow.cachedIn(
             viewModelScope
         )

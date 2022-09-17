@@ -60,7 +60,6 @@ class trend_Fragment : Fragment() {
         adapter.addFragment(TendMovieFragment(), "Movie")
         adapter.addFragment(TrendTVFragment(), "TV")
         binding.viewpager.adapter = adapter
-        binding.viewpager.isSaveEnabled = true
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.text = adapter.getPageTitle(position)
             binding.viewpager.setCurrentItem(tab.position, true)
