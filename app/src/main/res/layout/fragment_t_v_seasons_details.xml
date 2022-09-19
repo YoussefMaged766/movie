@@ -176,6 +176,26 @@
                         app:layout_constraintStart_toStartOf="@+id/card_img_poster"
                         app:layout_constraintTop_toBottomOf="@id/text"
                         />
+
+                    <TextView
+                        android:id="@+id/txtEpisode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/txt_overview"
+                        app:layout_constraintStart_toStartOf="@id/card_img_poster"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/cairo"
+                        android:text="Episodes"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerEpisode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/txtEpisode"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </ScrollView>

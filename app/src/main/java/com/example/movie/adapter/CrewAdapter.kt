@@ -1,5 +1,6 @@
 package com.example.movie.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,9 +40,13 @@ class CrewAdapter(var items: List<CrewItem?>) : RecyclerView.Adapter<CrewAdapter
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
         holder.bind(items[position]!!)
+
     }
 
     override fun getItemCount(): Int {
         return items.size
+
     }
+
+
 }

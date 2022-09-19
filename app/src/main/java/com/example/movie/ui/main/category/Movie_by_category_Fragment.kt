@@ -22,7 +22,6 @@ class movie_by_category_Fragment : Fragment() {
 
     val viewModel: viewmodel by viewModels()
     lateinit var adapter: PagingMoviesByCategoryAdapter
-
     lateinit var binding: FragmentMovieByCategoryBinding
     var data: Int = 0
 

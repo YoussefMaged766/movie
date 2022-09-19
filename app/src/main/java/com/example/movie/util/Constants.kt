@@ -7,7 +7,8 @@ class constants {
 
     companion object{
         val api_key = "fc316fcd1ff4ce282d3d955845970b8b"
-        val img_link = "https://image.tmdb.org/t/p/w342"
+        val img_link = "https://image.tmdb.org/t/p/w500"
+        val img_link_Episode = "https://image.tmdb.org/t/p/original"
         val youtubel_link = "https://www.youtube.com/watch?v="
 
       var  category_list = arrayListOf(

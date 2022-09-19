@@ -16,9 +16,9 @@ class ViewPagerAdapter(supportFragmentManager: FragmentManager,lifecycle: Lifecy
     override fun createFragment(position: Int): Fragment {
         return mFragmentList[position]
     }
-    fun addFragment(fragment: Fragment, title: String){
+    fun addFragment(fragment: Fragment, title: String?=null){
         mFragmentList.add(fragment)
-        mFragmentTitleList.add(title)
+        mFragmentTitleList.add(title.toString())
     }
 
     fun getPageTitle(position: Int): CharSequence? {

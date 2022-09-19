@@ -1,6 +1,7 @@
 package com.example.movie
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +12,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
 import com.example.movie.adapter.CrewAdapter
+import com.example.movie.adapter.EpisodeAdapter
 import com.example.movie.databinding.FragmentTVSeasonsDetailsBinding
+import com.example.movie.models.EpisodesItem
 import com.example.movie.ui.main.detailed.tv.TVViewModel
 import com.example.movie.ui.main.detailed.tv.ViewModelFactoryTV
+import com.example.movie.util.CenterZoomLayoutManager
 import com.example.movie.util.Status
 import com.example.movie.util.apimanager
 import com.example.movie.util.constants
@@ -25,6 +31,7 @@ class TVSeasonsDetailsFragment : Fragment() {
 
     lateinit var binding: FragmentTVSeasonsDetailsBinding
     lateinit var adaptercrew: CrewAdapter
+    lateinit var adapterEpisode: EpisodeAdapter
     lateinit var viewmodel: TVViewModel
     var seasonNumber: Int = 0
     var tvid: Int = 0
@@ -57,6 +64,12 @@ class TVSeasonsDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val layoutManager1 = CenterZoomLayoutManager(requireContext())
+        layoutManager1.orientation = LinearLayoutManager.HORIZONTAL
+        binding.recyclerEpisode.layoutManager = layoutManager1
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.recyclerEpisode)
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewmodel.getSeasonDetails(tvid, seasonNumber).observe(requireActivity(), Observer {
                 it.let {
@@ -75,8 +88,13 @@ class TVSeasonsDetailsFragment : Fragment() {
                             }
                             binding.txtOverview.text = it.data?.overview
 
+
                             adaptercrew = CrewAdapter(it.data?.episodes?.get(0)?.crew!!)
                             binding.recyclerCrew.adapter=adaptercrew
+
+                            adapterEpisode = EpisodeAdapter(it.data.episodes as List<EpisodesItem>)
+                            binding.recyclerEpisode.adapter=adapterEpisode
+
 
 
                         }
