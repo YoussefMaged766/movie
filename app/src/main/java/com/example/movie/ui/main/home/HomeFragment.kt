@@ -2,11 +2,17 @@ package com.example.movie.ui.main.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +21,8 @@ import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,14 +32,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
+import com.bumptech.glide.Glide
 import com.example.movie.R
 import com.example.movie.adapter.adapter
 import com.example.movie.adapter.category_adapter
+import com.example.movie.database.Database_viewmodel
 import com.example.movie.databinding.FragmentHomeBinding
 import com.example.movie.models.movie
 import com.example.movie.util.CenterZoomLayoutManager
 import com.example.movie.util.Status
-import com.example.movie.util.apimanager
 import com.example.movie.util.constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -44,6 +53,13 @@ class HomeFragment : Fragment() {
     lateinit var adapterMovie: adapter
     lateinit var binding: FragmentHomeBinding
     lateinit var mainViewModel: MainViewModel
+    lateinit var databaseViewmodel: Database_viewmodel
+    private val pickImage = 100
+    private var imageUri: Uri? = null
+    private val PREFS_NAME = "kotlincodes"
+    lateinit var sharedPref: SharedPreferences
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,11 +75,12 @@ class HomeFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-
+        databaseViewmodel = ViewModelProvider(this).get(Database_viewmodel::class.java)
         mainViewModel = ViewModelProvider(
             this,
             ViewModelFactoryHome()
         ).get(MainViewModel::class.java)
+        sharedPref = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
         return binding.root
     }
@@ -89,8 +106,7 @@ class HomeFragment : Fragment() {
             binding.recyclerToprated.visibility = View.VISIBLE
             binding.recyclerPopular.visibility = View.VISIBLE
             binding.recyclerUpcoming.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             binding.shimmerRecycler.startShimmerAnimation()
             binding.shimmerRecycler.visibility = View.VISIBLE
             binding.shimmerRecycler2.startShimmerAnimation()
@@ -102,6 +118,7 @@ class HomeFragment : Fragment() {
 
         navigation()
         observation()
+        profile()
 
 
     }
@@ -279,6 +296,75 @@ class HomeFragment : Fragment() {
     }
 
 
+    fun profile() {
+        binding.imgProfile.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                    requireActivity(),
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PermissionChecker.PERMISSION_DENIED
+            ) {
+                val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestPermissions(permissions, PERMISSION_CODE)
+
+            } else{
+                chooseImageGallery()
+
+            }
+        }
+        if (sharedPref.contains(PREFS_NAME)){
+            val img = sharedPref.getString(PREFS_NAME, imageUri.toString())
+            Glide.with(requireActivity()).load(img.toString()).into(binding.imgProfile)
+        } else{
+            binding.imgProfile.setImageResource(R.drawable.ic_baseline_person_pin_24)
+        }
+
+    }
+
+    companion object {
+        private val IMAGE_CHOOSE = 1000;
+        val PERMISSION_CODE = 1001
+
+    }
+
+
+    private fun chooseImageGallery() {
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(gallery, pickImage)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode==AppCompatActivity.RESULT_OK && requestCode==pickImage){
+            imageUri = data?.data
+            binding.imgProfile.setImageURI(imageUri)
+            val editor: SharedPreferences.Editor = sharedPref.edit()
+            editor.putString(PREFS_NAME, imageUri.toString())
+            editor.apply()
+
+
+
+        }
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    chooseImageGallery()
+                } else {
+                    Toast.makeText(requireContext(), "Permission denied",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
+
     private fun checkForInternet(context: Context): Boolean {
 
         // register activity with the connectivity manager service
@@ -328,6 +414,8 @@ class HomeFragment : Fragment() {
         super.onStop()
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
+
+
 
 
 }

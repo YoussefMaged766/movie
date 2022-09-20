@@ -2,6 +2,7 @@ package com.example.movie.database
 
 import android.app.Application
 import android.graphics.Movie
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.example.movie.models.movie
 
@@ -38,4 +39,6 @@ class Repository(application: Application) {
     fun IsFavorite(movieId: Int): LiveData<Int?>? {
         return moviedao.IsFavorite(movieId)
     }
+
+
 }

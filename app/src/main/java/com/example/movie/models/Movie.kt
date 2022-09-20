@@ -72,7 +72,11 @@ data class movie(
     val voteCount: Int? = null,
 
     @ColumnInfo(name = "is_favorite")
-    val IsFavorite: Int = 0
+    val IsFavorite: Int = 0,
+
+
+
+
 
 ) : Serializable {
     @Ignore

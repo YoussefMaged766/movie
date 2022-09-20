@@ -1,6 +1,7 @@
 package com.example.movie.database
 
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
@@ -27,4 +28,6 @@ interface moviedao {
 
     @Query("SELECT is_favorite From movie WHERE id =:movieId")
     fun IsFavorite(movieId: Int): LiveData<Int?>?
+
+
 }

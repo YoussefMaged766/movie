@@ -36,7 +36,7 @@ class Signin_Activity : AppCompatActivity() {
         prefrence = getSharedPreferences("intro", Context.MODE_PRIVATE)
         if (!prefrence.getBoolean("pref_show_intro", true)) {
             startActivity(Intent(applicationContext, MainActivity::class.java))
-//            finish()
+            finish()
         }
 
         adapter = SlidingAdapter(
@@ -71,7 +71,7 @@ class Signin_Activity : AppCompatActivity() {
                     val editor = prefrence.edit()
                     editor.putBoolean("pref_show_intro", false)
                     editor.apply()
-//                    finish()
+                    finish()
                 }
             }
 
