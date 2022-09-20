@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +18,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
 import com.example.movie.R
 import com.example.movie.adapter.TVSeasonsAdapter
 import com.example.movie.databinding.FragmentTrendTvDetailedBinding
+import com.example.movie.util.CenterZoomLayoutManager
 import com.example.movie.util.Status
 import com.example.movie.util.apimanager
 import com.example.movie.util.constants
@@ -62,9 +66,17 @@ class TrendTVDetailsFragment : Fragment() {
 
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         view.visibility = View.GONE
+
+        val layoutManager1 = CenterZoomLayoutManager(requireContext())
+        layoutManager1.orientation = LinearLayoutManager.HORIZONTAL
+        binding.RecyclerSeasons.layoutManager = layoutManager1
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.RecyclerSeasons)
+
         append_genre()
         display_tv_detailes()
         playTrailer()
+        share()
         binding.imageViewHeart.setOnClickListener {
             if (binding.imageViewAnimation.isSelected) {
                 binding.imageViewAnimation.isSelected = false
@@ -125,6 +137,9 @@ class TrendTVDetailsFragment : Fragment() {
                 it.let {
                     when (it.status) {
                         Status.SUCCESS -> {
+                            if (it.data?.posterPath==null){
+                                binding.imgNotFound.visibility =View.VISIBLE
+                            }
                             Glide.with(requireActivity())
                                 .load(constants.img_link + it.data?.backdropPath)
                                 .into(binding.imgDetailed)
@@ -133,10 +148,14 @@ class TrendTVDetailsFragment : Fragment() {
                                 .into(binding.imgDetailedPoster)
                             binding.txtTitleDetailed.text = it.data?.name
                             binding.txtRating.text = it.data?.voteAverage.toString()
+                            if (it.data?.overview!!.isEmpty()){
+                                binding.text.visibility =View.GONE
+                            }
                             binding.txtOverview.text = it.data?.overview
                             it.data.let {
                                 adapter = TVSeasonsAdapter(it?.id,it?.seasons!!)
                                 binding.RecyclerSeasons.adapter=adapter
+                                Log.e( "display_tv_detailes: ",it.id.toString() )
                             }
 
                             binding.apply {
@@ -197,6 +216,32 @@ class TrendTVDetailsFragment : Fragment() {
                                 binding.container.isClickable = false
 
                             }
+                            Status.ERROR -> {}
+                        }
+                    }
+                })
+            }
+
+        }
+    }
+
+   private  fun share(){
+        binding.imgShare.setOnClickListener { view1 ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewmodel.getTVTrailer(tvId).observe(requireActivity(), Observer {
+                    it.let {
+                        when (it.status) {
+                            Status.SUCCESS -> {
+                                if (it.data?.results!![0]?.key ==null){
+                                    Toast.makeText(requireActivity() , "There Is No Trailer for this" , Toast.LENGTH_SHORT).show()
+                                }
+                                val intent= Intent()
+                                intent.action=Intent.ACTION_SEND
+                                intent.putExtra(Intent.EXTRA_TEXT,constants.youtubel_link+ it.data?.results!![0]?.key)
+                                intent.type="text/plain"
+                                startActivity(Intent.createChooser(intent,"Share To:"))
+                            }
+                            Status.LOADING -> {}
                             Status.ERROR -> {}
                         }
                     }

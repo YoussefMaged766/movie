@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
@@ -31,6 +32,7 @@ class PagingMoviesByCategoryAdapter :
         var txtTitle = itemView.findViewById<TextView>(R.id.txttitle)
         var txtdate = itemView.findViewById<TextView>(R.id.txtreleasedate)
 
+
         fun bind(data: movie) {
             txtTitle.text = data.title
             txtdate.text = data.releaseDate
@@ -39,6 +41,9 @@ class PagingMoviesByCategoryAdapter :
             }
             Glide.with(itemView).load(constants.img_link + data.posterPath).into(img)
             Log.e("bindcategory: ", data.posterPath.toString())
+
+
+
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.movie
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -69,12 +71,17 @@ class TVSeasonsDetailsFragment : Fragment() {
         binding.recyclerEpisode.layoutManager = layoutManager1
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.recyclerEpisode)
+        share()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewmodel.getSeasonDetails(tvid, seasonNumber).observe(requireActivity(), Observer {
                 it.let {
                     when (it.status) {
                         Status.SUCCESS -> {
+                            if (it.data?.posterPath==null){
+                                binding.imgNotFound.visibility = View.VISIBLE
+                            }
+
                             Glide.with(requireActivity())
                                 .load(constants.img_link + it.data?.posterPath)
                                 .into(binding.imgDetailedPoster)
@@ -88,11 +95,14 @@ class TVSeasonsDetailsFragment : Fragment() {
                             }
                             binding.txtOverview.text = it.data?.overview
 
+                            if (it.data?.episodes?.get(0)?.crew!!.isEmpty()){
+                                binding.txtCrew.visibility =View.GONE
+                            }
 
                             adaptercrew = CrewAdapter(it.data?.episodes?.get(0)?.crew!!)
                             binding.recyclerCrew.adapter=adaptercrew
 
-                            adapterEpisode = EpisodeAdapter(it.data.episodes as List<EpisodesItem>)
+                            adapterEpisode = EpisodeAdapter(tvid, seasonNumber, it.data.episodes as List<EpisodesItem>)
                             binding.recyclerEpisode.adapter=adapterEpisode
 
 
@@ -135,6 +145,31 @@ class TVSeasonsDetailsFragment : Fragment() {
 
 
 
+    }
+    fun share(){
+        binding.imgShare.setOnClickListener { view1 ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewmodel.getSeasonTrailer(tvid,seasonNumber).observe(requireActivity(), Observer {
+                    it.let {
+                        when (it.status) {
+                            Status.SUCCESS -> {
+                                if (it.data?.results!![0]?.key!!.isEmpty()){
+                                    Toast.makeText(requireActivity() , "There Is No Trailer for this" , Toast.LENGTH_SHORT).show()
+                                }
+                                val intent= Intent()
+                                intent.action= Intent.ACTION_SEND
+                                intent.putExtra(Intent.EXTRA_TEXT,constants.youtubel_link+ it.data?.results!![0]?.key)
+                                intent.type="text/plain"
+                                startActivity(Intent.createChooser(intent,"Share To:"))
+                            }
+                            Status.LOADING -> {}
+                            Status.ERROR -> {}
+                        }
+                    }
+                })
+            }
+
+        }
     }
 
 

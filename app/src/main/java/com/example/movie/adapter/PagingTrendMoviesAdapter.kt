@@ -42,10 +42,11 @@ class PagingTrendMoviesAdapter : PagingDataAdapter<movie, PagingTrendMoviesAdapt
 
     override fun onBindViewHolder(holder: viewholder, position: Int) {
         holder.bind(getItem(position)!!)
-        Log.e( "onBindViewHolder: ",position.toString() )
+
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
             bundle.putSerializable("movie_details", getItem(position))
+            Log.e( "onBindViewHolder: ",getItem(position)?.id.toString() )
             it.findNavController().navigate(R.id.action_nav_trend_to_nav_detailed, bundle)
 
 

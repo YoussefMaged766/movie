@@ -79,4 +79,18 @@ interface WebServices {
     ): TrailerResponse
 
 
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}")
+    suspend fun getEpisodesDetails(
+        @Path("tv_id") tvId: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber :Int
+    ): TVEpisodeDetailsResponse
+
+    @GET("tv/{tv_id}/season/{season_number}/episode/{episode_number}/videos")
+    suspend fun getEpisodesTrailer(
+        @Path("tv_id") tvId: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber :Int
+    ): TrailerResponse
+
 }

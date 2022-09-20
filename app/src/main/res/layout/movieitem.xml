@@ -36,6 +36,7 @@
                 android:src="@drawable/no_image"
                 android:visibility="gone"/>
 
+
             <com.flaviofaria.kenburnsview.KenBurnsView
                 android:id="@+id/movieImg"
                 android:layout_width="150dp"

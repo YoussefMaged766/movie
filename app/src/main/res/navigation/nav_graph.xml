@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/homeViewPagerFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -61,7 +61,7 @@
     <fragment
         android:id="@+id/nav_detailed"
         android:name="com.example.movie.ui.main.detailed.detailedFragment"
-        android:label="Details"
+        android:label="MovieDetails"
         tools:layout="@layout/fragment_detailed">
 
 
@@ -146,7 +146,7 @@
     <fragment
         android:id="@+id/trend_tvFragment"
         android:name="com.example.movie.ui.main.detailed.tv.TrendTVDetailsFragment"
-        android:label="Trend"
+        android:label="TVDetails"
         tools:layout="@layout/fragment_trend_tv_detailed">
         <argument
             android:name="tv_details"
@@ -205,7 +205,7 @@
     <fragment
         android:id="@+id/tendMovieFragment"
         android:name="com.example.movie.ui.main.trend.TendMovieFragment"
-        android:label="TendMovieFragment" >
+        android:label="TendMovie" >
         <action
             android:id="@+id/action_tendMovieFragment_to_nav_detailed"
             app:destination="@id/nav_detailed" />
@@ -213,7 +213,7 @@
     <fragment
         android:id="@+id/trendTVFragment"
         android:name="com.example.movie.ui.main.trend.TrendTVFragment"
-        android:label="TrendTVFragment" >
+        android:label="TrendTV" >
         <action
             android:id="@+id/action_trendTVFragment_to_nav_detailed"
             app:destination="@id/nav_detailed" />
@@ -221,11 +221,18 @@
     <fragment
         android:id="@+id/TVSeasonsDetailsFragment"
         android:name="com.example.movie.TVSeasonsDetailsFragment"
-        android:label="fragment_t_v_seasons_details"
+        android:label="Season"
         tools:layout="@layout/fragment_t_v_seasons_details" >
         <action
             android:id="@+id/action_TVSeasonsDetailsFragment_to_webViewFragment"
             app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_TVSeasonsDetailsFragment_to_TVEpisodesDetailsFragment"
+            app:destination="@id/TVEpisodesDetailsFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
@@ -236,8 +243,16 @@
         android:name="com.example.movie.ui.main.WebViewFragment"
         android:label="WebViewFragment" />
     <fragment
-        android:id="@+id/homeViewPagerFragment"
-        android:name="com.example.movie.ui.main.home.HomeViewPagerFragment"
-        android:label="HomeViewPagerFragment" />
+        android:id="@+id/TVEpisodesDetailsFragment"
+        android:name="com.example.movie.ui.main.TVEpisodesDetailsFragment"
+        android:label="Episode" >
+        <action
+            android:id="@+id/action_TVEpisodesDetailsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
 
 </navigation>

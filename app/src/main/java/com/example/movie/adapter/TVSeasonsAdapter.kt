@@ -51,7 +51,7 @@ class TVSeasonsAdapter(var tvId: Int?, var items: List<SeasonsItem?>) :
             bundle.putInt("tvid", tvId!!)
             it.findNavController()
                 .navigate(R.id.action_trend_tvFragment_to_TVSeasonsDetailsFragment, bundle)
-            Log.e( "onBindViewHolder: ",items[position]?.id.toString() )
+            Log.e( "onBindViewHolder: ",tvId.toString() )
         }
     }
 

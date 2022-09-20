@@ -46,6 +46,24 @@ class TVViewModel(val mainRepository: MainRepository) : ViewModel() {
             emit(Resource.error(null,e.message.toString()))
         }
     }
+    suspend fun getEpisodesTrailer(id: Int, seasonNumber: Int ,episodesNumber:Int) = liveData(Dispatchers.IO) {
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(mainRepository.fetchEpisodesTrailer(id, seasonNumber,episodesNumber)))
 
+        } catch (e: Exception) {
+            emit(Resource.error(null,e.message.toString()))
+        }
+    }
+
+    suspend fun getEpisodesDetails(id: Int, seasonNumber: Int ,episodesNumber:Int ) = liveData(Dispatchers.IO) {
+        emit(Resource.loading(null))
+        try {
+            emit(Resource.success(mainRepository.fetchEpisodesDetails(id, seasonNumber , episodesNumber)))
+
+        } catch (e: Exception) {
+            emit(Resource.error(null,e.message.toString()))
+        }
+    }
 
 }

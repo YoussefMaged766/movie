@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
@@ -34,6 +35,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 
 class detailedFragment : Fragment() {
@@ -96,7 +100,12 @@ class detailedFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             viewModel.getListDataRecommended(data?.id!!).collect {
+
                 adapter.submitData(lifecycle, it)
+                withContext(Dispatchers.Main){
+                    checkPaging()
+                }
+
 
             }
 
@@ -188,20 +197,24 @@ class detailedFragment : Fragment() {
 
 
     fun display_movie_detailes() {
+
+        if (data?.posterPath ==null){
+            binding.imgNotFound.visibility = View.VISIBLE
+        }
         Glide.with(this).load(constants.img_link + data?.backdropPath).into(binding.imgDetailed)
         Glide.with(this).load(constants.img_link + data?.posterPath).into(binding.imgDetailedPoster)
         binding.txtTitleDetailed.text = data?.title
         binding.txtRating.text = data?.voteAverage.toString()
+        if (data?.overview!!.isEmpty()){
+            binding.text.visibility = View.GONE
+        }
         binding.txtOverview.text = data?.overview
         if (data?.adult == true) {
             binding.imgAdult.setImageResource(R.drawable.ic_baseline_true_24)
         } else {
             binding.imgAdult.setImageResource(R.drawable.ic_baseline_false_24)
         }
-        binding.imgShare.setOnClickListener{
 
-
-        }
     }
 
     private fun playTrailer() {
@@ -261,6 +274,18 @@ class detailedFragment : Fragment() {
             }
 
         }
+    }
+
+    suspend fun checkPaging(){
+        adapter.loadStateFlow.map { it.refresh }
+            .distinctUntilChanged()
+            .collect {
+                if (it is LoadState.NotLoading) {
+                    if (adapter.itemCount==0) {
+                        binding.txtRecommended.visibility = View.GONE
+                    }
+                }
+            }
     }
 
 

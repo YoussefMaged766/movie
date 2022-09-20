@@ -31,7 +31,7 @@ class movie_by_category_Fragment : Fragment() {
             data = it.getInt("id")
             Log.e("onCreate: ", data.toString())
         }
-        getData()
+
     }
 
     override fun onCreateView(
@@ -48,7 +48,7 @@ class movie_by_category_Fragment : Fragment() {
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         view.visibility = View.GONE
         adapter = PagingMoviesByCategoryAdapter()
-
+        getData()
 
         return binding.root
     }
