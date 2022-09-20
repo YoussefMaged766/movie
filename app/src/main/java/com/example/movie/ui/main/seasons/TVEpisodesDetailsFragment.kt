@@ -1,4 +1,4 @@
-package com.example.movie.ui.main
+package com.example.movie.ui.main.seasons
 
 import android.content.Intent
 import android.os.Bundle

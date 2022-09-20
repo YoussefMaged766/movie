@@ -220,7 +220,7 @@
     </fragment>
     <fragment
         android:id="@+id/TVSeasonsDetailsFragment"
-        android:name="com.example.movie.TVSeasonsDetailsFragment"
+        android:name="com.example.movie.ui.main.seasons.TVSeasonsDetailsFragment"
         android:label="Season"
         tools:layout="@layout/fragment_t_v_seasons_details" >
         <action
@@ -240,11 +240,11 @@
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="com.example.movie.ui.main.WebViewFragment"
+        android:name="com.example.movie.ui.main.webview.WebViewFragment"
         android:label="WebViewFragment" />
     <fragment
         android:id="@+id/TVEpisodesDetailsFragment"
-        android:name="com.example.movie.ui.main.TVEpisodesDetailsFragment"
+        android:name="com.example.movie.ui.main.seasons.TVEpisodesDetailsFragment"
         android:label="Episode" >
         <action
             android:id="@+id/action_TVEpisodesDetailsFragment_to_webViewFragment"

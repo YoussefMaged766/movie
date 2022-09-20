@@ -5,11 +5,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.View.OnLayoutChangeListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.movie.R
 import com.example.movie.adapter.SlidingAdapter
@@ -71,7 +75,17 @@ class Signin_Activity : AppCompatActivity() {
                 }
             }
 
+            if (binding.viewpager.currentItem ==4){
+                binding.btnNext.setImageResource(R.drawable.ic_baseline_check_24)
+            }
         }
+
+        binding.btnSkip.setOnClickListener{
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+            finish()
+        }
+
+
     }
 
     fun indicators() {

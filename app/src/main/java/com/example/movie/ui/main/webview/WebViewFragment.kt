@@ -1,4 +1,4 @@
-package com.example.movie.ui.main
+package com.example.movie.ui.main.webview
 
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.example.movie.R
 import com.example.movie.databinding.FragmentWebViewBinding
-import com.example.movie.models.TrailerResponse
 import com.example.movie.util.constants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

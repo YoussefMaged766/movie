@@ -1,6 +1,5 @@
 package com.example.movie.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie.R
-import com.example.movie.TVSeasonsDetailsFragment
 import com.example.movie.models.CrewItem
-import com.example.movie.models.EpisodesItem
-import com.example.movie.models.TVSeasonsDetailsResponse
 import com.example.movie.util.constants
 
 class CrewAdapter(var items: List<CrewItem?>) : RecyclerView.Adapter<CrewAdapter.viewholder>() {
