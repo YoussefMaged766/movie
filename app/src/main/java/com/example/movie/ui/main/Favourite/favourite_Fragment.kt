@@ -64,17 +64,17 @@ class favourite_Fragment : Fragment() {
         })
 
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-//                adapter.filter.filter(newText)
-                return false
-            }
-
-        })
+//        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+////                adapter.filter.filter(newText)
+//                return false
+//            }
+//
+//        })
 
         return binding.root
     }

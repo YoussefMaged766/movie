@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/backgroud"
     android:fitsSystemWindows="true"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".ui.main.MainActivity"
+    android:layoutDirection="ltr">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/Appbar"

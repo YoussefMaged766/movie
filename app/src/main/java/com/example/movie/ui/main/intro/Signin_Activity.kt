@@ -82,6 +82,9 @@ class Signin_Activity : AppCompatActivity() {
 
         binding.btnSkip.setOnClickListener{
             startActivity(Intent(applicationContext, MainActivity::class.java))
+            val editor = prefrence.edit()
+            editor.putBoolean("pref_show_intro", false)
+            editor.apply()
             finish()
         }
 
